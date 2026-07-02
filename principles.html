@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Principles — Sandeep Sharma</title>
+<meta name="description" content="What I build by: eight principles that keep me honest — intellectual humility, systems over symptoms, ambition on stability, and the synthesis of machine precision with human judgment." />
+
+<link rel="canonical" href="https://gosandeepsharma.com/principles" />
+<meta property="og:title" content="Principles — Sandeep Sharma" />
+<meta property="og:description" content="The working belief behind everything here: synthesize the precision and scale of machines with the vitality and judgment of humanity." />
+<meta property="og:url" content="https://gosandeepsharma.com/principles" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Sandeep Sharma" />
+<meta name="twitter:card" content="summary" />
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0B1413" media="(prefers-color-scheme: dark)" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+<!-- Set theme before paint to avoid flash -->
+<script>(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+
+<!-- Fonts: Archivo (DIN-style headings; DIN Next W1G used automatically if licensed) + IBM Plex Sans (body) + IBM Plex Mono (labels) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   1. DESIGN TOKENS — from the Claude Design handover
+   ============================================================ */
+:root {
+  --bg:          #FFFFFF;
+  --surface:     #FFFFFF;
+  --text:        #12211F;
+  --text-soft:   #64726F;
+  --border:      #E4E9E7;
+  --accent:      #0E9E92;
+  --link:        #08726A;
+  --accent-soft: #D6F2EE;
+  --on-accent:   #FFFFFF;
+  --dot:         rgba(14,158,146,.20);
+
+  --font-body: "IBM Plex Sans", Arial, sans-serif;
+  --font-head: "DIN Next W1G", "DIN Next", "Archivo", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+  --radius: 10px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+:root[data-theme="dark"] {
+  --bg:          #0B1413;
+  --surface:     #10201E;
+  --text:        #E8F1EF;
+  --text-soft:   #8AA09B;
+  --border:      #1E322F;
+  --accent:      #2DD4BF;
+  --link:        #2DD4BF;
+  --accent-soft: #133330;
+  --on-accent:   #0B1413;
+  --dot:         rgba(45,212,191,.12);
+}
+
+/* ============================================================
+   2. BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot) 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body * {
+  transition: background-color .3s ease, border-color .3s ease,
+              color .3s ease, box-shadow .2s ease;
+}
+a { color: var(--link); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--surface); color: var(--link);
+  padding: 10px 16px; border: 1px solid var(--border); border-radius: 8px;
+  font-family: var(--font-mono); font-size: 13px; z-index: 100;
+}
+.skip-link:focus { left: 12px; top: 12px; }
+
+.wrap { max-width: 1128px; margin-inline: auto; padding-inline: 32px; }
+
+@keyframes glowdrift {
+  0%   { transform: translate(-6%,-4%) scale(1); }
+  50%  { transform: translate(6%,5%)  scale(1.14); }
+  100% { transform: translate(-6%,-4%) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .glow { animation: none !important; }
+  body * { transition: none !important; }
+}
+
+/* ============================================================
+   3. TOP BAR
+   ============================================================ */
+.topbar { border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--bg) 88%, transparent); position: sticky; top: 0; z-index: 50; backdrop-filter: blur(6px); }
+.topbar-inner {
+  max-width: 1192px; margin-inline: auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  padding: 20px 32px;
+}
+.wordmark {
+  font-family: var(--font-head); font-weight: 600; font-size: 20px;
+  letter-spacing: .02em; color: var(--text); text-decoration: none;
+}
+.nav { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.nav a {
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--text-soft); text-decoration: none;
+}
+.nav a:hover { color: var(--link); }
+.nav a[aria-current="page"] {
+  color: var(--link);
+  border-bottom: 1.5px solid var(--accent); padding-bottom: 2px;
+}
+.nav-divider { width: 1px; height: 18px; background: var(--border); }
+.theme-toggle {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text);
+  background: transparent; border: 1px solid var(--border); border-radius: 8px;
+  padding: 7px 13px; cursor: pointer;
+}
+.theme-toggle:hover { border-color: var(--link); color: var(--link); }
+
+/* ============================================================
+   4. PAGE HEADER
+   ============================================================ */
+.page-head {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 72px 32px 44px;
+}
+.glow {
+  position: absolute; left: 50%; top: 24px;
+  width: 520px; height: 320px; margin-left: -260px;
+  background: radial-gradient(circle at 50% 40%, var(--accent-soft), transparent 66%);
+  opacity: .6; filter: blur(16px); pointer-events: none;
+  animation: glowdrift 15s ease-in-out infinite;
+}
+.kicker {
+  position: relative;
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--link); margin-bottom: 18px;
+}
+.page-head h1 {
+  position: relative;
+  font-family: var(--font-head); font-weight: 600;
+  font-size: clamp(38px, 6vw, 52px); line-height: 1.08; letter-spacing: -.015em;
+  margin: 0 0 22px;
+}
+.page-head .lead {
+  position: relative;
+  font-size: 18px; line-height: 1.62; color: var(--text-soft);
+  margin: 0; max-width: 44rem;
+}
+
+/* ============================================================
+   5. PRINCIPLES GRID
+   ============================================================ */
+.principles { padding-block: 8px; }
+.principles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.p-card {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 24px 24px 26px; background: var(--surface);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.p-card:hover { box-shadow: inset 3px 0 0 var(--accent); }
+.p-head { display: flex; align-items: baseline; gap: 12px; }
+.p-num { font-family: var(--font-mono); font-size: 13px; color: var(--link); }
+.p-title { font-family: var(--font-head); font-weight: 600; font-size: 19px; margin: 0; }
+.p-sub {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text-soft);
+}
+.p-card p { font-size: 15px; line-height: 1.6; color: var(--text-soft); margin: 2px 0 0; }
+
+.closing { padding: 44px 32px 8px; display: flex; justify-content: center; }
+.closing p {
+  font-style: italic; font-size: 17px; line-height: 1.5; color: var(--text);
+  text-align: center; max-width: 38rem; margin: 0;
+  padding-top: 22px; border-top: 1px solid var(--border);
+}
+
+/* ============================================================
+   6. FOOTER
+   ============================================================ */
+.footer { margin-top: 32px; border-top: 1px solid var(--border); }
+.footer-inner {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap; padding-block: 34px 40px;
+}
+.footer-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--text-soft); margin-bottom: 14px;
+}
+.footer-links { display: flex; gap: 22px; flex-wrap: wrap; }
+.footer-links a { font-size: 14px; color: var(--link); text-decoration: none; }
+.footer-links a:hover { text-decoration: underline; }
+.footer-copy {
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em;
+  color: var(--text-soft); text-align: right;
+}
+
+/* ============================================================
+   7. RESPONSIVE
+   ============================================================ */
+@media (max-width: 720px) {
+  .topbar-inner { padding: 16px 20px; }
+  .nav { gap: 16px; }
+  .nav-divider { display: none; }
+  .wrap { padding-inline: 20px; }
+  .page-head { padding: 52px 20px 36px; }
+  .principles-grid { grid-template-columns: 1fr; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .footer-copy { text-align: left; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#principles">Skip to content</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="wordmark" href="/">Sandeep Sharma</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#work">Work</a>
+      <a href="/#journey">Journey</a>
+      <a href="/#about">About</a>
+      <a href="/principles" aria-current="page">Principles</a>
+      <span class="nav-divider" aria-hidden="true"></span>
+      <button class="theme-toggle" id="themeToggle" type="button">Dark</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- Page header -->
+  <section class="page-head">
+    <div class="glow" aria-hidden="true"></div>
+    <p class="kicker">What I build by</p>
+    <h1>Principles</h1>
+    <p class="lead">The working belief behind everything here: the future belongs to those who can synthesize the precision and scale of machines with the vitality and judgment of humanity. Eight principles keep me honest.</p>
+  </section>
+
+  <!-- Principles grid -->
+  <section class="principles wrap" id="principles" aria-label="Eight principles">
+    <div class="principles-grid">
+
+      <article class="p-card">
+        <div class="p-head">
+          <span class="p-num" aria-hidden="true">01</span>
+          <h2 class="p-title">Intellectual humility</h2>
+        </div>
+        <span class="p-sub">Check yourself</span>
+        <p>Confidence is quiet; insecurity is loud. "I don't know" is the beginning of wisdom.</p>
+      </article>
+
+      <article class="p-card">
+        <div class="p-head">
+          <span class="p-num" aria-hidden="true">02</span>
+          <h2 class="p-title">Disagreement is good</h2>
+        </div>
+        <span class="p-sub">Truth over harmony</span>
+        <p>Harmony is not the goal; truth is. If everyone agrees, someone isn't thinking.</p>
+      </article>
+
+      <article class="p-card">
+        <div class="p-head">
+          <span class="p-num" aria-hidden="true">03</span>
+          <h2 class="p-title">Structure is liberation</h2>
+        </div>
+        <span class="p-sub">Clarity = speed</span>
+        <p>Ambiguity is the enemy of speed. We move fast because our maps are clear.</p>
+      </article>
+
+      <article class="p-card">
+        <div class="p-head">
+          <span class="p-num" aria-hidden="true">04</span>
+          <h2 class="p-title">Systems over symptoms</h2>
+        </div>
+        <span class="p-sub">Root, not leak</span>
+        <p>Don't just fix the leak; fix the root cause. Redesign the piping if you have to.</p>
+      </article>
+
+      <article class="p-card">
+        <div class="p-head">
+          <span class="p-num" aria-hidden="true">05</span>
+          <h2 class="p-title">Universality</h2>
+        </div>
+        <span class="p-sub">Western systems + Eastern soul</span>
+        <p>Best of both worlds — as reliable as a Swiss watch, as warm and adaptable as a Mumbai market.</p>
+      </article>
+
+      <article class="p-card">
+        <div class="p-head">
+          <span class="p-num" aria-hidden="true">06</span>
+          <h2 class="p-title">Ambition on stability</h2>
+        </div>
+        <span class="p-sub">Secure the downside</span>
+        <p>You cannot fire a cannon from a canoe. Secure the downside, then attack the upside.</p>
+      </article>
+
+      <article class="p-card">
+        <div class="p-head">
+          <span class="p-num" aria-hidden="true">07</span>
+          <h2 class="p-title">Automate &amp; elevate</h2>
+        </div>
+        <span class="p-sub">Judgment, not repetition</span>
+        <p>Robots are for repetition; humans are for judgment.</p>
+      </article>
+
+      <article class="p-card">
+        <div class="p-head">
+          <span class="p-num" aria-hidden="true">08</span>
+          <h2 class="p-title">North star is CX</h2>
+        </div>
+        <span class="p-sub">User perception is reality</span>
+        <p>Internal metrics are vanity; user perception is reality.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- Closing line -->
+  <div class="closing">
+    <p>Clean systems, human warmth, and the humility to keep checking my own work.</p>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-label">Elsewhere</div>
+      <div class="footer-links">
+        <a href="mailto:gosandeepsharma@gmail.com">Email</a>
+        <!-- TODO: replace # with real profile URLs -->
+        <a href="#">LinkedIn</a>
+        <a href="#">GitHub</a>
+        <a href="#">X</a>
+      </div>
+    </div>
+    <div class="footer-copy">© 2026 Sandeep Sharma<br />gosandeepsharma.com</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var btn = document.getElementById('themeToggle');
+  function apply(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    btn.textContent = theme === 'dark' ? 'Light' : 'Dark';
+    btn.setAttribute('aria-label', 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' theme');
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+  }
+  btn.addEventListener('click', function () {
+    var current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    apply(current === 'dark' ? 'light' : 'dark');
+  });
+  var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  btn.textContent = t === 'dark' ? 'Light' : 'Dark';
+  btn.setAttribute('aria-label', 'Switch to ' + (t === 'dark' ? 'light' : 'dark') + ' theme');
+})();
+</script>
+</body>
+</html>

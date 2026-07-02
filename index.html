@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sandeep Sharma — tinkerer & maker</title>
+<meta name="description" content="Sandeep Sharma — I build things that are unique, useful, beautiful, and sometimes radical. Drawn to big questions and patterns across the disciplines of science and technology, history, art, design, and philosophy." />
+
+<link rel="canonical" href="https://gosandeepsharma.com/" />
+<meta property="og:title" content="Sandeep Sharma — tinkerer & maker" />
+<meta property="og:description" content="I build things that are unique, useful, beautiful, and sometimes radical. The best way to understand something is to build it." />
+<meta property="og:url" content="https://gosandeepsharma.com/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Sandeep Sharma" />
+<meta name="twitter:card" content="summary" />
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0B1413" media="(prefers-color-scheme: dark)" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+<!-- Set theme before paint to avoid flash -->
+<script>(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+
+<!-- Fonts: Archivo (DIN-style headings; DIN Next W1G used automatically if licensed) + IBM Plex Sans (body) + IBM Plex Mono (labels) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Sandeep Sharma",
+  "url": "https://gosandeepsharma.com/",
+  "email": "mailto:gosandeepsharma@gmail.com",
+  "description": "Product builder and cross-disciplinary tinkerer. I build things that are unique, useful, beautiful, and sometimes radical.",
+  "knowsAbout": ["Product design", "Software", "Science and technology", "History", "Art", "Design", "Philosophy"]
+}
+</script>
+
+<style>
+/* ============================================================
+   1. DESIGN TOKENS — from the Claude Design handover
+   ============================================================ */
+:root {
+  --bg:          #FFFFFF;
+  --surface:     #FFFFFF;
+  --text:        #12211F;
+  --text-soft:   #64726F;
+  --border:      #E4E9E7;
+  --accent:      #0E9E92;
+  --link:        #08726A;   /* darker teal: AA-contrast for text on white */
+  --accent-soft: #D6F2EE;
+  --on-accent:   #FFFFFF;
+  --dot:         rgba(14,158,146,.20);
+  --ph-text:     #556360;  /* placeholder captions: AA on accent-soft */
+
+  --font-body: "IBM Plex Sans", Arial, sans-serif;
+  --font-head: "DIN Next W1G", "DIN Next", "Archivo", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+  --radius: 10px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+:root[data-theme="dark"] {
+  --bg:          #0B1413;
+  --surface:     #10201E;
+  --text:        #E8F1EF;
+  --text-soft:   #8AA09B;
+  --border:      #1E322F;
+  --accent:      #2DD4BF;
+  --link:        #2DD4BF;
+  --accent-soft: #133330;
+  --on-accent:   #0B1413;
+  --dot:         rgba(45,212,191,.12);
+  --ph-text:     #8AA09B;
+}
+
+/* ============================================================
+   2. BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot) 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body * {
+  transition: background-color .3s ease, border-color .3s ease,
+              color .3s ease, box-shadow .2s ease;
+}
+a { color: var(--link); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--surface); color: var(--link);
+  padding: 10px 16px; border: 1px solid var(--border); border-radius: 8px;
+  font-family: var(--font-mono); font-size: 13px; z-index: 100;
+}
+.skip-link:focus { left: 12px; top: 12px; }
+
+.wrap { max-width: 1128px; margin-inline: auto; padding-inline: 32px; }
+
+@keyframes glowdrift {
+  0%   { transform: translate(-6%,-4%) scale(1); }
+  50%  { transform: translate(6%,5%)  scale(1.14); }
+  100% { transform: translate(-6%,-4%) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .glow { animation: none !important; }
+  body * { transition: none !important; }
+}
+
+/* ============================================================
+   3. TOP BAR
+   ============================================================ */
+.topbar { border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--bg) 88%, transparent); position: sticky; top: 0; z-index: 50; backdrop-filter: blur(6px); }
+.topbar-inner {
+  max-width: 1192px; margin-inline: auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  padding: 20px 32px;
+}
+.wordmark {
+  font-family: var(--font-head); font-weight: 600; font-size: 20px;
+  letter-spacing: .02em; color: var(--text); text-decoration: none;
+}
+.nav { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.nav a {
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--text-soft); text-decoration: none;
+}
+.nav a:hover { color: var(--link); }
+.nav a[aria-current="page"] {
+  color: var(--link);
+  border-bottom: 1.5px solid var(--accent); padding-bottom: 2px;
+}
+.nav-divider { width: 1px; height: 18px; background: var(--border); }
+.theme-toggle {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text);
+  background: transparent; border: 1px solid var(--border); border-radius: 8px;
+  padding: 7px 13px; cursor: pointer;
+}
+.theme-toggle:hover { border-color: var(--link); color: var(--link); }
+
+/* ============================================================
+   4. HERO
+   ============================================================ */
+.hero {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 64px 32px 72px;
+}
+.glow {
+  position: absolute; left: 50%; top: 20px;
+  width: 520px; height: 380px; margin-left: -260px;
+  background: radial-gradient(circle at 50% 40%, var(--accent-soft), transparent 66%);
+  opacity: .7; filter: blur(16px); pointer-events: none;
+  animation: glowdrift 15s ease-in-out infinite;
+}
+.kicker {
+  position: relative;
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--link); margin-bottom: 22px;
+}
+.hero h1 {
+  position: relative;
+  font-family: var(--font-head); font-weight: 600;
+  font-size: clamp(34px, 5.5vw, 46px); line-height: 1.13; letter-spacing: -.01em;
+  margin: 0 0 24px; max-width: 20ch; text-wrap: balance;
+}
+.hero .lead {
+  position: relative;
+  font-size: 18px; line-height: 1.62; color: var(--text-soft);
+  margin: 0 0 34px; max-width: 42rem;
+}
+.cta-row { position: relative; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.btn {
+  font-family: var(--font-head); font-weight: 600; font-size: 14px;
+  letter-spacing: .04em; border-radius: var(--radius);
+  padding: 13px 22px; text-decoration: none; display: inline-block;
+}
+.btn-primary { color: var(--on-accent); background: var(--link); border: 1px solid var(--link); }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-ghost { color: var(--text); background: transparent; border: 1px solid var(--border); }
+.btn-ghost:hover { border-color: var(--link); color: var(--link); }
+
+.hero-photo {
+  position: relative; margin: 48px 0 0; width: 100%; max-width: 760px;
+  aspect-ratio: 16/9; border-radius: 12px; border: 1px solid var(--border);
+  overflow: hidden; background-color: var(--accent-soft);
+  background-image: repeating-linear-gradient(45deg, rgba(14,158,146,.12) 0 10px, transparent 10px 20px);
+}
+.hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-photo figcaption {
+  position: absolute; inset: 0; display: none;
+  flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+}
+.hero-photo.is-empty figcaption { display: flex; }
+.hero-photo figcaption .ph-1 {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ph-text);
+}
+.hero-photo figcaption .ph-2 {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .06em;
+  color: var(--ph-text);
+}
+
+/* ============================================================
+   5. SECTIONS
+   ============================================================ */
+.section { position: relative; padding-block: 32px 24px; }
+.section-head { display: flex; align-items: center; gap: 16px; margin-bottom: 30px; }
+.section-num { font-family: var(--font-mono); font-size: 14px; color: var(--link); }
+.section-title {
+  font-family: var(--font-head); font-weight: 600; font-size: 13px;
+  letter-spacing: .18em; text-transform: uppercase; margin: 0;
+}
+.section-rule { flex: 1; height: 1px; background: var(--border); }
+
+/* --- 01 Work: cards --- */
+.work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.card {
+  display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  text-decoration: none; color: inherit;
+  transition: box-shadow .2s ease, transform .18s var(--ease),
+              background-color .3s ease, border-color .3s ease, color .3s ease;
+}
+a.card:hover, a.card:focus-visible {
+  box-shadow: inset 3px 0 0 var(--accent);
+  transform: translateY(-2px);
+}
+.card-thumb {
+  height: 152px; border-bottom: 1px solid var(--border);
+  background-color: var(--surface);
+  background-image: repeating-linear-gradient(45deg, var(--accent-soft) 0 9px, transparent 9px 18px);
+  display: flex; align-items: flex-end; padding: 12px;
+}
+.card-thumb span {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-soft);
+  background: var(--surface); padding: 3px 7px;
+  border: 1px solid var(--border); border-radius: 5px;
+}
+.card-body { padding: 20px 20px 22px; }
+.card-title { font-family: var(--font-head); font-weight: 600; font-size: 19px; margin: 0 0 8px; }
+.card-desc { font-size: 14px; line-height: 1.55; color: var(--text-soft); margin: 0 0 16px; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+.tag {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--text-soft);
+  border: 1px solid var(--border); border-radius: 999px; padding: 4px 9px;
+}
+.card-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; color: var(--link); }
+
+/* --- 02 Journey: timeline --- */
+.timeline { max-width: 46rem; padding-left: 8px; }
+.tl-item { position: relative; padding: 0 0 26px 30px; border-left: 1px solid var(--border); }
+.tl-item:last-child { padding-bottom: 8px; }
+.tl-dot {
+  position: absolute; left: -5px; top: 4px; width: 9px; height: 9px;
+  border-radius: 999px; background: var(--surface); border: 1.5px solid var(--border);
+}
+.tl-item.is-now .tl-dot { background: var(--accent); border: none; }
+.tl-label {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-soft); margin-bottom: 6px;
+}
+.tl-item.is-now .tl-label { color: var(--link); }
+.tl-title { font-family: var(--font-head); font-weight: 600; font-size: 17px; margin: 0 0 4px; }
+.tl-text { font-size: 14.5px; line-height: 1.55; color: var(--text-soft); margin: 0; }
+.tl-note { font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; color: var(--text-soft); }
+
+/* --- 03 Writing: empty state --- */
+.empty-state { border: 1px dashed var(--border); border-radius: var(--radius); padding: 40px; text-align: center; }
+.empty-label {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--link); margin-bottom: 12px;
+}
+.empty-state p { font-size: 15px; line-height: 1.6; color: var(--text-soft); margin: 0 auto; max-width: 30rem; }
+
+/* --- 04 About --- */
+.about-copy { max-width: 46rem; display: flex; flex-direction: column; gap: 16px; }
+.about-copy p { font-size: 16.5px; line-height: 1.66; margin: 0; }
+.about-copy p + p { color: var(--text-soft); }
+
+/* ============================================================
+   6. FOOTER
+   ============================================================ */
+.footer { margin-top: 32px; border-top: 1px solid var(--border); }
+.footer-inner {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap; padding-block: 34px 40px;
+}
+.footer-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--text-soft); margin-bottom: 14px;
+}
+.footer-links { display: flex; gap: 22px; flex-wrap: wrap; }
+.footer-links a { font-size: 14px; color: var(--link); text-decoration: none; }
+.footer-links a:hover { text-decoration: underline; }
+.footer-copy {
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em;
+  color: var(--text-soft); text-align: right;
+}
+
+/* ============================================================
+   7. RESPONSIVE
+   ============================================================ */
+@media (max-width: 720px) {
+  .topbar-inner { padding: 16px 20px; }
+  .nav { gap: 16px; }
+  .nav-divider { display: none; }
+  .wrap { padding-inline: 20px; }
+  .hero { padding: 48px 20px 56px; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .footer-copy { text-align: left; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#work">Skip to content</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="wordmark" href="/">Sandeep Sharma</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#journey">Journey</a>
+      <a href="#about">About</a>
+      <a href="/principles">Principles</a>
+      <span class="nav-divider" aria-hidden="true"></span>
+      <button class="theme-toggle" id="themeToggle" type="button">Dark</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="glow" aria-hidden="true"></div>
+    <p class="kicker">Learner · Tinkerer · Builder</p>
+    <h1>Hi, I'm Sandeep.</h1>
+    <p class="lead">I build things that are unique, useful, beautiful, and sometimes radical. I'm drawn to big questions and patterns across the disciplines of science and technology, history, art, design, and philosophy.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#work">My work</a>
+      <a class="btn btn-ghost" href="/principles">My Principles</a>
+    </div>
+    <figure class="hero-photo" id="heroPhoto">
+      <img src="assets/hero.jpg" alt="Sandeep at his desk, surrounded by computers, books, and objects from the workshop"
+           onerror="document.getElementById('heroPhoto').classList.add('is-empty'); this.remove();" />
+      <figcaption aria-hidden="true">
+        <span class="ph-1">Photo — Sandeep at his desk</span>
+        <span class="ph-2">computers · books · objects · the workshop</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- 01 Selected work -->
+  <section class="section wrap" id="work" aria-labelledby="work-title">
+    <div class="section-head">
+      <span class="section-num" aria-hidden="true">01</span>
+      <h2 class="section-title" id="work-title">Selected work</h2>
+      <span class="section-rule" aria-hidden="true"></span>
+    </div>
+    <div class="work-grid">
+
+      <a class="card" href="https://one-pulse.app">
+        <div class="card-thumb"><span>Pulse — app preview</span></div>
+        <div class="card-body">
+          <h3 class="card-title">Pulse</h3>
+          <p class="card-desc">One question a day on what affects everyone — a data-based read on public opinion instead of the social-media shouting match.</p>
+          <div class="tag-row">
+            <span class="tag">Solo build</span>
+            <span class="tag">Consumer / civic</span>
+            <span class="tag">2025</span>
+          </div>
+          <span class="card-link">one-pulse.app →</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://laserchat.app">
+        <div class="card-thumb"><span>LaserChat — app preview</span></div>
+        <div class="card-body">
+          <h3 class="card-title">LaserChat</h3>
+          <p class="card-desc">A council of AI agents that think differently, debate each other, and converge on answers with fewer blind spots.</p>
+          <div class="tag-row">
+            <span class="tag">Solo build</span>
+            <span class="tag">AI / tools</span>
+            <span class="tag">2025</span>
+          </div>
+          <span class="card-link">laserchat.app →</span>
+        </div>
+      </a>
+
+      <article class="card">
+        <div class="card-thumb"><span>Walk Through Time — preview</span></div>
+        <div class="card-body">
+          <h3 class="card-title">A Walk Through Time</h3>
+          <p class="card-desc">An interactive history of everything — six nested time-scales that zoom from the Big Bang to human civilization.</p>
+          <div class="tag-row">
+            <span class="tag">Solo build</span>
+            <span class="tag">Interactive / edu</span>
+            <span class="tag">2024</span>
+          </div>
+          <span class="card-link">Case study — in the works</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- 02 The journey so far -->
+  <section class="section wrap" id="journey" aria-labelledby="journey-title">
+    <div class="section-head">
+      <span class="section-num" aria-hidden="true">02</span>
+      <h2 class="section-title" id="journey-title">The journey so far</h2>
+      <span class="section-rule" aria-hidden="true"></span>
+    </div>
+    <div class="timeline">
+      <div class="tl-item is-now">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-label">Now</div>
+        <h3 class="tl-title">Building independently</h3>
+        <p class="tl-text">Designing and shipping small products end to end — Pulse, LaserChat, and A Walk Through Time.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-label">Earlier</div>
+        <h3 class="tl-title">Product &amp; engineering</h3>
+        <p class="tl-text">Years spent turning ambiguous problems into things people can actually use.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-note">The full timeline is still being written.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 Writing & talks -->
+  <section class="section wrap" id="writing" aria-labelledby="writing-title">
+    <div class="section-head">
+      <span class="section-num" aria-hidden="true">03</span>
+      <h2 class="section-title" id="writing-title">Writing &amp; talks</h2>
+      <span class="section-rule" aria-hidden="true"></span>
+    </div>
+    <div class="empty-state">
+      <div class="empty-label">Nothing published yet</div>
+      <p>Essays, notes, and the occasional talk will land here as they're ready. I'd rather publish something worth your time than something on schedule.</p>
+    </div>
+  </section>
+
+  <!-- 04 A bit about me -->
+  <section class="section wrap" id="about" aria-labelledby="about-title">
+    <div class="section-head">
+      <span class="section-num" aria-hidden="true">04</span>
+      <h2 class="section-title" id="about-title">A bit about me</h2>
+      <span class="section-rule" aria-hidden="true"></span>
+    </div>
+    <div class="about-copy">
+      <p>I'm a product builder who never really picked one field. I follow curiosity across science, history, art, design, and philosophy, and I get the most satisfaction when an idea from one collides usefully with another.</p>
+      <p>Most of what I make starts as a small question I couldn't stop thinking about. I build to find the answer — because the fastest way I know to understand something is to try to make it myself.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-label">Elsewhere</div>
+      <div class="footer-links">
+        <a href="mailto:gosandeepsharma@gmail.com">Email</a>
+        <!-- TODO: replace # with real profile URLs -->
+        <a href="#">LinkedIn</a>
+        <a href="#">GitHub</a>
+        <a href="#">X</a>
+      </div>
+    </div>
+    <div class="footer-copy">© 2026 Sandeep Sharma<br />gosandeepsharma.com</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var btn = document.getElementById('themeToggle');
+  function apply(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    btn.textContent = theme === 'dark' ? 'Light' : 'Dark';
+    btn.setAttribute('aria-label', 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' theme');
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+  }
+  btn.addEventListener('click', function () {
+    var current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    apply(current === 'dark' ? 'light' : 'dark');
+  });
+  // Sync button label with the pre-paint theme
+  var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  btn.textContent = t === 'dark' ? 'Light' : 'Dark';
+  btn.setAttribute('aria-label', 'Switch to ' + (t === 'dark' ? 'light' : 'dark') + ' theme');
+})();
+</script>
+</body>
+</html>
