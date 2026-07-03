@@ -3,3 +3,5 @@
 Personal portfolio of Sandeep Sharma — live at https://gosandeepsharma.com
 
 Static site (single-file HTML/CSS per page), hosted on GitHub Pages.
+
+Pages: home (index.html) and /principles (principles.html).
