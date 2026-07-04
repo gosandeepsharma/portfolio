@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Principles — Sandeep Sharma</title>
-<meta name="description" content="What I build by: eight principles that keep me honest — intellectual humility, systems over symptoms, ambition on stability, and the synthesis of machine precision with human judgment." />
+<title>Influences — Sandeep Sharma</title>
+<meta name="description" content="The thinkers, makers, books, and works that shaped how Sandeep Sharma thinks and builds." />
 
-<link rel="canonical" href="https://gosandeepsharma.com/principles" />
-<meta property="og:title" content="Principles — Sandeep Sharma" />
-<meta property="og:description" content="The working belief behind everything here: synthesize the precision and scale of machines with the vitality and judgment of humanity." />
-<meta property="og:url" content="https://gosandeepsharma.com/principles" />
+<link rel="canonical" href="https://gosandeepsharma.com/influences" />
+<meta property="og:title" content="Influences — Sandeep Sharma" />
+<meta property="og:description" content="The thinkers, makers, books, and works that shaped how I think and build." />
+<meta property="og:url" content="https://gosandeepsharma.com/influences" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Sandeep Sharma" />
 <meta name="twitter:card" content="summary" />
@@ -171,31 +171,15 @@ a { color: var(--link); }
 }
 
 /* ============================================================
-   5. PRINCIPLES GRID
+   5. EMPTY STATE
    ============================================================ */
-.principles { padding-block: 8px; }
-.principles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.p-card {
-  border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 24px 24px 26px; background: var(--surface);
-  display: flex; flex-direction: column; gap: 10px;
+.content { padding-block: 8px 24px; }
+.empty-state { border: 1px dashed var(--border); border-radius: var(--radius); padding: 40px; text-align: center; }
+.empty-label {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--link); margin-bottom: 12px;
 }
-.p-card:hover { box-shadow: inset 3px 0 0 var(--accent); }
-.p-head { display: flex; align-items: baseline; gap: 12px; }
-.p-num { font-family: var(--font-mono); font-size: 13px; color: var(--link); }
-.p-title { font-family: var(--font-head); font-weight: 600; font-size: 19px; margin: 0; }
-.p-sub {
-  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--text-soft);
-}
-.p-card p { font-size: 15px; line-height: 1.6; color: var(--text-soft); margin: 2px 0 0; }
-
-.closing { padding: 44px 32px 8px; display: flex; justify-content: center; }
-.closing p {
-  font-style: italic; font-size: 17px; line-height: 1.5; color: var(--text);
-  text-align: center; max-width: 38rem; margin: 0;
-  padding-top: 22px; border-top: 1px solid var(--border);
-}
+.empty-state p { font-size: 15px; line-height: 1.6; color: var(--text-soft); margin: 0 auto; max-width: 32rem; }
 
 /* ============================================================
    6. FOOTER
@@ -226,22 +210,21 @@ a { color: var(--link); }
   .nav-divider { display: none; }
   .wrap { padding-inline: 20px; }
   .page-head { padding: 52px 20px 36px; }
-  .principles-grid { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .footer-copy { text-align: left; }
 }
 </style>
 </head>
 <body>
-<a class="skip-link" href="#principles">Skip to content</a>
+<a class="skip-link" href="#influences">Skip to content</a>
 
 <header class="topbar">
   <div class="topbar-inner">
     <a class="wordmark" href="/">Sandeep Sharma</a>
     <nav class="nav" aria-label="Main">
       <a href="/#work">Work</a>
-      <a href="/principles" aria-current="page">Principles</a>
-      <a href="/influences">Influences</a>
+      <a href="/principles">Principles</a>
+      <a href="/influences" aria-current="page">Influences</a>
       <span class="nav-divider" aria-hidden="true"></span>
       <button class="theme-toggle" id="themeToggle" type="button">Dark</button>
     </nav>
@@ -252,94 +235,18 @@ a { color: var(--link); }
   <!-- Page header -->
   <section class="page-head">
     <div class="glow" aria-hidden="true"></div>
-    <p class="kicker">What I build by</p>
-    <h1>Principles</h1>
-    <p class="lead">The working belief behind everything here: the future belongs to those who can synthesize the precision and scale of machines with the vitality and judgment of humanity. Eight principles keep me honest.</p>
+    <p class="kicker">Standing on shoulders</p>
+    <h1>Influences</h1>
+    <p class="lead">The thinkers, makers, books, and works that shaped how I think and build — and keep reshaping it.</p>
   </section>
 
-  <!-- Principles grid -->
-  <section class="principles wrap" id="principles" aria-label="Eight principles">
-    <div class="principles-grid">
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">01</span>
-          <h2 class="p-title">Intellectual humility</h2>
-        </div>
-        <span class="p-sub">Check yourself</span>
-        <p>Confidence is quiet; insecurity is loud. "I don't know" is the beginning of wisdom.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">02</span>
-          <h2 class="p-title">Disagreement is good</h2>
-        </div>
-        <span class="p-sub">Truth over harmony</span>
-        <p>Harmony is not the goal; truth is. If everyone agrees, someone isn't thinking.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">03</span>
-          <h2 class="p-title">Structure is liberation</h2>
-        </div>
-        <span class="p-sub">Clarity = speed</span>
-        <p>Ambiguity is the enemy of speed. We move fast because our maps are clear.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">04</span>
-          <h2 class="p-title">Systems over symptoms</h2>
-        </div>
-        <span class="p-sub">Root, not leak</span>
-        <p>Don't just fix the leak; fix the root cause. Redesign the piping if you have to.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">05</span>
-          <h2 class="p-title">Universality</h2>
-        </div>
-        <span class="p-sub">Western systems + Eastern soul</span>
-        <p>Best of both worlds — as reliable as a Swiss watch, as warm and adaptable as a Mumbai market.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">06</span>
-          <h2 class="p-title">Ambition on stability</h2>
-        </div>
-        <span class="p-sub">Secure the downside</span>
-        <p>You cannot fire a cannon from a canoe. Secure the downside, then attack the upside.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">07</span>
-          <h2 class="p-title">Automate &amp; elevate</h2>
-        </div>
-        <span class="p-sub">Judgment, not repetition</span>
-        <p>Robots are for repetition; humans are for judgment.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">08</span>
-          <h2 class="p-title">North star is CX</h2>
-        </div>
-        <span class="p-sub">User perception is reality</span>
-        <p>Internal metrics are vanity; user perception is reality.</p>
-      </article>
-
+  <!-- Content -->
+  <section class="content wrap" id="influences" aria-label="Influences">
+    <div class="empty-state">
+      <div class="empty-label">Being curated</div>
+      <p>The list is long and the cuts are hard. A proper set of influences will land here soon — the people and ideas I keep coming back to, and why.</p>
     </div>
   </section>
-
-  <!-- Closing line -->
-  <div class="closing">
-    <p>Clean systems, human warmth, and the humility to keep checking my own work.</p>
-  </div>
 </main>
 
 <footer class="footer">

@@ -183,17 +183,6 @@ a { color: var(--link); }
   font-size: 18px; line-height: 1.62; color: var(--text-soft);
   margin: 0 0 34px; max-width: 42rem;
 }
-.cta-row { position: relative; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-.btn {
-  font-family: var(--font-head); font-weight: 600; font-size: 14px;
-  letter-spacing: .04em; border-radius: var(--radius);
-  padding: 13px 22px; text-decoration: none; display: inline-block;
-}
-.btn-primary { color: var(--on-accent); background: var(--link); border: 1px solid var(--link); }
-.btn-primary:hover { filter: brightness(1.08); }
-.btn-ghost { color: var(--text); background: transparent; border: 1px solid var(--border); }
-.btn-ghost:hover { border-color: var(--link); color: var(--link); }
-
 .hero-photo {
   position: relative; margin: 48px 0 0; width: 100%; max-width: 760px;
   aspect-ratio: 16/9; border-radius: 12px; border: 1px solid var(--border);
@@ -264,25 +253,7 @@ a.card:hover, a.card:focus-visible {
 }
 .card-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; color: var(--link); }
 
-/* --- 02 Journey: timeline --- */
-.timeline { max-width: 46rem; padding-left: 8px; }
-.tl-item { position: relative; padding: 0 0 26px 30px; border-left: 1px solid var(--border); }
-.tl-item:last-child { padding-bottom: 8px; }
-.tl-dot {
-  position: absolute; left: -5px; top: 4px; width: 9px; height: 9px;
-  border-radius: 999px; background: var(--surface); border: 1.5px solid var(--border);
-}
-.tl-item.is-now .tl-dot { background: var(--accent); border: none; }
-.tl-label {
-  font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--text-soft); margin-bottom: 6px;
-}
-.tl-item.is-now .tl-label { color: var(--link); }
-.tl-title { font-family: var(--font-head); font-weight: 600; font-size: 17px; margin: 0 0 4px; }
-.tl-text { font-size: 14.5px; line-height: 1.55; color: var(--text-soft); margin: 0; }
-.tl-note { font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; color: var(--text-soft); }
-
-/* --- 03 Writing: empty state --- */
+/* --- 02 Writing: empty state --- */
 .empty-state { border: 1px dashed var(--border); border-radius: var(--radius); padding: 40px; text-align: center; }
 .empty-label {
   font-family: var(--font-mono); font-size: 12px; letter-spacing: .16em;
@@ -290,7 +261,7 @@ a.card:hover, a.card:focus-visible {
 }
 .empty-state p { font-size: 15px; line-height: 1.6; color: var(--text-soft); margin: 0 auto; max-width: 30rem; }
 
-/* --- 04 About --- */
+/* --- 03 About --- */
 .about-copy { max-width: 46rem; display: flex; flex-direction: column; gap: 16px; }
 .about-copy p { font-size: 16.5px; line-height: 1.66; margin: 0; }
 .about-copy p + p { color: var(--text-soft); }
@@ -337,9 +308,8 @@ a.card:hover, a.card:focus-visible {
     <a class="wordmark" href="/">Sandeep Sharma</a>
     <nav class="nav" aria-label="Main">
       <a href="#work">Work</a>
-      <a href="#journey">Journey</a>
-      <a href="#about">About</a>
       <a href="/principles">Principles</a>
+      <a href="/influences">Influences</a>
       <span class="nav-divider" aria-hidden="true"></span>
       <button class="theme-toggle" id="themeToggle" type="button">Dark</button>
     </nav>
@@ -353,10 +323,6 @@ a.card:hover, a.card:focus-visible {
     <p class="kicker">Learner · Tinkerer · Builder</p>
     <h1>Hi, I'm Sandeep.</h1>
     <p class="lead">I build things that are unique, useful, beautiful, and sometimes radical. I'm drawn to big questions and patterns across the disciplines of science and technology, history, art, design, and philosophy.</p>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="#work">My work</a>
-      <a class="btn btn-ghost" href="/principles">My Principles</a>
-    </div>
     <figure class="hero-photo" id="heroPhoto">
       <img src="assets/hero.jpg" alt="Sandeep at his desk, surrounded by computers, books, and objects from the workshop"
            onerror="document.getElementById('heroPhoto').classList.add('is-empty'); this.remove();" />
@@ -421,37 +387,10 @@ a.card:hover, a.card:focus-visible {
     </div>
   </section>
 
-  <!-- 02 The journey so far -->
-  <section class="section wrap" id="journey" aria-labelledby="journey-title">
-    <div class="section-head">
-      <span class="section-num" aria-hidden="true">02</span>
-      <h2 class="section-title" id="journey-title">The journey so far</h2>
-      <span class="section-rule" aria-hidden="true"></span>
-    </div>
-    <div class="timeline">
-      <div class="tl-item is-now">
-        <span class="tl-dot" aria-hidden="true"></span>
-        <div class="tl-label">Now</div>
-        <h3 class="tl-title">Building independently</h3>
-        <p class="tl-text">Designing and shipping small products end to end — Pulse, LaserChat, and A Walk Through Time.</p>
-      </div>
-      <div class="tl-item">
-        <span class="tl-dot" aria-hidden="true"></span>
-        <div class="tl-label">Earlier</div>
-        <h3 class="tl-title">Product &amp; engineering</h3>
-        <p class="tl-text">Years spent turning ambiguous problems into things people can actually use.</p>
-      </div>
-      <div class="tl-item">
-        <span class="tl-dot" aria-hidden="true"></span>
-        <div class="tl-note">The full timeline is still being written.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 03 Writing & talks -->
+  <!-- 02 Writing & talks -->
   <section class="section wrap" id="writing" aria-labelledby="writing-title">
     <div class="section-head">
-      <span class="section-num" aria-hidden="true">03</span>
+      <span class="section-num" aria-hidden="true">02</span>
       <h2 class="section-title" id="writing-title">Writing &amp; talks</h2>
       <span class="section-rule" aria-hidden="true"></span>
     </div>
@@ -461,10 +400,10 @@ a.card:hover, a.card:focus-visible {
     </div>
   </section>
 
-  <!-- 04 A bit about me -->
+  <!-- 03 A bit about me -->
   <section class="section wrap" id="about" aria-labelledby="about-title">
     <div class="section-head">
-      <span class="section-num" aria-hidden="true">04</span>
+      <span class="section-num" aria-hidden="true">03</span>
       <h2 class="section-title" id="about-title">A bit about me</h2>
       <span class="section-rule" aria-hidden="true"></span>
     </div>
