@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Walk Through Time &mdash; All of Time</title>
+<meta name="description" content="An interactive walk through 13.8 billion years — from the Big Bang to this very breath. Six nested scales of time, ~200 events. By Sandeep Sharma.">
+<meta property="og:title" content="A Walk Through Time">
+<meta property="og:description" content="An instrument to appreciate the staggering scale of time — from the Big Bang to today, across six nested scales.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gosandeepsharma.com/alloftime/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Archivo:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#05060a;}
+  *{box-sizing:border-box;}
+  ::selection{background:rgba(255,209,102,0.28);}
+  @keyframes tl-twinkle{0%,100%{opacity:.25}50%{opacity:.9}}
+  @keyframes tl-rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes tl-glow{0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,.14),0 8px 30px -8px var(--gl,rgba(255,209,102,.6))}50%{box-shadow:0 0 0 1px rgba(255,255,255,.22),0 10px 44px -6px var(--gl,rgba(255,209,102,.85))}}
+  @keyframes tl-driftline{from{transform:scaleX(.4);opacity:0}to{transform:scaleX(1);opacity:1}}
+  .tl-startbtn:hover{transform:translateY(-2px)}
+  .tl-startbtn:active{transform:translateY(0)}
+  .tl-vardot{cursor:pointer}
+  .tl-scroll::-webkit-scrollbar{height:10px}
+  .tl-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:6px}
+</style>
+</head>
+<body>
+<div ref="{{ rootRef }}" style="position:relative;min-height:100vh;background:#05060a;color:#eef1f8;font-family:'Jost','Space Grotesk','Segoe UI',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;">
+
+  <div style="position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(1100px 720px at 22% 12%,rgba(64,52,140,0.30),transparent 60%),radial-gradient(1000px 640px at 82% 78%,rgba(20,74,120,0.26),transparent 62%),radial-gradient(700px 500px at 55% 40%,rgba(120,40,90,0.14),transparent 60%),#05060a;"></div>
+  <canvas ref="{{ skyRef }}" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;background:transparent;"></canvas>
+
+  <!-- ============ LANDING ============ -->
+  <section hidden="{{ hideLanding }}" style="position:relative;z-index:2;min-height:100vh;display:grid;place-items:center;padding:40px 24px;">
+
+    <!-- Cosmic hero -->
+    <div style="max-width:920px;text-align:center;animation:tl-rise 1s cubic-bezier(.2,.7,.2,1) both;">
+      <h1 ref="{{ headingRef }}" style="margin:0 0 0 0.3em;font-size:clamp(21px,5vw,58px);font-weight:300;line-height:1.12;letter-spacing:clamp(2px,0.55vw,8px);color:#f4f6ff;text-transform:uppercase;white-space:nowrap;">A walk through time</h1>
+      <div ref="{{ introRef }}" style="margin:32px auto 0;font-size:clamp(14px,1.7vw,17.5px);line-height:1.75;color:#c2c8e0;font-weight:300;">
+        <p style="margin:0;text-align:justify;text-align-last:left;">We each live inside a fleeting bubble — a limited perspective shaped excessively by isolated and recent narratives that are rarely viewed in comparison of all of time.</p>
+        <p style="margin:22px 0 0;text-align:justify;text-align-last:left;">The full scale of time and its different eras when seen together, is astonishing and humbling in insight. Consider that the dinosaurs existed 500&times; longer than the human species have. Or that human civilization has occupied less than 0.025% of total human history. Or that the Earth has already experienced at least five cataclysmic meteorite impacts — the next one being not merely possible but inevitable.</p>
+        <p style="margin:22px 0 0;text-align:justify;text-align-last:left;">This is an instrument to appreciate the staggering scale of time. Step outside your own current moment, and take a walk through all of time: from the Big Bang to this very breath, and everything in between.</p>
+      </div>
+      <div style="margin-top:46px;display:flex;justify-content:center;">
+        <button class="tl-startbtn" onClick="{{ start }}" style="--gl:rgba(255,255,255,.4);cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:#0b0c12;background:#ffffff;border:none;padding:13px 42px;border-radius:999px;letter-spacing:3px;text-transform:uppercase;transition:transform .15s;animation:tl-glow 3.4s ease-in-out infinite;">Start</button>
+      </div>
+      <div style="margin-top:34px;font-family:inherit;font-weight:300;font-size:13px;color:#767c9c;letter-spacing:1.5px;">By Sandeep Sharma | July 2026</div>
+    </div>
+
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <section hidden="{{ hideTimeline }}" style="position:relative;z-index:2;">
+    <div style="max-width:1200px;margin:0 auto;padding:26px 22px 70px;animation:tl-rise .6s ease both;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+        <button onClick="{{ back }}" style="cursor:pointer;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:1px;color:#b6bcd6;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);padding:9px 15px;border-radius:999px;">← Back to start</button>
+      </div>
+
+      <header style="margin-top:22px;">
+        <h1 style="margin:0 0 8px;font-size:clamp(24px,3.6vw,36px);font-weight:300;letter-spacing:clamp(3px,0.9vw,10px);text-transform:uppercase;color:#f4f6ff;">A walk through time</h1>
+        <p style="margin:0;max-width:82ch;font-size:14.5px;line-height:1.6;color:#a7adca;">View six nested scales of time, each ending at today. Click a specific event for details. Alternatively, select a specific scale, or zoom in for a deeper dive.</p>
+      </header>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:22px 0 4px;">
+        <span style="font:12px 'Space Mono',monospace;color:#767c9c;letter-spacing:2px;">SELECT SCALE</span>
+        <div ref="{{ scalesRef }}" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+        <div ref="{{ detailbarRef }}" style="display:inline-flex;align-items:center;margin-left:auto;"></div>
+      </div>
+
+      <div ref="{{ exploreRef }}">
+        <div ref="{{ subfilterRef }}" style="display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:12px 0 0;"></div>
+        <div ref="{{ subtitleRef }}" style="font-size:13px;color:#a7adca;margin:10px 2px 0;min-height:0;"></div>
+        <div ref="{{ stageRef }}" class="tl-scroll" style="position:relative;margin-top:16px;min-height:520px;border:1px solid rgba(255,255,255,0.1);border-radius:18px;background:rgba(10,12,20,0.66);box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 30px 80px -40px rgba(0,0,0,.8);overflow-x:auto;overflow-y:hidden;"></div>
+      </div>
+
+      <div ref="{{ stackedRef }}" hidden style="position:relative;margin-top:16px;border:1px solid rgba(255,255,255,0.1);border-radius:18px;background:rgba(10,12,20,0.66);box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);overflow:hidden;"></div>
+
+      <footer style="margin-top:18px;font-size:12px;color:#767c9c;line-height:1.5;">Positions are linear within each scale. Deep-time dates are current best estimates (present ≈ 2025) and carry real uncertainty.</footer>
+    </div>
+  </section>
+</div>
+</x-dc>
+
+<script>
+/* ---- Minimal runtime shim (replaces the design tool's support.js) ---- */
+window.React = { createRef: function () { return { current: null }; } };
+
+class DCLogic {
+  constructor(props) { this.props = props || {}; this.state = {}; }
+  setState(partial, cb) {
+    var prev = Object.assign({}, this.state);
+    Object.assign(this.state, partial);
+    if (window.__dcRender) window.__dcRender();
+    if (typeof this.componentDidUpdate === "function") this.componentDidUpdate(this.props, prev);
+    if (typeof cb === "function") cb.call(this);
+  }
+}
+</script>
+
+<script>
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  introRef = React.createRef();
+  headingRef = React.createRef();
+  skyRef = React.createRef();
+  switchRef = React.createRef();
+  legendRef = React.createRef();
+  viewbarRef = React.createRef();
+  detailbarRef = React.createRef();
+  subfilterRef = React.createRef();
+  scalesRef = React.createRef();
+  subtitleRef = React.createRef();
+
+  SUBORDER = ["Impacts","Extinctions","Ice ages","Origins & firsts","Dinosaurs","Plants","Species / genus","Technology","Migration","Culture & art","Europe & C. Asia","India","China & Far East","Middle East & Africa","Americas"];
+  exploreRef = React.createRef();
+  stageRef = React.createRef();
+  stackedRef = React.createRef();
+
+  VARIANTS = ["Cosmic", "Editorial", "Band teaser"];
+  FACES = { "Jost (Futura-like)":"'Jost'", "Archivo (DIN-like)":"'Archivo'", "Nunito Sans (Avenir-like)":"'Nunito Sans'", "Space Grotesk":"'Space Grotesk'" };
+  get face() { return (this.FACES[this.props.typeface] || "'Jost'") + ",'Space Grotesk',system-ui,sans-serif"; }
+
+  CATC = { cosmic:"#b39cff", geologic:"#ff9d5c", life:"#3dd0a3", evolution:"#6ea8ff", human:"#ffcf5c", civilization:"#ff6f9c" };
+  CATLABEL = { cosmic:"Cosmic", geologic:"Geologic", life:"Life", evolution:"Evolution", human:"Human", civilization:"Civilization" };
+  ERAC = [
+    { ya: Infinity, c:"#242838" }, { ya: 4.6e9, c:"#ffd23a" }, { ya: 4.54e9, c:"#3a8fff" },
+    { ya: 4.0e9, c:"#35c46b" }, { ya: 538.8e6, c:"#a6d63a" }, { ya: 2.8e6, c:"#ff9d2b" }, { ya: 12000, c:"#ff4d6d" }
+  ];
+
+  ICONS = {
+    burst:'<path d="M12 2v5M12 17v5M2 12h5M17 12h5M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/>',
+    star:'<path d="M12 3l2.4 5.4L20 9l-4 3.8 1 6-5-3-5 3 1-6-4-3.8 5.6-.6z"/>',
+    galaxy:'<ellipse cx="12" cy="12" rx="9" ry="4"/><path d="M4 10c3-3 13-3 16 4"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>',
+    supernova:'<circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4M4.5 4.5l2.8 2.8M16.7 16.7l2.8 2.8M19.5 4.5l-2.8 2.8M7.3 16.7l-2.8 2.8"/>',
+    snow:'<path d="M12 2v20M4 6l16 12M20 6L4 18M2 12h20"/>',
+    dark:'<circle cx="12" cy="12" r="9"/><path d="M9 4a9 9 0 000 16" fill="currentColor" stroke="none" opacity=".5"/>',
+    sun:'<circle cx="12" cy="12" r="4.4"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4 4l2 2M18 18l2 2M20 4l-2 2M6 18l-2 2"/>',
+    planet:'<circle cx="12" cy="11" r="5.6"/><ellipse cx="12" cy="12" rx="11" ry="3.4" transform="rotate(-20 12 12)"/>',
+    earth:'<circle cx="12" cy="12" r="9"/><path d="M4 10c2-.5 3.2.9 4.6.5C10 10 10 8.2 11.6 9.1c1.5.9.4 2.6 2 2.6 1.4 0 1.9-1.6 3.2-1.2"/><path d="M6.5 16.2c1.3.6 2.3.1 3.3 1.2"/>',
+    moon:'<path d="M20 13.5A8 8 0 1110.5 4 6.4 6.4 0 0020 13.5z"/>',
+    comet:'<circle cx="16.4" cy="16.4" r="3.3"/><path d="M14 14L4 4M15.7 12.3l-4-4M12.3 15.7l-4-4"/>',
+    water:'<path d="M3 8c3 2 5-2 8 0s5 2 8 0M3 13c3 2 5-2 8 0s5 2 8 0M3 18c3 2 5-2 8 0s5 2 8 0"/>',
+    cell:'<circle cx="12" cy="12" r="8"/><circle cx="13" cy="11" r="2.6" fill="currentColor" stroke="none"/><circle cx="9" cy="15" r="1"/>',
+    dna:'<path d="M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9s8 4 8 9"/><path d="M9 6h6M9 18h6M10 9.5h4M10 14.5h4"/>',
+    leaf:'<path d="M5 19C5 9 12 5 20 5c0 8-4 15-14 15-1 0-1-1-1-1z"/><path d="M5 19c4-6 8-8 12-9"/>',
+    tree:'<path d="M12 21v-6"/><circle cx="12" cy="9" r="6"/>',
+    flower:'<circle cx="12" cy="12" r="2.4"/><path d="M12 5a2.6 2.6 0 010 5.2M12 19a2.6 2.6 0 010-5.2M5 12a2.6 2.6 0 015.2 0M19 12a2.6 2.6 0 01-5.2 0"/>',
+    o2:'<circle cx="8" cy="12" r="4"/><circle cx="16" cy="10" r="3"/>',
+    shield:'<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/>',
+    impact:'<circle cx="16.4" cy="16.4" r="3.3"/><path d="M14 14L4 4M15.7 12.3l-4-4M12.3 15.7l-4-4"/>',
+    volcano:'<path d="M4 20l5-9h6l5 9zM10 11l1-4M13 11l1-3M12 4v2"/>',
+    continents:'<path d="M4 8c2-2 5-1 7 0s6 0 8 2-1 5-3 6-5-1-8 0-5 1-6-2 0-4 2-6z"/>',
+    mat:'<rect x="3" y="7" width="18" height="4" rx="1"/><rect x="3" y="13" width="18" height="4" rx="1"/><path d="M7 7v10M12 7v10M17 7v10"/>',
+    skull:'<path d="M6 11a6 6 0 1112 0v3l-1 2h-2l-1 2h-2l-1-2H7l-1-2z"/><circle cx="9.5" cy="11" r="1.3" fill="currentColor" stroke="none"/><circle cx="14.5" cy="11" r="1.3" fill="currentColor" stroke="none"/>',
+    dino:'<path d="M2 16.6l6.2-2.6c-.3-4.6 2.8-7.2 6-7.2l1-3 1 3 3.9 1-3.9 1.2 1 1.9c.2 3-2.1 5.3-5.1 5.3"/><path d="M9 14.3L8 21M13.6 14.4V21M14.2 11l2.3 1"/>',
+    reptile:'<path d="M3 12c3-1 5 1 7 0s3-3 6-3 5 2 5 2-2 1-4 1-3 2-6 2-4-1-6-1z"/>',
+    fish:'<path d="M3 12c3-4 9-4 13 0-4 4-10 4-13 0z"/><path d="M16 12l5-3v6z"/><circle cx="7" cy="11" r="0.9" fill="currentColor" stroke="none"/>',
+    bug:'<circle cx="12" cy="12" r="4"/><path d="M12 8V5M8 10L5 8M16 10l3-2M8 14l-3 2M16 14l3 2M12 16v3"/>',
+    bee:'<ellipse cx="12" cy="13" rx="4" ry="5"/><path d="M8 12h8M8 15h8"/><path d="M9 7c-3-2-6 0-4 2M15 7c3-2 6 0 4 2"/>',
+    bird:'<path d="M3 8c4 0 4 4 9 4s5-6 9-4c-2 3-2 7-9 7s-7-4-9-7z"/>',
+    paw:'<circle cx="8" cy="9" r="1.5"/><circle cx="12" cy="7.5" r="1.5"/><circle cx="16" cy="9" r="1.5"/><path d="M8 16c0-3 8-3 8 0 0 2-2 3-4 3s-4-1-4-3z"/>',
+    elephant:'<path d="M4 17v-4a6 6 0 0112 0v4M16 13c2 0 3-2 3-4M8 17v-2M13 17v-2M4 17c-1 1-1 3 1 3"/>',
+    horse:'<path d="M5 20v-5c0-4 3-6 6-6l2-4 1 3c3 1 4 4 4 7v5M11 9L9 6"/>',
+    ape:'<circle cx="12" cy="9" r="4"/><circle cx="6" cy="9" r="1.6"/><circle cx="18" cy="9" r="1.6"/><path d="M8 15c0 3 8 3 8 0"/>',
+    person:'<circle cx="12" cy="6" r="3"/><path d="M6 21v-2a6 6 0 0112 0v2"/>',
+    fire:'<path d="M12 3c1 4 5 5 5 9a5 5 0 01-10 0c0-2 1-3 2-4 1 1 1 2 1 3 1-2 1-5 2-8z"/>',
+    axe:'<path d="M14 4a5 5 0 015 5l-6 1 1-6zM12 9L4 20"/>',
+    spear:'<path d="M4 20L18 6M18 6l2-2-1 3-3 1z"/>',
+    pen:'<path d="M4 20l3-1 11-11-2-2L5 17z"/><path d="M14 6l2 2"/>',
+    paint:'<path d="M4 20c-1-3 1-5 3-5s3 2 2 4M9 15l8-9 2 2-8 9M15 5l3 3"/>',
+    foot:'<ellipse cx="10" cy="15" rx="3" ry="5"/><circle cx="15" cy="9" r="1.3"/><circle cx="13" cy="6" r="1"/>',
+    wheat:'<path d="M12 21V8M12 8c-2-1-3-3-2-5 2 0 3 2 2 5zM12 8c2-1 3-3 2-5-2 0-3 2-2 5zM12 13c-2-1-3-3-2-5M12 13c2-1 3-3 2-5"/>',
+    city:'<path d="M3 21V10l5-3v4l5-4v6l5-3v11z"/><path d="M7 21v-4M12 21v-4M17 21v-4"/>',
+    temple:'<path d="M4 9l8-5 8 5M5 9v8M9 9v8M15 9v8M19 9v8M3 20h18"/>',
+    wheel:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/><path d="M12 4v4M12 16v4M4 12h4M16 12h4M6.3 6.3l2.8 2.8M14.9 14.9l2.8 2.8M17.7 6.3l-2.8 2.8M9.1 14.9l-2.8 2.8"/>',
+    scroll:'<path d="M7 4h9a2 2 0 012 2v11a2 2 0 002 2H9a2 2 0 01-2-2V6a2 2 0 00-2-2z"/><path d="M10 8h6M10 12h6"/>',
+    lotus:'<path d="M12 20c-5 0-8-3-8-6 3 0 5 1 6 3 0-3 1-6 2-8 1 2 2 5 2 8 1-2 3-3 6-3 0 3-3 6-8 6z"/>',
+    crown:'<path d="M4 8l3 8h10l3-8-5 4-3-6-3 6z"/>',
+    sword:'<path d="M14 4l6 6-7 7-2-2 7-7M4 20l4-4 2 2-4 4H4z"/>',
+    war:'<path d="M12 2.5l6.5 2.3v4.7c0 4.3-2.8 7.6-6.5 9-3.7-1.4-6.5-4.7-6.5-9V4.8z"/><path d="M12 6v7M9.3 8.7h5.4"/>',
+    book:'<path d="M4 5c3-1 5-1 8 0 3-1 5-1 8 0v13c-3-1-5-1-8 0-3-1-5-1-8 0z"/><path d="M12 5v13"/>',
+    plague:'<path d="M9 3h6M12 3v4M7 9a5 5 0 0110 0v3l-1 8H8l-1-8z"/><circle cx="10" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="12" r="1" fill="currentColor" stroke="none"/>',
+    ship:'<path d="M4 14h16l-2 5H6zM12 14V6M8 8h8M12 3v3"/>',
+    plane:'<path d="M2 13l20-6-6 12-3-5z"/><path d="M13 14l-2 4"/>',
+    rocket:'<path d="M12 3c3 2 4 6 4 9l-2 3h-4l-2-3c0-3 1-7 4-9z"/><circle cx="12" cy="9" r="1.4"/><path d="M8 16l-2 4M16 16l2 4"/>',
+    gear:'<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+    atom:'<circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>',
+    chip:'<rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v3M14 3v3M10 18v3M14 18v3M3 10h3M3 14h3M18 10h3M18 14h3"/>',
+    globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+    phone:'<rect x="7" y="3" width="10" height="18" rx="2.4"/><path d="M11 18h2"/>',
+    africa:'<path d="M8.5 3l4.5.8 1.2 2.8 2.8 1.4-.6 3.2-2.2 1.8-.8 4.2-2.6 2.6-.6 2.4-2.2-.4-1.2-3-2-4-1.6-3.2.6-3.2 1.4-2z"/>',
+    walk:'<circle cx="14" cy="4.2" r="2"/><path d="M13.5 6.5l-1.2 4.8-3 7.7M12.3 11.3l3.8 1.6 2.7-1M12.3 11.3l-3.2 2.8-2.6-1M12.3 15l2.8 4.8"/>',
+    sparkle:'<path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/>'
+  };
+
+  ICON_RULES = [
+    [/big bang/i,"burst"], [/inflation/i,"burst"], [/nucleosynthesis|first matter/i,"atom"],
+    [/recombination|first light|reionization/i,"sun"], [/dark ages|dark energy/i,"dark"],
+    [/supernova/i,"supernova"], [/milky way|galax/i,"galaxy"], [/cosmic dawn|first stars|mass star/i,"star"],
+    [/cosmic noon/i,"star"], [/cool/i,"snow"],
+    [/sun forms/i,"sun"], [/earth (forms|accretes)/i,"earth"], [/moon forms/i,"moon"],
+    [/ocean|crust & water|liquid water/i,"water"],
+    [/late heavy bombardment|impact|barberton|sudbury|suav|chicxulub/i,"impact"],
+    [/toba|supereruption/i,"volcano"],
+    [/ozone/i,"shield"], [/oxygenation|great oxygen/i,"o2"],
+    [/stromatolite|microbial|sulfur-based|cyanobacteria|photosynthesis/i,"mat"],
+    [/banded iron|sedimentary rocks/i,"continents"],
+    [/continents|rodinia|pangaea|archean|supercontinent/i,"continents"],
+    [/snowball|glaciation|ice sheet|ice age|holocene|petm|antarctic/i,"snow"],
+    [/extinction|great dying|k.?pg|goes extinct|black death/i,"skull"],
+    [/plague/i,"plague"],
+    [/forests?|tree-like|first forests/i,"tree"], [/flowering|angiosperm/i,"flower"],
+    [/plants? colonize|land plants|vascular|first land plants/i,"leaf"],
+    [/t[-.\s]?rex|tyrannosaur/i,"trex"],
+    [/dinosaur|sauropod|archosaur/i,"dino"],
+    [/reptile/i,"reptile"], [/trilobite/i,"bug"],
+    [/tiktaalik|jawed fish|fish|chordate|vertebrate|age of fishes|amniote|tetrapod|bilaterian/i,"fish"],
+    [/insect|arthropod|air-breathing/i,"bug"], [/bee/i,"bee"], [/bird/i,"bird"],
+    [/elephant/i,"elephant"], [/horse/i,"horse"], [/whale/i,"fish"],
+    [/human.chimp|sahelanthropus|orrorin|ardipithecus|australopithecus|proto-human|genus homo|homo genus|erectus|neanderthal|heidelberg|habilis/i,"walk"],
+    [/ape/i,"ape"],
+    [/primate|mammal|grassland/i,"paw"],
+    [/abiogenesis|luca|first cells|eukaryote|protist|multicellular|algae|sexual|complex cells|diversif|cambrian|ediacaran|animals/i,"cell"],
+    [/dna/i,"dna"],
+    [/fire|cooking/i,"fire"], [/hand-axe|acheulean|oldowan|stone tools|toolmak/i,"axe"],
+    [/spear/i,"spear"], [/engraving|symbolic|oldest known drawing|cave art/i,"paint"],
+    [/migration|leave africa|out.of.africa|reach|peopling|americas|europe|australia/i,"foot"],
+    [/dog|domesticated/i,"paw"], [/mitochondrial eve/i,"dna"],
+    [/agriculture|neolithic|farming|göbekli|gobekli|towns|çatal|catal/i,"wheat"],
+    [/writing|cuneiform|hieroglyph|alphabet/i,"scroll"],
+    [/wheel|irrigation & metal|first cities/i,"wheel"],
+    [/sumerian|egypt|indus|pyramid|city|çatal|catal|stonehenge|minoan/i,"temple"],
+    [/vedic|buddha|gupta|mahabharata|ramayana/i,"lotus"],
+    [/hammurabi|code of/i,"scroll"],
+    [/empire|rome|roman|dynasty|mauryan|kushan|akkadian|mughal|alexander|mongol|caliph|raj|british|han china|classical greece|greek city/i,"crown"],
+    [/war|rebellion|battle|plassey|buxar|bronze age collapse/i,"war"],
+    [/islam/i,"lotus"], [/maya|tang|song/i,"temple"],
+    [/printing|gutenberg|book/i,"book"], [/columbian|east india company/i,"ship"],
+    [/scientific|copernicus|galileo|newton/i,"atom"],
+    [/industrial|revolutions of liberty|steam|telegraph/i,"gear"],
+    [/titanic|ship/i,"ship"], [/flight|wright/i,"plane"],
+    [/nuclear|computer|computing/i,"atom"], [/moon landing/i,"rocket"],
+    [/web|internet|world wide web/i,"globe"], [/smartphone/i,"phone"], [/generative ai|\bai\b/i,"chip"],
+    [/gandhi|independence/i,"person"],
+    [/homo|erectus|habilis|sapiens|neanderthal|heidelberg|human|you are here|present|people/i,"person"]
+  ];
+  CAT_DEFAULT = { cosmic:"star", geologic:"planet", life:"cell", evolution:"bug", human:"person", civilization:"city" };
+  ICON_IMG = { dino:"icons/dino.png", trex:"icons/trex.png", walk:"icons/walk.png" };
+
+  SCALES = [
+    { id:"universe", label:"Universe", startYa:13800000000, span:"13.8 billion yrs", events:[
+      { ya:13800000000, title:"Big Bang", desc:"Space, time, matter and energy all begin in an unimaginably hot, dense state. Every particle in the cosmos traces back to this single moment ~13.8 billion years ago.", category:"cosmic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Big_Bang" },
+      { ya:13800000000, title:"Cosmic inflation", desc:"In the first fraction of a second the universe expands exponentially, doubling in size many times over. This smooths and flattens space and plants the seeds of all future structure.", category:"cosmic", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Inflation_(cosmology)" },
+      { ya:13800000000, title:"First matter", desc:"As the fireball cools, quarks bind into protons and neutrons within the first second. The fundamental building blocks of atoms now exist.", category:"cosmic", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Quark_epoch" },
+      { ya:13800000000, title:"Nucleosynthesis", desc:"In the first ~20 minutes, protons and neutrons fuse into the lightest nuclei. This sets the universe's primordial mix of roughly 75% hydrogen and 25% helium.", category:"cosmic", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Big_Bang_nucleosynthesis" },
+      { ya:13800000000, title:"Recombination / first light", desc:"About 380,000 years in, the universe cools enough for electrons and nuclei to form neutral atoms. Light finally streams free — the afterglow we still detect as the cosmic microwave background.", category:"cosmic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Cosmic_microwave_background" },
+      { ya:13800000000, title:"Cosmic Dark Ages", desc:"With no stars yet, the universe is a dark fog of neutral hydrogen and helium. Gravity slowly gathers this gas into the first dense clumps.", category:"cosmic", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Chronology_of_the_universe" },
+      { ya:13500000000, title:"Star Formation Begins", desc:"Roughly 250-350 million years after the Big Bang, the first stars ignite and end the Dark Ages. These massive stars forge the first heavy elements.", category:"cosmic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Stellar_population" },
+      { ya:13500000000, title:"First galaxies", desc:"Gravity pulls gas and dark matter into the earliest protogalaxies. They will grow and merge over billions of years into the galaxies we see now.", category:"cosmic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Galaxy_formation_and_evolution" },
+      { ya:13300000000, title:"Reionization", desc:"Ultraviolet light from the first stars and galaxies strips electrons from hydrogen again. The cosmic fog clears and the universe becomes transparent to light.", category:"cosmic", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Reionization" },
+      { ya:13000000000, title:"First supernovae seed elements", desc:"Early massive stars die in brilliant explosions, scattering carbon, oxygen and iron into space. These are the atoms that later build planets and life.", category:"cosmic", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Supernova" },
+      { ya:12600000000, title:"Milky Way starts forming", desc:"Our galaxy builds its flat, rotating disk from infalling gas and smaller galaxy mergers. Its familiar spiral structure gradually takes shape.", category:"cosmic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Formation_and_evolution_of_the_Milky_Way" },
+      { ya:11000000000, title:"Cosmic Noon", desc:"The universe hits its peak rate of star birth, blazing far brighter than today. Most of the stars that will ever exist are forming now.", category:"cosmic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Star_formation" },
+      { ya:10400000000, title:"First life-friendly star systems", desc:"Enough heavy elements now exist for rocky, planet-bearing stars — the first places where life could plausibly arise.", category:"cosmic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Planetary_habitability" },
+      { ya:6000000000, title:"Dark energy takes over", desc:"Cosmic expansion, which had been slowing, begins to accelerate as dark energy dominates. The universe's ultimate fate now tilts toward endless expansion.", category:"cosmic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Dark_energy" },
+      { ya:4600000000, title:"Sun forms", desc:"A collapsing cloud of gas and dust ignites into our star. The leftover disk around it will become the planets, including Earth.", category:"geologic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Sun" },
+      { ya:4540000000, title:"Earth forms", desc:"Our planet accretes from countless colliding rocky bodies in the solar nebula. It starts as a molten, bombarded world.", category:"geologic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/History_of_Earth" },
+      { ya:4510000000, title:"Moon forms", desc:"A Mars-sized body called Theia slams into the young Earth. Debris from the collision coalesces into the Moon.", category:"geologic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Giant-impact_hypothesis" },
+      { ya:4400000000, title:"Oceans form", desc:"As the crust cools, water vapor condenses into the first liquid oceans. The oldest minerals on Earth confirm water was present this early.", category:"geologic", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Origin_of_water_on_Earth" },
+      { ya:4000000000, title:"Life emerges on earth", desc:"The first self-replicating chemistry appears in Earth's early oceans. From this humble start, all life on the planet descends.", category:"life", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Abiogenesis" },
+      { ya:2400000000, title:"Great Oxygenation Event", desc:"Photosynthetic microbes flood the atmosphere with oxygen for the first time. It is a planet-wide transformation — and a catastrophe for the anaerobic life that came before.", category:"life", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Great_Oxidation_Event" },
+      { ya:252000000, title:"The Great Dying", desc:"Earth's worst mass extinction wipes out about 90% of all species. Massive volcanism poisons the oceans and atmosphere.", category:"evolution", tier:"primary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Permian%E2%80%93Triassic_extinction_event" },
+      { ya:66000000, title:"Dinosaur extinction", desc:"A roughly 10-km asteroid strikes Mexico, ending the age of dinosaurs. Their disappearance opens the world to mammals.", category:"evolution", tier:"primary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Cretaceous%E2%80%93Paleogene_extinction_event" },
+      { ya:2800000, title:"Genus Homo appears", desc:"The first members of our own genus emerge in East Africa. The oldest known Homo fossil is a 2.8-million-year-old jaw from Ethiopia.", category:"human", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Homo" },
+      { ya:300000, title:"Homo sapiens appear", desc:"Our species appears in Africa, its oldest fossils found at Jebel Irhoud, Morocco. Anatomically modern humans are now on the scene.", category:"human", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Homo_sapiens" },
+    ]},
+    { id:"geologic", label:"Geologic", startYa:4540000000, span:"4.54 billion yrs", events:[
+      { ya:4540000000, title:"Earth forms", desc:"Our planet grows from colliding planetesimals in the young solar system. Heat from impacts and radioactivity keeps it largely molten.", category:"geologic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/History_of_Earth" },
+      { ya:4510000000, title:"Moon forms", desc:"A Mars-sized body called Theia slams into the young Earth. Debris from the collision coalesces into the Moon.", category:"geologic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Giant-impact_hypothesis" },
+      { ya:4450000000, title:"First crust & water", desc:"Earth's surface cools enough to form a solid crust and the first traces of liquid water. The oldest known minerals, Jack Hills zircons, date from this time.", category:"geologic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Hadean" },
+      { ya:4400000000, title:"Oceans form", desc:"Water vapor from volcanism and comets condenses into the first global oceans. Earth becomes a true water world, setting the stage for life.", category:"geologic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Origin_of_water_on_Earth" },
+      { ya:4100000000, title:"Late Heavy Bombardment", desc:"A possible surge of asteroid and comet impacts batters the inner planets. The Moon's great craters may date from this era.", category:"geologic", tier:"primary", subs:["Impacts"], wiki:"https://en.wikipedia.org/wiki/Late_Heavy_Bombardment" },
+      { ya:4000000000, title:"Life emerges", desc:"Self-replicating chemistry gives rise to the first living cells. Life takes hold remarkably soon after Earth becomes habitable.", category:"life", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Earliest_known_life_forms" },
+      { ya:3800000000, title:"Oldest sedimentary rocks", desc:"Rocks in Greenland preserve some of Earth's earliest surface chemistry. Their carbon signatures hint that life already existed.", category:"geologic", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Isua_Greenstone_Belt" },
+      { ya:3500000000, title:"First stromatolites", desc:"Layered mats built by microbial communities leave the earliest widely accepted fossils. Living stromatolites still form in a few places today.", category:"life", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Stromatolite" },
+      { ya:3200000000, title:"Barberton Impact Event", desc:"South Africa's Barberton greenstone belt records a giant asteroid impact around 3.26 Bya — far larger than the one that killed the dinosaurs. It would have boiled the ocean surface and shaken the whole early Earth.", category:"geologic", tier:"secondary", subs:["Impacts"], wiki:"https://en.wikipedia.org/wiki/Barberton_Greenstone_Belt" },
+      { ya:3000000000, title:"First continents", desc:"Stable blocks of continental crust called cratons grow and thicken. They form the ancient cores of today's continents.", category:"geologic", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Craton" },
+      { ya:2500000000, title:"Archean ends", desc:"Earth transitions from the Archean to the Proterozoic Eon. Continents, oceans and microbial life are well established.", category:"geologic", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Archean" },
+      { ya:2450000000, title:"Suavjärvi Impact Event", desc:"One of the oldest known impact structures, in Karelia, Russia, dates to around 2.4 billion years ago. Deeply eroded, only faint traces of its ~16 km crater remain.", category:"geologic", tier:"secondary", subs:["Impacts"], wiki:"https://en.wikipedia.org/wiki/Suavj%C3%A4rvi_crater" },
+      { ya:2400000000, title:"Great Oxygenation Event", desc:"Oxygen from photosynthesis becomes a permanent part of the atmosphere. It rusts the oceans and reshapes the planet's chemistry.", category:"life", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Great_Oxidation_Event" },
+      { ya:2300000000, title:"First Ice Age", desc:"Earth's first great ice age may have frozen the planet nearly to the equator. Rising oxygen destroyed the methane that had kept it warm.", category:"geologic", tier:"primary", subs:["Ice ages"], wiki:"https://en.wikipedia.org/wiki/Huronian_glaciation" },
+      { ya:2020000000, title:"Vredefort impact", desc:"A ~10-15 km asteroid struck present-day South Africa, creating the largest verified impact structure on Earth (~300 km). Its deeply eroded remains are now a UNESCO World Heritage site.", category:"geologic", tier:"primary", subs:["Impacts"], wiki:"https://en.wikipedia.org/wiki/Vredefort_impact_structure" },
+      { ya:1850000000, title:"Sudbury impact", desc:"One of the largest known impacts formed the Sudbury Basin in Canada. Its melt sheet hosts some of the world's richest nickel and copper ore.", category:"geologic", tier:"secondary", subs:["Impacts"], wiki:"https://en.wikipedia.org/wiki/Sudbury_Basin" },
+      { ya:1800000000, title:"Banded iron formations wane", desc:"Iron dissolved in the oceans finishes rusting out of the water. These striped rocks are a major source of the world's iron ore.", category:"geologic", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Banded_iron_formation" },
+      { ya:1100000000, title:"Rodinia supercontinent", desc:"Most of Earth's landmasses merge into a single supercontinent. Its later breakup may have helped trigger dramatic climate swings.", category:"geologic", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Rodinia" },
+      { ya:700000000, title:"Cryogenian Snowball Earths", desc:"Global glaciations may have covered the planet in ice from pole to pole. Life survives, and complex animals emerge soon after.", category:"geologic", tier:"secondary", subs:["Ice ages"], wiki:"https://en.wikipedia.org/wiki/Snowball_Earth" },
+      { ya:580000000, title:"Acraman impact", desc:"A large asteroid struck South Australia late in the Ediacaran, leaving a ~90 km crater. Its ejecta layer is found in rocks hundreds of kilometers away.", category:"geologic", tier:"secondary", subs:["Impacts"], wiki:"https://en.wikipedia.org/wiki/Acraman_crater" },
+      { ya:538800000, title:"Cambrian / Phanerozoic begins", desc:"The explosion of complex animals marks the start of the Phanerozoic — the 'age of visible life.' Hard shells and skeletons appear in abundance.", category:"evolution", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Cambrian" },
+      { ya:470000000, title:"Plants colonize land", desc:"The first land plants green the continents. Their spread slowly transforms the atmosphere, soils and climate.", category:"life", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Embryophyte" },
+      { ya:445000000, title:"Ordovician extinction", desc:"Rapid glaciation drives one of the five great mass extinctions. About 85% of species vanish.", category:"evolution", tier:"secondary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Late_Ordovician_mass_extinction" },
+      { ya:375000000, title:"Late Devonian extinction", desc:"A prolonged series of crises devastates marine life. Reef-building organisms are especially hard hit.", category:"evolution", tier:"secondary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Late_Devonian_extinction" },
+      { ya:335000000, title:"Pangaea assembles", desc:"The continents drift together into a single supercontinent. A vast desert interior forms, ringed by one global ocean.", category:"geologic", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Pangaea" },
+      { ya:252000000, title:"Permian–Triassic 'Great Dying'", desc:"Siberian volcanism triggers Earth's largest extinction, killing ~90% of species. Life takes millions of years to recover.", category:"evolution", tier:"primary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Permian%E2%80%93Triassic_extinction_event" },
+      { ya:215000000, title:"Manicouagan impact", desc:"A ~5 km asteroid carved a ~100 km crater in Quebec, now a ring-shaped lake visible from orbit. It struck near the end of the Triassic.", category:"geologic", tier:"secondary", subs:["Impacts"], wiki:"https://en.wikipedia.org/wiki/Manicouagan_Reservoir" },
+      { ya:201000000, title:"Triassic–Jurassic extinction", desc:"A mass extinction clears many rivals as Pangaea begins to rift apart. Dinosaurs rise to dominate the land.", category:"evolution", tier:"secondary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Triassic%E2%80%93Jurassic_extinction_event" },
+      { ya:66000000, title:"Dinosaur extinction", desc:"A massive asteroid strikes the Yucatán, ending the non-avian dinosaurs. Global fires, tsunamis and a darkened sky follow.", category:"evolution", tier:"primary", subs:["Extinctions","Impacts"], wiki:"https://en.wikipedia.org/wiki/Chicxulub_crater" },
+      { ya:56000000, title:"PETM hot spike", desc:"A rapid release of carbon warms the globe by 5-8°C. It is one of the best deep-time analogs for modern climate change.", category:"geologic", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Paleocene%E2%80%93Eocene_Thermal_Maximum" },
+      { ya:36000000, title:"Popigai impact", desc:"A large asteroid hit Siberia in the late Eocene, forming a ~100 km crater. The shock created vast fields of impact diamonds.", category:"geologic", tier:"secondary", subs:["Impacts"], wiki:"https://en.wikipedia.org/wiki/Popigai_impact_structure" },
+      { ya:34000000, title:"Antarctic ice sheets form", desc:"Antarctica freezes over as the planet enters a long cooling trend. Permanent polar ice becomes a feature of Earth.", category:"geologic", tier:"secondary", subs:["Ice ages"], wiki:"https://en.wikipedia.org/wiki/Antarctic_ice_sheet" },
+      { ya:2600000, title:"Quaternary Ice Ages begin", desc:"Earth enters cycles of advancing and retreating glaciers. These ice ages shape the landscapes and drive human evolution.", category:"geologic", tier:"primary", subs:["Ice ages"], wiki:"https://en.wikipedia.org/wiki/Quaternary_glaciation" },
+      { ya:12000, title:"Holocene begins", desc:"The last glacial period ends and a stable warm epoch begins. This mild climate makes farming and civilization possible.", category:"geologic", tier:"secondary", subs:["Ice ages"], wiki:"https://en.wikipedia.org/wiki/Holocene" },
+    ]},
+    { id:"life", label:"Life", startYa:4000000000, span:"4.0 billion yrs", events:[
+      { ya:4000000000, title:"Self-replicating chemistry", desc:"Abiogenesis (LUCA) or self-replicating chemistry gives rise to the last universal common ancestor of all life. Every organism alive today descends from this single microbial population.", category:"life", tier:"primary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Last_universal_common_ancestor" },
+      { ya:3700000000, title:"First cells", desc:"Simple, bacteria-like prokaryotes inhabit the early oceans. They have no nucleus, but they thrive across the young planet.", category:"life", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Cell_(biology)" },
+      { ya:3400000000, title:"Sulfur-based microbial life", desc:"Communities of microbes live on sulfur and chemical energy around vents. Similar ecosystems still thrive in the deep sea today.", category:"life", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Chemosynthesis" },
+      { ya:3000000000, title:"Cyanobacteria Form", desc:"Blue-green microbes invent oxygen-producing photosynthesis. Over a billion years they will remake Earth's atmosphere.", category:"life", tier:"secondary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Cyanobacteria" },
+      { ya:2400000000, title:"Great Oxygenation Event", desc:"Oxygen builds up in the air and seas for the first time. It reshapes ocean chemistry and paves the way for complex life.", category:"life", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Great_Oxidation_Event" },
+      { ya:2100000000, title:"First eukaryotes", desc:"Cells with a nucleus and mitochondria evolve through endosymbiosis. This new cell type is the foundation of all complex life.", category:"life", tier:"primary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Eukaryote" },
+      { ya:1650000000, title:"Eukaryotes diversify", desc:"The oldest clear eukaryote fossils appear, including the first multicellular forms. Complex cells begin experimenting with living together.", category:"life", tier:"secondary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Multicellular_organism" },
+      { ya:1200000000, title:"Sexual reproduction", desc:"Red algae called Bangiomorpha show the earliest known sexual reproduction. Mixing genes accelerates evolution enormously.", category:"life", tier:"secondary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Bangiomorpha" },
+      { ya:1000000000, title:"First multicellular cells", desc:"Simple seaweeds and colonial organisms spread through the oceans. Multicellularity opens the door to larger, more complex life.", category:"life", tier:"primary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Algae" },
+      { ya:800000000, title:"First animals (molecular)", desc:"Genetic evidence suggests the first sponge-grade animals appear. They filter food from the water much as sponges still do.", category:"evolution", tier:"secondary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Sponge" },
+      { ya:635000000, title:"Ediacaran animals", desc:"The first large, soft-bodied animal communities take hold. These quilted, frond-like organisms are unlike anything alive today.", category:"evolution", tier:"secondary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Ediacaran_biota" },
+      { ya:550000000, title:"First bilaterians", desc:"Animals evolve a front and back, left and right, and a through-gut. This body plan underlies most animals, including us.", category:"evolution", tier:"secondary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Bilateria" },
+      { ya:538800000, title:"Cambrian explosion", imgWiki:"Anomalocaris", desc:"Nearly every major animal group appears in a geological instant. Predators, eyes and hard skeletons transform the seas.", category:"evolution", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Cambrian_explosion" },
+      { ya:530000000, title:"First vertebrates", desc:"Early jawless fish evolve a backbone and nerve cord. They are the founders of our own lineage.", category:"evolution", tier:"primary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Vertebrate" },
+      { ya:470000000, title:"Plants colonize land", desc:"Mosses and liverworts become the first plants on land. They begin building soils and greening the continents.", category:"life", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Embryophyte" },
+      { ya:445000000, title:"End-Ordovician extinction", desc:"Rapid glaciation and falling seas wiped out ~85% of species. It was the first of the 'Big Five' mass extinctions.", category:"evolution", tier:"secondary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Late_Ordovician_mass_extinction" },
+      { ya:440000000, title:"First jawed fish", desc:"Jaws revolutionize how animals feed. Fast, powerful predators diversify across the oceans.", category:"evolution", tier:"secondary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Gnathostomata" },
+      { ya:425000000, title:"First vascular land plants", desc:"Plants like Cooksonia evolve internal plumbing to move water. This lets them grow upright and taller than ever before.", category:"life", tier:"secondary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Vascular_plant" },
+      { ya:400000000, title:"First insects", desc:"Six-legged arthropods conquer the land and later the air. They will become the most diverse animals on Earth.", category:"evolution", tier:"primary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Insect" },
+      { ya:375000000, title:"Fish-to-land transition", desc:"Lobe-finned fish like Tiktaalik develop limb-like fins and lungs. The vertebrate move from water onto land begins.", category:"evolution", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Tiktaalik" },
+      { ya:372000000, title:"Late Devonian extinction", desc:"A drawn-out series of pulses devastated marine life, especially reef-builders. It ranks among the five largest extinctions.", category:"evolution", tier:"secondary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Late_Devonian_extinction" },
+      { ya:360000000, title:"First tetrapods & forests", desc:"Four-limbed vertebrates walk on land as vast forests spread. The Carboniferous world fills with amphibians and giant plants.", category:"evolution", tier:"primary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Tetrapod" },
+      { ya:252000000, title:"Permian extinction", desc:"The Great Dying resets the biosphere, killing ~90% of species. Survivors will give rise to dinosaurs and mammals.", category:"evolution", tier:"primary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Permian%E2%80%93Triassic_extinction_event" },
+      { ya:230000000, title:"First dinosaurs & mammals", desc:"Both dinosaurs and the first tiny mammals appear in the Triassic. For 150 million years, dinosaurs will rule and mammals stay small.", category:"evolution", tier:"primary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Evolution_of_dinosaurs" },
+      { ya:201000000, title:"Triassic–Jurassic extinction", desc:"A mass extinction cleared many rivals on land and sea as Pangaea began to rift apart. It opened the way for dinosaurs to dominate.", category:"evolution", tier:"secondary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Triassic%E2%80%93Jurassic_extinction_event" },
+      { ya:66000000, title:"Dinosaur Extinction", desc:"An asteroid ends the reign of the dinosaurs. Mammals survive and rapidly inherit the empty world.", category:"evolution", icon:"impact", tier:"primary", subs:["Extinctions","Impacts"], wiki:"https://en.wikipedia.org/wiki/Cretaceous%E2%80%93Paleogene_extinction_event" },
+      { ya:55000000, title:"First primates", desc:"Our order emerges among small, tree-dwelling mammals. Grasping hands and forward-facing eyes are early hallmarks.", category:"evolution", tier:"primary", subs:["Origins & firsts"], wiki:"https://en.wikipedia.org/wiki/Primate" },
+      { ya:2800000, title:"Genus Homo appears", desc:"The first humans appear in Africa with larger brains and stone tools. Our genus begins its rise.", category:"human", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Homo" },
+    ]},
+    { id:"complex", label:"Complex Life", startYa:538800000, span:"538.8 million yrs", events:[
+      { ya:538800000, title:"Cambrian explosion", imgWiki:"Anomalocaris", desc:"Most modern animal body plans appear rapidly in the fossil record. Eyes, shells and active predators transform ocean life.", category:"evolution", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Cambrian_explosion" },
+      { ya:521000000, title:"First trilobites", desc:"Hard-shelled arthropods with complex eyes dominate the early seas. They become some of the most successful and abundant fossils.", category:"evolution", tier:"secondary", subs:["Dinosaurs"], wiki:"https://en.wikipedia.org/wiki/Trilobite" },
+      { ya:518000000, title:"First chordates", desc:"Early backboned ancestors appear in the Chengjiang fauna of China. They carry the blueprint for all future vertebrates.", category:"evolution", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Chordate" },
+      { ya:465000000, title:"First land plants", desc:"Spore-bearing plants like liverworts gain a foothold on land. They begin the long greening of the continents.", category:"life", tier:"primary", subs:["Plants"], wiki:"https://en.wikipedia.org/wiki/Marchantiophyta" },
+      { ya:445000000, title:"Ordovician–Silurian extinction", desc:"Rapid glaciation wipes out about 85% of species. It is the second-largest mass extinction in Earth's history.", category:"evolution", tier:"primary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Late_Ordovician_mass_extinction" },
+      { ya:430000000, title:"First vascular plants", desc:"Cooksonia stands upright thanks to internal water-conducting tubes. Plants can now grow tall and compete for light.", category:"life", tier:"secondary", subs:["Plants"], wiki:"https://en.wikipedia.org/wiki/Cooksonia" },
+      { ya:425000000, title:"Jawed fish diversify", desc:"Armored and jawed fish spread as fearsome predators. Some placoderms grow to several meters long.", category:"evolution", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Placodermi" },
+      { ya:419000000, title:"'Age of Fishes' (Devonian)", desc:"Fish become the dominant vertebrates and diversify wildly. The Devonian seas teem with sharks, lungfish and armored giants.", category:"evolution", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Devonian" },
+      { ya:407000000, title:"First insects", desc:"The earliest known insects appear on land. This lineage will become the most species-rich group of animals ever.", category:"evolution", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Insect" },
+      { ya:385000000, title:"First forests", desc:"Tree-like Archaeopteris forms the first true forests. Deep roots and tall canopies reshape the land and the carbon cycle.", category:"life", tier:"secondary", subs:["Plants"], wiki:"https://en.wikipedia.org/wiki/Archaeopteris" },
+      { ya:375000000, title:"Tiktaalik", desc:"This 'fishapod' bridges fish and land vertebrates, with a neck and sturdy fins. It captures the moment life crawled toward land.", category:"evolution", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Tiktaalik" },
+      { ya:372000000, title:"Late Devonian extinction", desc:"A drawn-out series of extinctions devastates marine ecosystems. Coral reefs collapse across the globe.", category:"evolution", tier:"secondary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Late_Devonian_extinction" },
+      { ya:359000000, title:"First tetrapods established", desc:"Amphibian-grade vertebrates live and move on land. Backboned life has firmly stepped out of the water.", category:"evolution", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Tetrapod" },
+      { ya:340000000, title:"First amniotes", desc:"The shelled egg lets vertebrates reproduce fully on land. This innovation leads to reptiles, birds and mammals.", category:"evolution", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Amniote" },
+      { ya:320000000, title:"Carboniferous coal forests", desc:"Vast swampy forests bury enough carbon to form today's coal. Oxygen-rich air lets insects grow to enormous sizes.", category:"evolution", tier:"secondary", subs:["Plants"], wiki:"https://en.wikipedia.org/wiki/Carboniferous" },
+      { ya:305000000, title:"Carboniferous Rainforest Collapse", desc:"The vast coal-forming rainforests fragmented as the climate dried. The collapse reshaped amphibian and early reptile communities.", category:"evolution", tier:"secondary", subs:["Extinctions","Plants"], wiki:"https://en.wikipedia.org/wiki/Carboniferous_rainforest_collapse" },
+      { ya:300000000, title:"Mammal & reptile lines split", desc:"Synapsids, the ancestors of mammals, diverge from the reptile-and-bird line. Two great branches of land life go their separate ways.", category:"evolution", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Synapsid" },
+      { ya:260000000, title:"Capitanian extinction", desc:"A distinct extinction pulse, likely driven by volcanism, struck marine life around 260 Mya. It preceded the far larger end-Permian catastrophe.", category:"evolution", tier:"secondary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Capitanian_mass_extinction_event" },
+      { ya:252000000, title:"Permian–Triassic Great Dying", desc:"About 96% of marine species vanish in life's closest brush with annihilation. Ecosystems take millions of years to rebuild.", category:"evolution", tier:"primary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Permian%E2%80%93Triassic_extinction_event" },
+      { ya:245000000, title:"First archosaurs", desc:"The 'ruling reptiles' emerge as ancestors of dinosaurs and crocodiles. They will dominate the Mesozoic world.", category:"evolution", tier:"secondary", subs:["Dinosaurs"], wiki:"https://en.wikipedia.org/wiki/Archosaur" },
+      { ya:233000000, title:"First dinosaurs", desc:"The first true dinosaurs appear and begin their long rise. Small and bipedal at first, they will grow to spectacular sizes.", category:"evolution", tier:"primary", subs:["Dinosaurs"], wiki:"https://en.wikipedia.org/wiki/Dinosaur" },
+      { ya:225000000, title:"First mammals", desc:"Tiny, shrew-like mammals scurry beneath the dinosaurs' feet. Warm blood, fur and milk set them apart.", category:"evolution", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Mammal" },
+      { ya:201000000, title:"Triassic–Jurassic extinction", desc:"A mass extinction clears many competitors from the land. Dinosaurs surge to complete dominance in the Jurassic.", category:"evolution", tier:"primary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Triassic%E2%80%93Jurassic_extinction_event" },
+      { ya:200000000, title:"First sauropods", desc:"Long-necked plant-eating giants begin to evolve. Their descendants will be the largest animals ever to walk on land.", category:"evolution", tier:"secondary", subs:["Dinosaurs"], wiki:"https://en.wikipedia.org/wiki/Sauropoda" },
+      { ya:150000000, title:"First birds", desc:"Feathered dinosaurs like Archaeopteryx take to the air. Birds are living dinosaurs, the only lineage to survive to today.", category:"evolution", tier:"primary", subs:["Dinosaurs"], wiki:"https://en.wikipedia.org/wiki/Archaeopteryx" },
+      { ya:130000000, title:"First flowering plants", desc:"Angiosperms evolve flowers and fruit, reshaping ecosystems. Their partnership with pollinators drives an explosion of diversity.", category:"evolution", tier:"primary", subs:["Plants"], wiki:"https://en.wikipedia.org/wiki/Flowering_plant" },
+      { ya:100000000, title:"First bees", desc:"Bees co-evolve with flowering plants as key pollinators. This partnership still underpins much of life on land.", category:"evolution", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Bee" },
+      { ya:94000000, title:"Cenomanian–Turonian event", desc:"A mid-Cretaceous ocean anoxic event killed off many marine species. Oxygen-starved seas laid down thick black shales.", category:"evolution", tier:"secondary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Cenomanian-Turonian_boundary_event" },
+      { ya:68000000, title:"Tyrannosaurus rex", desc:"The iconic apex predator stalks late-Cretaceous North America. It is among the last and largest of the meat-eating dinosaurs.", category:"evolution", tier:"secondary", subs:["Dinosaurs"], wiki:"https://en.wikipedia.org/wiki/Tyrannosaurus" },
+      { ya:66000000, title:"Dinosaur extinction", desc:"An asteroid ends the non-avian dinosaurs in a global catastrophe. Only small survivors, including early mammals and birds, remain.", category:"evolution", tier:"primary", subs:["Extinctions","Impacts"], wiki:"https://en.wikipedia.org/wiki/Cretaceous%E2%80%93Paleogene_extinction_event" },
+      { ya:60000000, title:"First primates", desc:"Mammals radiate into empty niches and the first primates appear. Our earliest ancestors take to the trees.", category:"evolution", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Primate" },
+      { ya:55000000, title:"First horses & whales", desc:"Rapid mammal diversification after a warm spike produces the first tiny horses and the ancestors of whales. Mammals spread across land and sea.", category:"evolution", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Eohippus" },
+      { ya:34000000, title:"Grasslands spread", desc:"Cooling and drying climates spread open grasslands worldwide. Grazing mammals and fast runners evolve to exploit them.", category:"evolution", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Grassland" },
+      { ya:34000000, title:"Eocene–Oligocene extinction", desc:"Sharp global cooling — the 'Grande Coupure' — drove a major turnover of mammals and marine life. It coincided with the freezing of Antarctica.", category:"evolution", tier:"secondary", subs:["Extinctions"], wiki:"https://en.wikipedia.org/wiki/Eocene%E2%80%93Oligocene_extinction_event" },
+      { ya:20000000, title:"First apes", desc:"The great-ape lineage arises during the Miocene. These larger-brained, tailless primates are our ancestors.", category:"evolution", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Ape" },
+      { ya:7000000, title:"Human–chimp split", desc:"Sahelanthropus and other early hominins diverge from the chimpanzee line. Upright walking sets our ancestors apart.", category:"human", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Sahelanthropus" },
+      { ya:2800000, title:"Genus Homo", desc:"The first humans appear, with bigger brains and stone tools. Our genus begins its journey.", category:"human", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Homo" },
+      { ya:0, title:"The present", desc:"It has been 538.8 million years since complex life exploded into being. One of its products now contemplates the whole story.", category:"civilization", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Human" },
+    ]},
+    { id:"human", label:"Human", startYa:7000000, span:"7 million yrs", events:[
+      { ya:7000000, title:"Human-chimp split", desc:"The earliest known hominin lives in what is now Chad. It marks the split between our lineage and the chimpanzees.", category:"human", tier:"primary", subs:["Species / genus"], wiki:"https://en.wikipedia.org/wiki/Sahelanthropus" },
+      { ya:6000000, title:"Orrorin walks upright", desc:"Orrorin tugenensis shows some of the earliest evidence of upright walking. Bipedalism is becoming our ancestors' signature trait.", category:"human", tier:"secondary", subs:["Species / genus"], wiki:"https://en.wikipedia.org/wiki/Orrorin" },
+      { ya:4400000, title:"Ardipithecus ('Ardi')", desc:"A woodland hominin that both climbed trees and walked upright. 'Ardi' reveals how gradually bipedalism evolved.", category:"human", tier:"secondary", subs:["Species / genus"], wiki:"https://en.wikipedia.org/wiki/Ardipithecus" },
+      { ya:3900000, title:"Fully upright hominin", desc:"The species of the famous fossil 'Lucy' walks fully upright on the savanna. Its brain is still small, but its gait is human-like.", category:"human", tier:"primary", subs:["Species / genus"], wiki:"https://en.wikipedia.org/wiki/Australopithecus_afarensis" },
+      { ya:3300000, title:"Oldest stone tools", desc:"Stone tools from Lomekwi in Kenya predate the genus Homo. Toolmaking begins before our own genus appears.", category:"human", tier:"primary", subs:["Technology"], wiki:"https://en.wikipedia.org/wiki/Lomekwi" },
+      { ya:2600000, title:"Oldowan toolmaking", desc:"Simple flaked stone tools become widespread across Africa. This toolkit lets early humans butcher meat and crack bones.", category:"human", tier:"secondary", subs:["Technology"], wiki:"https://en.wikipedia.org/wiki/Oldowan" },
+      { ya:2300000, title:"Homo habilis", desc:"The 'handy man' has a larger brain and makes systematic use of tools. It is one of the earliest well-known members of Homo.", category:"human", tier:"primary", subs:["Species / genus"], wiki:"https://en.wikipedia.org/wiki/Homo_habilis" },
+      { ya:1900000, title:"Homo erectus", desc:"Tall and long-legged, Homo erectus has fully modern body proportions. It is the first human to look built for long-distance walking.", category:"human", tier:"primary", subs:["Species / genus"], wiki:"https://en.wikipedia.org/wiki/Homo_erectus" },
+      { ya:1800000, title:"First humans leave Africa", desc:"Homo erectus reaches Eurasia, with fossils found at Dmanisi in Georgia. Humans become a globe-spanning genus.", category:"human", tier:"primary", subs:["Migration"], wiki:"https://en.wikipedia.org/wiki/Dmanisi_hominins" },
+      { ya:1760000, title:"Acheulean hand-axes", desc:"Symmetrical, teardrop-shaped stone tools mark a leap in skill. This technology endures for over a million years.", category:"human", tier:"secondary", subs:["Technology"], wiki:"https://en.wikipedia.org/wiki/Acheulean" },
+      { ya:1500000, title:"Early control of fire", desc:"Early humans begin using fire for warmth, protection and cooking. Cooked food fuels bigger brains and bodies.", category:"human", tier:"primary", subs:["Technology"], wiki:"https://en.wikipedia.org/wiki/Control_of_fire_by_early_humans" },
+      { ya:800000, title:"Regular fire & cooking", desc:"Fire becomes a routine part of daily life at hearths. Cooking makes food safer and far more nutritious.", category:"human", tier:"secondary", subs:["Technology"], wiki:"https://en.wikipedia.org/wiki/Control_of_fire_by_early_humans" },
+      { ya:600000, title:"Homo heidelbergensis", desc:"A large-brained human ancestor of both us and the Neanderthals. It hunts big game with wooden spears.", category:"human", tier:"primary", subs:["Species / genus"], wiki:"https://en.wikipedia.org/wiki/Homo_heidelbergensis" },
+      { ya:500000, title:"First hafted spears", desc:"Wooden throwing spears, like those from Schöningen, enable big-game hunting. Coordinated hunts demand planning and cooperation.", category:"human", tier:"secondary", subs:["Technology"], wiki:"https://en.wikipedia.org/wiki/Sch%C3%B6ningen_spears" },
+      { ya:400000, title:"Symbolic behavior begins", desc:"Use of pigments and possible engravings hint at abstract thought. The human mind is beginning to think in symbols.", category:"human", tier:"secondary", subs:["Culture & art"], wiki:"https://en.wikipedia.org/wiki/Behavioral_modernity" },
+      { ya:300000, title:"Homo sapiens", desc:"Our species emerges in Africa, with the oldest fossils found at Jebel Irhoud, Morocco. Modern human anatomy takes shape.", category:"human", tier:"primary", subs:["Species / genus"], wiki:"https://en.wikipedia.org/wiki/Jebel_Irhoud" },
+      { ya:250000, title:"Neanderthals", desc:"Our robust cousins spread across Ice-Age Europe and Asia. They make tools, control fire and bury their dead.", category:"human", tier:"primary", subs:["Species / genus"], wiki:"https://en.wikipedia.org/wiki/Neanderthal" },
+      { ya:200000, title:"'Mitochondrial Eve'", desc:"The most recent common maternal ancestor of all living people lives in Africa. Everyone alive traces their mitochondria to her line.", category:"human", tier:"secondary", subs:["Species / genus"], wiki:"https://en.wikipedia.org/wiki/Mitochondrial_Eve" },
+      { ya:100000, title:"Early symbolic culture", desc:"Deliberate burials, shell beads and ochre use appear in Africa. Human culture and self-adornment are taking off.", category:"human", tier:"secondary", subs:["Culture & art"], wiki:"https://en.wikipedia.org/wiki/Blombos_Cave" },
+      { ya:74000, title:"Toba supereruption", desc:"A colossal volcanic eruption in Sumatra may have strained human populations. Some researchers link it to a genetic bottleneck.", category:"human", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/Toba_catastrophe_theory" },
+      { ya:73000, title:"Oldest known drawing", desc:"An abstract cross-hatch pattern drawn in ochre at Blombos Cave is among the oldest known drawings. It is a spark of the artistic mind.", category:"human", tier:"secondary", subs:["Culture & art"], wiki:"https://en.wikipedia.org/wiki/Blombos_Cave" },
+      { ya:65000, title:"Humans reach Australia", desc:"Modern humans cross open water to reach Australia. It is one of the earliest and boldest human sea voyages.", category:"human", tier:"secondary", subs:["Migration"], wiki:"https://en.wikipedia.org/wiki/Prehistory_of_Australia" },
+      { ya:60000, title:"Great Out-of-Africa migration", desc:"The major dispersal that founded all non-African populations sweeps out of Africa. Humans spread across Asia, Europe and beyond.", category:"human", tier:"primary", subs:["Migration"], wiki:"https://en.wikipedia.org/wiki/Recent_African_origin_of_modern_humans" },
+      { ya:45000, title:"Humans in Europe", desc:"Homo sapiens arrives in Europe as the Neanderthals decline. The two species overlap and even interbreed.", category:"human", tier:"secondary", subs:["Migration"], wiki:"https://en.wikipedia.org/wiki/Early_European_modern_humans" },
+      { ya:40000, title:"Cave art flourishes", desc:"Stunning figurative paintings appear at sites like Chauvet and Sulawesi. Carved figurines and music show a fully modern imagination.", category:"human", tier:"primary", subs:["Culture & art"], wiki:"https://en.wikipedia.org/wiki/Cave_painting" },
+      { ya:30000, title:"Neanderthals go extinct", desc:"The last Neanderthals disappear, leaving Homo sapiens the sole human species. Traces of their DNA live on in us.", category:"human", tier:"primary", subs:["Species / genus"], wiki:"https://en.wikipedia.org/wiki/Neanderthal_extinction" },
+      { ya:16000, title:"Dogs domesticated", desc:"Wolves become humanity's first animal partners, aiding in the hunt. It is the beginning of our long bond with domesticated animals.", category:"human", tier:"primary", subs:["Technology"], wiki:"https://en.wikipedia.org/wiki/Domestication_of_the_dog" },
+      { ya:15000, title:"Peopling of the Americas", desc:"Humans spread into the Americas, the last habitable continents. Our species now reaches nearly every corner of the globe.", category:"human", tier:"secondary", subs:["Migration"], wiki:"https://en.wikipedia.org/wiki/Settlement_of_the_Americas" },
+      { ya:12000, title:"Agriculture begins", imgWiki:"Wheat", desc:"The Neolithic Revolution brings farming, herding and permanent settlement. Food surpluses set the stage for civilization.", category:"civilization", tier:"primary", subs:["Technology"], wiki:"https://en.wikipedia.org/wiki/Neolithic_Revolution" },
+      { ya:5400, title:"Writing & cities", desc:"The first cities and writing systems record human affairs. Recorded history begins.", category:"civilization", tier:"primary", subs:["Technology"], wiki:"https://en.wikipedia.org/wiki/Cradle_of_civilization" },
+    ]},
+    { id:"civilization", label:"Human Civilization", startYa:12000, span:"12,000 yrs", events:[
+      { ya:12000, title:"End of the Ice Age", desc:"The last glacial period ends and the climate warms into the stable Holocene — the calm, fertile window in which all of civilization unfolds.", category:"civilization", tier:"primary", subs:[], wiki:"https://en.wikipedia.org/wiki/Holocene" },
+      { ya:11600, title:"Earliest known ritualistic behavior", desc:"Hunter-gatherers in Turkey raise the oldest known monumental temple. It shows that shared ritual may predate farming and cities.", category:"civilization", tier:"primary", subs:["Middle East & Africa"], wiki:"https://en.wikipedia.org/wiki/G%C3%B6bekli_Tepe" },
+      { ya:11000, title:"Agriculture begins", imgWiki:"Wheat", desc:"Wheat, goats and sheep are domesticated as Jericho grows in the Levant. Farming and permanent towns replace the nomadic life.", category:"civilization", tier:"primary", subs:["Middle East & Africa","Technology"], wiki:"https://en.wikipedia.org/wiki/Neolithic_Revolution" },
+      { ya:9000, title:"Çatalhöyük & rice farming", desc:"A dense proto-city thrives in Anatolia while rice is domesticated in China. Farming villages spread across the world.", category:"civilization", tier:"secondary", subs:["China & Far East","Middle East & Africa"], wiki:"https://en.wikipedia.org/wiki/%C3%87atalh%C3%B6y%C3%BCk" },
+      { ya:7500, title:"Irrigation & metal", desc:"Irrigation canals water the fields of Ubaid Mesopotamia as copper smelting begins. Managing water and metal reshapes society.", category:"civilization", tier:"secondary", subs:["Middle East & Africa","Technology"], wiki:"https://en.wikipedia.org/wiki/Ubaid_period" },
+      { ya:6000, title:"First cities & the wheel", desc:"Uruk rises as one of the world's first true cities. The wheel and the plough transform transport and farming.", category:"civilization", tier:"primary", subs:["Middle East & Africa","Technology"], wiki:"https://en.wikipedia.org/wiki/Uruk" },
+      { ya:5400, title:"Writing invented", desc:"Sumerian cuneiform and Egyptian hieroglyphs record language for the first time. Accounts, laws and stories can now outlive their authors.", category:"civilization", tier:"primary", subs:["Middle East & Africa","Technology"], wiki:"https://en.wikipedia.org/wiki/Cuneiform" },
+      { ya:5100, title:"Egypt unified", desc:"Narmer unites Upper and Lower Egypt into a single kingdom. The age of the pharaohs and the Bronze Age begins.", category:"civilization", tier:"primary", subs:["Middle East & Africa"], wiki:"https://en.wikipedia.org/wiki/Early_Dynastic_Period_(Egypt)" },
+      { ya:4600, title:"Indus Valley & the Pyramids", desc:"The Harappans build planned brick cities with drainage and standard weights. In Egypt, the Great Pyramid of Giza rises around 2560 BC.", category:"civilization", tier:"primary", subs:["India","Middle East & Africa"], wiki:"https://en.wikipedia.org/wiki/Indus_Valley_Civilisation" },
+      { ya:4350, title:"Akkadian Empire", desc:"Sargon of Akkad forges the first known empire in Mesopotamia. He unites city-states under a single ruler.", category:"civilization", tier:"secondary", subs:["Middle East & Africa"], wiki:"https://en.wikipedia.org/wiki/Akkadian_Empire" },
+      { ya:4000, title:"Minoans & Stonehenge", desc:"The Minoans build palace cities on Crete while Stonehenge is completed in Britain. Bronze Age cultures flourish around the world.", category:"civilization", tier:"secondary", subs:["Europe & C. Asia"], wiki:"https://en.wikipedia.org/wiki/Minoan_civilization" },
+      { ya:3800, title:"Code of Hammurabi", desc:"Babylon issues one of the earliest written law codes. Its carved stele lists rules and punishments for all to see.", category:"civilization", tier:"secondary", subs:["Middle East & Africa"], wiki:"https://en.wikipedia.org/wiki/Code_of_Hammurabi" },
+      { ya:3600, title:"Shang dynasty China", desc:"The Shang flourish along the Yellow River with bronze casting and writing. Chinese civilization enters recorded history.", category:"civilization", tier:"secondary", subs:["China & Far East"], wiki:"https://en.wikipedia.org/wiki/Shang_dynasty" },
+      { ya:3500, title:"Vedic period begins", desc:"The Rig Veda is composed as Indo-Aryan culture spreads across northern India. It lays the foundations of Indian civilization and religion.", category:"civilization", tier:"secondary", subs:["India"], wiki:"https://en.wikipedia.org/wiki/Vedic_period" },
+      { ya:3200, title:"Bronze Age collapse & Iron", desc:"A wave of upheaval topples old empires around the Mediterranean. Ironworking spreads and the Olmec rise in Mexico.", category:"civilization", tier:"secondary", subs:["Americas","Europe & C. Asia","Middle East & Africa","Technology"], wiki:"https://en.wikipedia.org/wiki/Late_Bronze_Age_collapse" },
+      { ya:3000, title:"Alphabet spreads", desc:"The Phoenician alphabet spreads across the Mediterranean by trade. It is the ancestor of most modern scripts, including this one.", category:"civilization", tier:"secondary", subs:["Europe & C. Asia","Middle East & Africa","Technology"], wiki:"https://en.wikipedia.org/wiki/Phoenician_alphabet" },
+      { ya:2800, title:"Greek city-states & Rome founded", desc:"Homeric Greece takes shape as city-states rise. Tradition dates the founding of Rome to 753 BC.", category:"civilization", tier:"secondary", subs:["Europe & C. Asia"], wiki:"https://en.wikipedia.org/wiki/Ancient_Greece" },
+      { ya:2560, title:"Gautama Buddha", desc:"The Buddha is born in India and founds Buddhism. He teaches during the wider Axial Age of Confucius and the Greek philosophers.", category:"civilization", tier:"primary", subs:["India"], wiki:"https://en.wikipedia.org/wiki/Gautama_Buddha" },
+      { ya:2500, title:"Classical Greece", desc:"Athens invents democracy while Greek science, drama and philosophy flourish. The Persian Empire spans the Near East.", category:"civilization", tier:"primary", subs:["Europe & C. Asia"], wiki:"https://en.wikipedia.org/wiki/Classical_Greece" },
+      { ya:2350, title:"Alexander the Great", desc:"Alexander conquers an empire stretching from Greece to India. Greek culture spreads across three continents.", category:"civilization", tier:"primary", subs:["Europe & C. Asia","India","Middle East & Africa"], wiki:"https://en.wikipedia.org/wiki/Alexander_the_Great" },
+      { ya:2250, title:"Mauryan India & Qin China", desc:"Ashoka's Mauryan Empire unifies most of India and spreads Buddhism. The Qin unify China in 221 BC and begin the Great Wall.", category:"civilization", tier:"secondary", subs:["China & Far East","India"], wiki:"https://en.wikipedia.org/wiki/Maurya_Empire" },
+      { ya:2000, title:"Roman Empire & Han China", desc:"Two great empires span Eurasia at opposite ends of the Silk Road. World population reaches around 300 million.", category:"civilization", tier:"primary", subs:["China & Far East","Europe & C. Asia"], wiki:"https://en.wikipedia.org/wiki/Roman_Empire" },
+      { ya:1600, title:"Gupta golden age", desc:"Classical India flourishes in science, art and mathematics. Gupta scholars formalize the concept of zero and the decimal system.", category:"civilization", tier:"primary", subs:["India"], wiki:"https://en.wikipedia.org/wiki/Gupta_Empire" },
+      { ya:1550, title:"Fall of Western Rome", desc:"The Western Roman Empire collapses under pressure and division. Europe enters the medieval era.", category:"civilization", tier:"secondary", subs:["Europe & C. Asia"], wiki:"https://en.wikipedia.org/wiki/Fall_of_the_Western_Roman_Empire" },
+      { ya:1400, title:"Rise of Islam", desc:"Islam spreads rapidly across three continents. The Islamic Golden Age drives advances in science, medicine and mathematics.", category:"civilization", tier:"primary", subs:["Middle East & Africa"], wiki:"https://en.wikipedia.org/wiki/Islamic_Golden_Age" },
+      { ya:1100, title:"Maya & Tang–Song China", desc:"Maya cities peak in Mesoamerica while Tang and Song China thrive. China invents gunpowder, paper money and printing.", category:"civilization", tier:"secondary", subs:["Americas","China & Far East","Technology"], wiki:"https://en.wikipedia.org/wiki/Maya_civilization" },
+      { ya:820, title:"Genghis Khan", desc:"Genghis Khan forges the largest contiguous land empire in history. The Silk Road connects Asia and Europe as never before.", category:"civilization", tier:"primary", subs:["China & Far East","Europe & C. Asia"], wiki:"https://en.wikipedia.org/wiki/Genghis_Khan" },
+      { ya:810, title:"Magna Carta", desc:"English nobles force King John to seal Magna Carta, limiting royal power by law. It becomes a founding milestone for constitutional government.", category:"civilization", tier:"secondary", subs:["Europe & C. Asia"], wiki:"https://en.wikipedia.org/wiki/Magna_Carta" },
+      { ya:680, title:"The Black Death", desc:"Plague sweeps across Eurasia, killing perhaps a third of Europe. The upheaval reshapes labor, religion and society.", category:"civilization", tier:"secondary", subs:["Europe & C. Asia","Middle East & Africa"], wiki:"https://en.wikipedia.org/wiki/Black_Death" },
+      { ya:585, title:"Printing press", desc:"Gutenberg's movable-type press makes books cheap and plentiful. Ideas, literacy and science spread across Europe.", category:"civilization", tier:"primary", subs:["Europe & C. Asia","Technology"], wiki:"https://en.wikipedia.org/wiki/Printing_press" },
+      { ya:530, title:"Columbian Exchange", desc:"Columbus's voyages link the hemispheres, moving crops, people and diseases. The Aztec and Inca empires are near their height.", category:"civilization", tier:"primary", subs:["Americas","Europe & C. Asia"], wiki:"https://en.wikipedia.org/wiki/Columbian_exchange" },
+      { ya:500, title:"British Empire", desc:"Britain builds the largest empire in history, ruling a quarter of the globe. India becomes its most prized colony, governed directly as the Raj.", category:"civilization", tier:"primary", subs:["Europe & C. Asia","India"], wiki:"https://en.wikipedia.org/wiki/British_Empire" },
+      { ya:480, title:"Scientific Revolution", desc:"Copernicus, Galileo and Newton overturn old views of the cosmos. Observation and mathematics become the engine of knowledge.", category:"civilization", tier:"primary", subs:["Europe & C. Asia","Technology"], wiki:"https://en.wikipedia.org/wiki/Scientific_Revolution" },
+      { ya:425, title:"East India Company", desc:"England charters a trading company to pursue Asian commerce. In time it will conquer and rule much of India.", category:"civilization", tier:"secondary", subs:["Europe & C. Asia","India"], wiki:"https://en.wikipedia.org/wiki/East_India_Company" },
+      { ya:250, title:"Revolutions of liberty", desc:"The American (1776) and French (1789) revolutions spread new ideals of liberty and self-government across the world.", category:"civilization", tier:"primary", subs:["Americas","Europe & C. Asia"], wiki:"https://en.wikipedia.org/wiki/Age_of_Revolution" },
+      { ya:249, title:"American independence", desc:"The thirteen American colonies declare independence in 1776, founding a new republic on Enlightenment ideals. It inspires revolutions worldwide.", category:"civilization", tier:"secondary", subs:["Americas"], wiki:"https://en.wikipedia.org/wiki/American_Revolution" },
+      { ya:185, title:"Industrial age begins", desc:"Steam power, factories, railways and the electric telegraph mechanize work and shrink distance. Society is remade at ever-accelerating speed.", category:"civilization", tier:"secondary", subs:["Americas","Europe & C. Asia","Technology"], wiki:"https://en.wikipedia.org/wiki/Industrial_Revolution" },
+      { ya:167, title:"British Indian Empire (Raj)", desc:"The British Crown takes direct control of India after the rebellion. Queen Victoria is later proclaimed Empress of India in 1877.", category:"civilization", tier:"secondary", subs:["Europe & C. Asia","India"], wiki:"https://en.wikipedia.org/wiki/British_Raj" },
+      { ya:120, title:"Powered flight", desc:"The Wright brothers achieve the first powered, controlled flight. Cars and electricity are transforming daily life.", category:"civilization", tier:"secondary", subs:["Americas","Technology"], wiki:"https://en.wikipedia.org/wiki/Wright_brothers" },
+      { ya:113, title:"Titanic sinks", desc:"The 'unsinkable' liner strikes an iceberg on its maiden voyage and sinks, killing about 1,500. It becomes a lasting symbol of hubris.", category:"civilization", tier:"secondary", subs:["Americas","Europe & C. Asia"], wiki:"https://en.wikipedia.org/wiki/Titanic" },
+      { ya:111, title:"World War I", desc:"The first industrial-scale global war engulfs the world from 1914 to 1918. Empires fall and the modern world order is reshaped.", category:"civilization", tier:"primary", subs:["Europe & C. Asia"], wiki:"https://en.wikipedia.org/wiki/World_War_I" },
+      { ya:105, title:"Gandhi's independence movement", desc:"Mahatma Gandhi launches mass non-violent resistance against British rule. His methods inspire freedom movements worldwide.", category:"civilization", tier:"secondary", subs:["India"], wiki:"https://en.wikipedia.org/wiki/Mahatma_Gandhi" },
+      { ya:86, title:"World War II", desc:"The deadliest conflict in history rages from 1939 to 1945. It brings the Holocaust, total war and the dawn of the atomic age.", category:"civilization", tier:"primary", subs:["Americas","China & Far East","Europe & C. Asia"], wiki:"https://en.wikipedia.org/wiki/World_War_II" },
+      { ya:80, title:"Nuclear & computer age", desc:"Atomic weapons end World War II and the first electronic computers appear. The United Nations is founded to keep the peace.", category:"civilization", tier:"secondary", subs:["Americas","Europe & C. Asia","Technology"], wiki:"https://en.wikipedia.org/wiki/Atomic_Age" },
+      { ya:78, title:"Indian independence", desc:"India and Pakistan win independence from Britain. Decolonization accelerates across Asia and Africa.", category:"civilization", tier:"primary", subs:["India"], wiki:"https://en.wikipedia.org/wiki/Indian_independence_movement" },
+      { ya:56, title:"Moon landing", desc:"Apollo 11 lands the first humans on the Moon. For the first time, people walk on another world.", category:"civilization", tier:"primary", subs:["Americas","Technology"], wiki:"https://en.wikipedia.org/wiki/Apollo_11" },
+      { ya:35, title:"World Wide Web", desc:"The World Wide Web brings the internet to everyone. Information and communication become instant and global.", category:"civilization", tier:"primary", subs:["Americas","Technology"], wiki:"https://en.wikipedia.org/wiki/World_Wide_Web" },
+      { ya:18, title:"Smartphone era", desc:"Pocket computers put the internet in billions of hands. The smartphone reshapes work, media and social life.", category:"civilization", tier:"secondary", subs:["Americas","Technology"], wiki:"https://en.wikipedia.org/wiki/Smartphone" },
+      { ya:3, title:"Generative AI", desc:"Human-level language AI arrives for the public. World population passes eight billion.", category:"civilization", tier:"primary", subs:["Americas","Technology"], wiki:"https://en.wikipedia.org/wiki/Generative_artificial_intelligence" },
+      { ya:0, title:"The present", desc:"About 12,000 years of civilization have brought us here, and the pace is still accelerating. What comes next is unwritten.", category:"civilization", tier:"secondary", subs:[], wiki:"https://en.wikipedia.org/wiki/21st_century" },
+    ]},
+    { id:"first3min", label:"The First 3 Minutes", timeAxis:true, tMin:1e-36, tMax:1200, span:"Big Bang → first nuclei", events:[
+      { t:0, title:"Big Bang", desc:"Time zero. Space, time, matter and energy erupt from an unimaginably hot, dense point. Everything that will ever exist begins here.", category:"cosmic", tier:"primary", subs:[], icon:"burst", wiki:"https://en.wikipedia.org/wiki/Big_Bang" },
+      { t:1e-35, title:"Cosmic Inflation", desc:"In a sliver of a trillionth of a trillionth of a second, space expands faster than light, smoothing and flattening the infant universe.", category:"cosmic", tier:"primary", subs:[], icon:"burst", wiki:"https://en.wikipedia.org/wiki/Cosmic_inflation" },
+      { t:1e-12, title:"The Forces Separate", desc:"As the cosmos cools, the last unified force splits: gravity, electromagnetism and the nuclear forces go their separate ways and the Higgs field gives particles mass.", category:"cosmic", tier:"primary", subs:[], icon:"atom", wiki:"https://en.wikipedia.org/wiki/Electroweak_epoch" },
+      { t:1e-6, title:"Quarks Form Matter", desc:"A millionth of a second in, quarks bind into protons and neutrons. Matter narrowly outnumbers antimatter — the reason anything survives at all.", category:"cosmic", tier:"primary", subs:[], icon:"atom", wiki:"https://en.wikipedia.org/wiki/Hadron_epoch" },
+      { t:1, title:"Neutrinos Set Free", desc:"At one second, the universe thins enough for ghostly neutrinos to fly free, while electrons and their antimatter twins annihilate in a flash of light.", category:"cosmic", tier:"primary", subs:[], icon:"sparkle", wiki:"https://en.wikipedia.org/wiki/Neutrino_decoupling" },
+      { t:180, title:"Nucleosynthesis", desc:"Around three minutes in, protons and neutrons fuse into the first atomic nuclei — the hydrogen and helium that will one day build every star.", category:"cosmic", tier:"primary", subs:[], icon:"atom", wiki:"https://en.wikipedia.org/wiki/Big_Bang_nucleosynthesis" },
+      { t:1200, title:"The First Nuclei Complete", desc:"By twenty minutes, fusion halts: the cosmos is ~75% hydrogen and 25% helium. It stays a glowing fog for 380,000 years until the first atoms form.", category:"cosmic", tier:"primary", subs:[], icon:"o2", wiki:"https://en.wikipedia.org/wiki/Big_Bang_nucleosynthesis" },
+    ]},
+  ];
+
+  // Curated "zoomed-out" (Full) event sets — replicate the author's original
+  // four timelines. Full view shows these; Zoomed shows the complete dataset.
+  FEAT = {
+    geologic: [
+      { ya:4.54e9, title:"Earth Forms", category:"geologic", icon:"earth", wiki:"https://en.wikipedia.org/wiki/History_of_Earth", desc:"Our planet grows from countless colliding rocky bodies into a molten, bombarded world." },
+      { ya:4.51e9, title:"Moon Forms", category:"geologic", icon:"moon", wiki:"https://en.wikipedia.org/wiki/Giant-impact_hypothesis", desc:"A Mars-sized body strikes the young Earth; the debris coalesces into the Moon." },
+      { ya:4.45e9, title:"First Crust & Water", category:"geologic", icon:"water", wiki:"https://en.wikipedia.org/wiki/Hadean", desc:"The surface cools enough for a solid crust and the first traces of liquid water — recorded in the Jack Hills zircons." },
+      { ya:4.4e9, title:"Oceans Form", category:"geologic", icon:"water", wiki:"https://en.wikipedia.org/wiki/Origin_of_water_on_Earth", desc:"Water vapor condenses into the first global oceans, turning Earth into a true water world." },
+      { ya:4.1e9, title:"Late Heavy Bombardment", category:"geologic", icon:"impact", wiki:"https://en.wikipedia.org/wiki/Late_Heavy_Bombardment", desc:"A possible surge of asteroid and comet impacts batters the inner planets — the Moon's great craters may date from here." },
+      { ya:3.2e9, title:"Barberton Impact", category:"geologic", icon:"impact", wiki:"https://en.wikipedia.org/wiki/Barberton_Greenstone_Belt", desc:"A giant asteroid — far larger than the dinosaur-killer — strikes the early Earth, boiling the ocean surface." },
+      { ya:3.0e9, title:"First Continents", category:"geologic", icon:"continents", wiki:"https://en.wikipedia.org/wiki/Craton", desc:"Stable blocks of continental crust grow and thicken, forming the ancient cores of today's continents." },
+      { ya:2.45e9, title:"Suavjärvi Impact", category:"geologic", icon:"impact", wiki:"https://en.wikipedia.org/wiki/Suavj%C3%A4rvi_crater", desc:"One of the oldest known impact structures forms in what is now Karelia, Russia." },
+      { ya:2.4e9, title:"Great Oxygenation Event", category:"life", icon:"o2", wiki:"https://en.wikipedia.org/wiki/Great_Oxidation_Event", desc:"Oxygen from photosynthesis becomes permanent in the air, rusting the oceans and reshaping the planet." },
+      { ya:2.3e9, title:"First Ice Age", category:"geologic", icon:"snow", wiki:"https://en.wikipedia.org/wiki/Huronian_glaciation", desc:"Earth's first great glaciation may have frozen the planet nearly to the equator." },
+      { ya:2.02e9, title:"Vredefort Impact", category:"geologic", icon:"impact", wiki:"https://en.wikipedia.org/wiki/Vredefort_impact_structure", desc:"The largest verified impact structure on Earth (~300 km) forms in present-day South Africa." },
+      { ya:1.85e9, title:"Sudbury Impact", category:"geologic", icon:"impact", wiki:"https://en.wikipedia.org/wiki/Sudbury_Basin", desc:"A colossal impact forms Canada's Sudbury Basin, now home to some of the world's richest nickel ore." },
+      { ya:1.1e9, title:"Rodinia Supercontinent", category:"geologic", icon:"continents", wiki:"https://en.wikipedia.org/wiki/Rodinia", desc:"Most of Earth's land merges into a single supercontinent whose breakup drives dramatic climate swings." },
+      { ya:700e6, title:"Snowball Earth", category:"geologic", icon:"snow", wiki:"https://en.wikipedia.org/wiki/Snowball_Earth", desc:"Global glaciations may have covered the planet pole-to-pole, just before complex animals emerge." },
+      { ya:538.8e6, title:"Cambrian Explosion", imgWiki:"Anomalocaris", category:"evolution", icon:"cell", wiki:"https://en.wikipedia.org/wiki/Cambrian", desc:"Complex animals explode in diversity, marking the start of the 'age of visible life.'" },
+      { ya:252e6, title:"The Great Dying", category:"evolution", icon:"skull", wiki:"https://en.wikipedia.org/wiki/Permian%E2%80%93Triassic_extinction_event", desc:"Siberian volcanism triggers Earth's largest extinction, killing ~90% of species." },
+      { ya:66e6, title:"Dinosaur Extinction", category:"evolution", icon:"impact", wiki:"https://en.wikipedia.org/wiki/Chicxulub_crater", desc:"An asteroid strikes the Yucatán and ends the non-avian dinosaurs." },
+      { ya:34e6, title:"Antarctic Ice Sheets", category:"geologic", icon:"snow", wiki:"https://en.wikipedia.org/wiki/Antarctic_ice_sheet", desc:"Antarctica freezes over as Earth settles into a long-term cooling trend." },
+    ],
+    civilization: [
+      { ya:11600, title:"Göbekli Tepe", category:"civilization", icon:"temple", wiki:"https://en.wikipedia.org/wiki/G%C3%B6bekli_Tepe", desc:"Hunter-gatherers raise the oldest known monumental temple — ritual may predate farming itself." },
+      { ya:11000, title:"Agriculture Begins", imgWiki:"Wheat", category:"civilization", icon:"wheat", wiki:"https://en.wikipedia.org/wiki/Neolithic_Revolution", desc:"Farming, herding and the first permanent towns take root, ending the age of pure foraging." },
+      { ya:6000, title:"First Cities & the Wheel", category:"civilization", icon:"wheel", wiki:"https://en.wikipedia.org/wiki/Sumer", desc:"Uruk rises in Sumer; the wheel and the plough transform how people live and work." },
+      { ya:5400, title:"Writing Invented", category:"civilization", icon:"scroll", wiki:"https://en.wikipedia.org/wiki/History_of_writing", desc:"Cuneiform and hieroglyphs record language for the first time — recorded history begins." },
+      { ya:4600, title:"Pyramids & Indus Cities", category:"civilization", icon:"temple", wiki:"https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza", desc:"Planned Harappan cities flourish as Egypt raises the Great Pyramid of Giza." },
+      { ya:3000, title:"The Alphabet Spreads", category:"civilization", icon:"scroll", wiki:"https://en.wikipedia.org/wiki/Phoenician_alphabet", desc:"The Phoenician alphabet — ancestor of most modern scripts — spreads across the Mediterranean." },
+      { ya:2560, title:"The Axial Age", category:"civilization", icon:"lotus", wiki:"https://en.wikipedia.org/wiki/Axial_Age", desc:"The Buddha, Confucius and Greek philosophers reshape thought; classical civilizations rise." },
+      { ya:2000, title:"Rome & Han China", category:"civilization", icon:"crown", wiki:"https://en.wikipedia.org/wiki/Roman_Empire", desc:"Two great empires span Eurasia and the world's population passes 300 million." },
+      { ya:1400, title:"Golden Age of Islam", category:"civilization", icon:"lotus", wiki:"https://en.wikipedia.org/wiki/Islamic_Golden_Age", desc:"Scholars advance science, medicine and mathematics as trade links three continents." },
+      { ya:585, title:"The Printing Press", category:"civilization", icon:"book", wiki:"https://en.wikipedia.org/wiki/Printing_press", desc:"Gutenberg's movable type democratizes knowledge and helps ignite the modern world." },
+      { ya:250, title:"Industrial Revolution", category:"civilization", icon:"gear", wiki:"https://en.wikipedia.org/wiki/Industrial_Revolution", desc:"Steam power, factories and revolutions of liberty remake society at accelerating speed." },
+      { ya:86, title:"World Wars & Atomic Age", category:"civilization", icon:"war", wiki:"https://en.wikipedia.org/wiki/World_War_II", desc:"Two global wars, the atom and the first computers reshape the twentieth-century world." },
+      { ya:56, title:"Moon Landing", category:"civilization", icon:"rocket", wiki:"https://en.wikipedia.org/wiki/Apollo_11", desc:"Humans walk on another world for the first time." },
+      { ya:30, title:"The Internet Age", category:"civilization", icon:"globe", wiki:"https://en.wikipedia.org/wiki/World_Wide_Web", desc:"The World Wide Web connects billions and, soon after, generative AI arrives." },
+    ],
+    universe: [
+      { ya:13.8e9, title:"The Big Bang", category:"cosmic", icon:"burst", wiki:"https://en.wikipedia.org/wiki/Big_Bang", desc:"Space, time, matter and energy all begin in an unimaginably hot, dense state — the origin of everything." },
+      { ya:13.5e9, title:"Star Formation Begins", category:"cosmic", icon:"sparkle", wiki:"https://en.wikipedia.org/wiki/Stellar_population", desc:"The first stars ignite and end the cosmic Dark Ages, forging the first heavy elements." },
+      { ya:12.6e9, title:"Milky Way Starts Forming", category:"cosmic", icon:"galaxy", wiki:"https://en.wikipedia.org/wiki/Formation_and_evolution_of_the_Milky_Way", desc:"Our galaxy builds its rotating disk from infalling gas and smaller galaxy mergers." },
+      { ya:11e9, title:"The Universe Starts to Cool", category:"cosmic", icon:"snow", wiki:"https://en.wikipedia.org/wiki/Chronology_of_the_universe", desc:"As it expands, the universe cools to an average of roughly 12,700°C while star birth peaks." },
+      { ya:10.4e9, title:"First life-friendly star systems", category:"cosmic", icon:"dna", wiki:"https://en.wikipedia.org/wiki/Planetary_habitability", desc:"Enough heavy elements now exist for rocky, planet-bearing stars — the first places life could arise." },
+      { ya:7.1e9, title:"The Universe Cools to 5000°C", category:"cosmic", icon:"snow", wiki:"https://en.wikipedia.org/wiki/Chronology_of_the_universe", desc:"Continued expansion cools the cosmos further, toward the mild universe we know today." },
+      { ya:4.6e9, title:"Sun Forms", category:"geologic", icon:"sun", wiki:"https://en.wikipedia.org/wiki/Sun", desc:"A collapsing cloud of gas and dust ignites into our star, ringed by the disk that becomes the planets." },
+      { ya:4.54e9, title:"Earth Forms", category:"geologic", icon:"earth", wiki:"https://en.wikipedia.org/wiki/History_of_Earth", desc:"Our planet accretes from countless colliding rocky bodies as a molten, bombarded world." },
+      { ya:4.4e9, title:"Oceans Form", category:"geologic", icon:"water", wiki:"https://en.wikipedia.org/wiki/Origin_of_water_on_Earth", desc:"As the crust cools, water vapor condenses into Earth's first liquid oceans." },
+      { ya:4.0e9, title:"Life Emerges on Earth", category:"life", icon:"dna", wiki:"https://en.wikipedia.org/wiki/Abiogenesis", desc:"The first self-replicating chemistry appears in the early oceans — the root of all life." },
+      { ya:2.4e9, title:"Great Oxygenation Event", category:"life", icon:"o2", wiki:"https://en.wikipedia.org/wiki/Great_Oxidation_Event", desc:"Photosynthetic microbes flood the atmosphere with oxygen, transforming the whole planet." },
+      { ya:335e6, title:"Pangaea Forms", category:"geologic", icon:"continents", wiki:"https://en.wikipedia.org/wiki/Pangaea", desc:"Earth's landmasses drift together into the supercontinent Pangaea, ringed by one global ocean." },
+      { ya:231e6, title:"Dinosaurs Appear", category:"evolution", icon:"dino", wiki:"https://en.wikipedia.org/wiki/Dinosaur", desc:"The first dinosaurs appear in the Triassic and begin a 165-million-year reign over the land." },
+      { ya:2.8e6, title:"Homo Genus Appears", category:"human", icon:"walk", wiki:"https://en.wikipedia.org/wiki/Homo", desc:"The first members of our genus emerge in East Africa with larger brains and stone tools." }
+    ],
+    life: [
+      { ya:4.0e9, title:"Life Emerges on Earth", category:"life", icon:"dna", wiki:"https://en.wikipedia.org/wiki/Abiogenesis", desc:"Self-replicating chemistry gives rise to the last common ancestor of all living things." },
+      { ya:3.5e9, title:"Cyanobacteria Form", category:"life", icon:"cell", wiki:"https://en.wikipedia.org/wiki/Cyanobacteria", desc:"Blue-green microbes invent oxygen-producing photosynthesis — the metabolism that remakes Earth's air." },
+      { ya:3.2e9, title:"Barberton Impact Event", category:"geologic", icon:"comet", wiki:"https://en.wikipedia.org/wiki/Barberton_Greenstone_Belt", desc:"A giant asteroid — far larger than the one that killed the dinosaurs — strikes the early Earth." },
+      { ya:3.0e9, title:"Photosynthesis Begins", category:"life", icon:"leaf", wiki:"https://en.wikipedia.org/wiki/Photosynthesis", desc:"Microbes master sunlight-powered photosynthesis, capturing energy from the Sun and releasing oxygen." },
+      { ya:2.7e9, title:"Eukaryotes Form", category:"life", icon:"cell", wiki:"https://en.wikipedia.org/wiki/Eukaryote", desc:"Cells with a nucleus and mitochondria evolve — the foundation of all complex life." },
+      { ya:2.4e9, title:"Suavjärvi Impact Event", category:"geologic", icon:"comet", wiki:"https://en.wikipedia.org/wiki/Suavj%C3%A4rvi_crater", desc:"One of the oldest known large impact structures forms in what is now Russia." },
+      { ya:1.8e9, title:"Sudbury Impact Event", category:"geologic", icon:"comet", wiki:"https://en.wikipedia.org/wiki/Sudbury_Basin", desc:"A huge asteroid forms the Sudbury Basin in Canada, source of some of the world's richest metal ores." },
+      { ya:1.15e9, title:"Population Explosion of Eukaryotes", category:"life", icon:"cell", wiki:"https://en.wikipedia.org/wiki/Eukaryote", desc:"Complex cells diversify and multiply, filling the seas with new single-celled life." },
+      { ya:1.1e9, title:"Flagellate Protists Appear", category:"life", icon:"cell", wiki:"https://en.wikipedia.org/wiki/Flagellate", desc:"Mobile single-celled organisms that swim with whip-like tails appear." },
+      { ya:800e6, title:"Population Explosion of Protista", category:"life", icon:"cell", wiki:"https://en.wikipedia.org/wiki/Protist", desc:"Protist diversity surges, setting the stage for the first animals." },
+      { ya:538.8e6, title:"Cambrian Explosion", imgWiki:"Anomalocaris", category:"evolution", icon:"dna", wiki:"https://en.wikipedia.org/wiki/Cambrian_explosion", desc:"Nearly every major animal group appears in a geological instant. Predators, eyes and shells transform the seas." },
+      { ya:450e6, title:"Plants & Arthropods Colonize Land", category:"evolution", icon:"bug", wiki:"https://en.wikipedia.org/wiki/Evolutionary_history_of_plants", desc:"Plants and the first arthropods move onto land together, building the earliest land ecosystems." },
+      { ya:380e6, title:"First Tree-Like Plants", category:"evolution", icon:"tree", wiki:"https://en.wikipedia.org/wiki/Archaeopteris", desc:"The first tree-sized plants form early forests, deepening soils and pulling carbon from the air." },
+      { ya:231e6, title:"Dinosaurs Appear", category:"evolution", icon:"dino", wiki:"https://en.wikipedia.org/wiki/Dinosaur", desc:"The first dinosaurs appear in the Triassic and begin their long rise to dominance." },
+      { ya:66e6, title:"Dinosaur Extinction", category:"evolution", icon:"impact", wiki:"https://en.wikipedia.org/wiki/Cretaceous%E2%80%93Paleogene_extinction_event", desc:"An asteroid strikes the Yucatán and ends the non-avian dinosaurs, clearing the way for mammals." },
+      { ya:2.8e6, title:"Homo Genus Appears", category:"human", icon:"walk", wiki:"https://en.wikipedia.org/wiki/Homo", desc:"The first members of our genus appear in Africa with larger brains and stone tools." }
+    ],
+    complex: [
+      { ya:538.8e6, title:"Cambrian Explosion", imgWiki:"Anomalocaris", category:"evolution", icon:"dna", wiki:"https://en.wikipedia.org/wiki/Cambrian_explosion", desc:"Most modern animal body plans appear rapidly. Eyes, shells and active predators transform ocean life." },
+      { ya:450e6, title:"Plants & Arthropods Colonize Land", category:"evolution", icon:"bug", wiki:"https://en.wikipedia.org/wiki/Arthropod", desc:"Plants and arthropods colonize the land together, forming the first terrestrial ecosystems." },
+      { ya:395e6, title:"Devonian Extinction Event", category:"evolution", icon:"skull", wiki:"https://en.wikipedia.org/wiki/Late_Devonian_extinction", desc:"A prolonged series of extinctions devastates marine life, hitting reef-builders especially hard." },
+      { ya:380e6, title:"First Tree-Like Plants", category:"evolution", icon:"tree", wiki:"https://en.wikipedia.org/wiki/Archaeopteris", desc:"Tree-like Archaeopteris forms the first true forests, reshaping land and the carbon cycle." },
+      { ya:320e6, title:"Reptiles Emerge", category:"evolution", icon:"reptile", wiki:"https://en.wikipedia.org/wiki/Reptile", desc:"The shelled amniotic egg frees vertebrates from water, and the first reptiles appear." },
+      { ya:251e6, title:"The Great Dying", category:"evolution", icon:"skull", wiki:"https://en.wikipedia.org/wiki/Permian%E2%80%93Triassic_extinction_event", desc:"About 96% of species vanish in life's closest brush with annihilation." },
+      { ya:233e6, title:"Dinosaurs Appear", category:"evolution", icon:"dino", wiki:"https://en.wikipedia.org/wiki/Dinosaur", desc:"The first true dinosaurs appear and begin their long rise, small and bipedal at first." },
+      { ya:225e6, title:"First Mammals", category:"evolution", icon:"paw", wiki:"https://en.wikipedia.org/wiki/Mammal", desc:"Tiny, shrew-like mammals scurry beneath the dinosaurs' feet, set apart by warm blood, fur and milk." },
+      { ya:155e6, title:"First Birds", category:"evolution", icon:"bird", wiki:"https://en.wikipedia.org/wiki/Archaeopteryx", desc:"Feathered dinosaurs like Archaeopteryx take to the air — the ancestors of all living birds." },
+      { ya:68e6, title:"T-Rex Evolves", category:"evolution", icon:"trex", wiki:"https://en.wikipedia.org/wiki/Tyrannosaurus", desc:"The iconic apex predator stalks late-Cretaceous North America, among the last great meat-eaters." },
+      { ya:66e6, title:"Dinosaur Extinction", category:"evolution", icon:"impact", wiki:"https://en.wikipedia.org/wiki/Cretaceous%E2%80%93Paleogene_extinction_event", desc:"An asteroid ends the non-avian dinosaurs; only small survivors, including mammals and birds, remain." },
+      { ya:60e6, title:"First Primates", category:"evolution", icon:"ape", wiki:"https://en.wikipedia.org/wiki/Primate", desc:"Mammals radiate into empty niches and the first primates take to the trees." },
+      { ya:55e6, title:"First Modern Birds", category:"evolution", icon:"bird", wiki:"https://en.wikipedia.org/wiki/Bird", desc:"Modern bird groups rapidly diversify after the dinosaurs' fall, radiating into today's lineages." },
+      { ya:26e6, title:"First Elephants", category:"evolution", icon:"elephant", wiki:"https://en.wikipedia.org/wiki/Proboscidea", desc:"Early proboscideans — the ancestors of elephants — evolve in Africa." },
+      { ya:2.8e6, title:"Homo Genus Appears", category:"human", icon:"walk", wiki:"https://en.wikipedia.org/wiki/Homo", desc:"The first humans appear, with bigger brains and stone tools. Our genus begins its journey." }
+    ],
+    human: [
+      { ya:7e6, title:"Proto-Humans Appear", category:"human", icon:"walk", wiki:"https://en.wikipedia.org/wiki/Sahelanthropus", desc:"Sahelanthropus, the earliest known hominin, lives in what is now Chad — near the split from chimpanzees." },
+      { ya:4.4e6, title:"Ardipithecus (\"Ardi\")", category:"human", icon:"walk", wiki:"https://en.wikipedia.org/wiki/Ardipithecus", desc:"A woodland hominin that both climbed trees and walked upright, part-way to full bipedalism." },
+      { ya:3.9e6, title:"Australopithecus (\"Lucy\")", category:"human", icon:"walk", wiki:"https://en.wikipedia.org/wiki/Australopithecus_afarensis", desc:"Lucy's species walks fully upright on the savanna, though its brain is still ape-sized." },
+      { ya:3.3e6, title:"Oldest Stone Tools", category:"human", icon:"axe", wiki:"https://en.wikipedia.org/wiki/Lomekwi", desc:"Stone tools from Lomekwi in Kenya predate the genus Homo — toolmaking begins before our own genus." },
+      { ya:2.3e6, title:"Homo Genus Appears", category:"human", icon:"walk", wiki:"https://en.wikipedia.org/wiki/Homo", desc:"The first members of our genus, Homo, appear in Africa with larger brains and systematic tool use." },
+      { ya:1.9e6, title:"Homo Erectus Appears", category:"human", icon:"walk", wiki:"https://en.wikipedia.org/wiki/Homo_erectus", desc:"Tall and long-legged, the first true hunter-gatherer has fully modern body proportions." },
+      { ya:1.5e6, title:"First Controlled Use of Fire", category:"human", icon:"fire", wiki:"https://en.wikipedia.org/wiki/Control_of_fire_by_early_humans", desc:"Early humans begin using fire for warmth, protection and cooking — fuelling bigger brains." },
+      { ya:500e3, title:"First Human Engravings", category:"human", icon:"pen", wiki:"https://en.wikipedia.org/wiki/Behavioral_modernity", desc:"Deliberate marks and pigment use hint at the first stirrings of symbolic thought." },
+      { ya:400e3, title:"First Use of Spears", category:"human", icon:"spear", wiki:"https://en.wikipedia.org/wiki/Sch%C3%B6ningen_spears", desc:"Wooden throwing spears enable coordinated big-game hunting that demands planning and cooperation." },
+      { ya:300e3, title:"Anatomically Modern Homo Sapiens", category:"human", icon:"walk", wiki:"https://en.wikipedia.org/wiki/Homo_sapiens", desc:"Our species emerges in Africa, its oldest fossils found at Jebel Irhoud, Morocco." },
+      { ya:250e3, title:"Neanderthals Evolve", category:"human", icon:"walk", wiki:"https://en.wikipedia.org/wiki/Neanderthal", desc:"Our robust cousins spread across Ice-Age Europe and Asia, making tools and burying their dead." },
+      { ya:60e3, title:"Humans Migrate out of Africa", category:"human", icon:"africa", wiki:"https://en.wikipedia.org/wiki/Recent_African_origin_of_modern_humans", desc:"The great dispersal that founded all non-African populations sweeps out of Africa." },
+      { ya:12e3, title:"Humans Develop Agriculture", category:"civilization", icon:"wheat", wiki:"https://en.wikipedia.org/wiki/Neolithic_Revolution", desc:"Farming, herding and permanent settlement begin, setting the stage for civilization." }
+    ]
+  };
+
+  constructor(props) {
+    super(props);
+    const vi = this.VARIANTS.indexOf(props.landingVariant || "Cosmic");
+    this.state = { screen:"landing", variant: vi < 0 ? 0 : vi, view:"stacked", currentIndex:0 };
+    this.built = false;
+    this.detail = "full";
+    this.adjust = false;
+    // Frozen label positions (baked from manual "Adjust labels" tuning)
+    this.FROZEN = {"universe|full|The Big Bang":{"td":49},"universe|full|Milky Way Starts Forming":{"ld":-14,"lx":-22},"universe|full|First life-friendly star systems":{"ld":102,"lx":131,"td":28},"universe|full|The Universe Starts to Cool":{"ld":124,"lx":124,"td":-26},"universe|full|The Universe Cools to 5000°C":{"ld":-10,"lx":78,"td":2},"universe|full|Life Emerges on Earth":{"td":-8,"ld":0,"lx":1},"geologic|full|First Crust & Water":{"td":-51},"geologic|full|Earth Accretes":{"td":44,"ld":10,"lx":-8},"geologic|full|Moon Forms":{"td":-4},"geologic|full|Great Oxygenation Event":{"ld":73,"lx":5},"geologic|full|First Ice Age":{"ld":82,"lx":2},"geologic|full|Vredefort Impact":{"ld":88,"lx":-3},"geologic|full|Sudbury Impact":{"ld":99,"lx":12},"geologic|full|Rodinia Supercontinent":{"ld":-3,"lx":8},"geologic|full|Snowball Earth":{"ld":-3,"lx":4},"geologic|full|Cambrian Explosion":{"ld":0,"lx":0},"geologic|full|The Great Dying":{"ld":13,"lx":1},"geologic|full|Dinosaur Extinction":{"ld":16,"lx":-1},"geologic|full|Antarctic Ice Sheets":{"ld":22,"lx":0},"life|full|Life Emerges on Earth":{"ld":-3,"lx":-11},"life|full|Cyanobacteria Form":{"ld":27,"lx":33},"life|full|Barberton Impact Event":{"ld":44,"lx":4},"life|full|Photosynthesis Begins":{"ld":53,"lx":11},"life|full|Eukaryotes Form":{"ld":64,"lx":13},"life|full|Suavjärvi Impact Event":{"ld":135,"lx":83},"life|full|Population Explosion of Eukaryotes":{"ld":-33,"lx":-2},"life|full|Flagellate Protists Appear":{"ld":-19,"lx":1},"life|full|Population Explosion of Protista":{"ld":-16,"lx":-4},"life|full|Cambrian Explosion":{"ld":1,"lx":-1},"life|full|Dinosaurs Appear":{"ld":1,"lx":10},"life|full|First Tree-Like Plants":{"ld":15,"lx":11},"complex|full|Plants & Arthropods Colonize Land":{"ld":23,"lx":62},"complex|full|Devonian Extinction Event":{"ld":34,"lx":11},"complex|full|First Tree-Like Plants":{"ld":42,"lx":7},"complex|full|Dinosaurs Appear":{"ld":18,"lx":11},"complex|full|First Mammals":{"ld":6,"lx":69},"human|full|Ardipithecus (\"Ardi\")":{"ld":-3,"lx":19},"human|full|Australopithecus (\"Lucy\")":{"ld":10,"lx":23},"human|full|Oldest Stone Tools":{"ld":2,"lx":21},"civilization|full|Writing Invented":{"ld":24,"lx":13},"civilization|full|Pyramids & Indus Cities":{"ld":35,"lx":10},"civilization|full|The Axial Age":{"ld":21,"lx":25},"civilization|full|Rome & Han China":{"ld":33,"lx":19},"civilization|full|Golden Age of Islam":{"ld":42,"lx":22},"civilization|full|The Printing Press":{"ld":56,"lx":12},"civilization|full|Industrial Revolution":{"ld":61,"lx":5},"civilization|full|World Wars & Atomic Age":{"ld":66,"lx":1},"civilization|full|Moon Landing":{"ld":79,"lx":4},"civilization|full|The Internet Age":{"ld":94,"lx":5}};
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem("tl-layout") || "{}"); } catch (e) { saved = {}; }
+    this.FROZEN_ALL = {"universe|full|The Big Bang":{"td":49},"universe|full|Milky Way Starts Forming":{"ld":-14,"lx":-22},"universe|full|First life-friendly star systems":{"ld":102,"lx":131,"td":28},"universe|full|The Universe Starts to Cool":{"ld":124,"lx":124,"td":-26},"universe|full|The Universe Cools to 5000°C":{"ld":-10,"lx":78,"td":2},"universe|full|Life Emerges on Earth":{"td":-8,"ld":0,"lx":1},"geologic|full|First Crust & Water":{"td":-28},"geologic|full|Earth Accretes":{"td":44,"ld":10,"lx":-8},"geologic|full|Moon Forms":{"td":24},"geologic|full|Great Oxygenation Event":{"ld":73,"lx":5},"geologic|full|First Ice Age":{"ld":82,"lx":2},"geologic|full|Vredefort Impact":{"ld":88,"lx":-3},"geologic|full|Sudbury Impact":{"ld":99,"lx":12},"geologic|full|Rodinia Supercontinent":{"ld":-3,"lx":8},"geologic|full|Snowball Earth":{"ld":-3,"lx":4},"geologic|full|Cambrian Explosion":{"ld":0,"lx":0},"geologic|full|The Great Dying":{"ld":13,"lx":1},"geologic|full|Dinosaur Extinction":{"ld":16,"lx":-1},"geologic|full|Antarctic Ice Sheets":{"ld":22,"lx":0},"life|full|Life Emerges on Earth":{"ld":-3,"lx":-11},"life|full|Cyanobacteria Form":{"ld":27,"lx":33},"life|full|Barberton Impact Event":{"ld":44,"lx":4},"life|full|Photosynthesis Begins":{"ld":53,"lx":11},"life|full|Eukaryotes Form":{"ld":64,"lx":13},"life|full|Suavjärvi Impact Event":{"ld":135,"lx":83},"life|full|Population Explosion of Eukaryotes":{"ld":-33,"lx":-2},"life|full|Flagellate Protists Appear":{"ld":-19,"lx":1},"life|full|Population Explosion of Protista":{"ld":-16,"lx":-4},"life|full|Cambrian Explosion":{"ld":1,"lx":-1},"life|full|Dinosaurs Appear":{"ld":1,"lx":10},"life|full|First Tree-Like Plants":{"ld":15,"lx":11},"complex|full|Plants & Arthropods Colonize Land":{"ld":23,"lx":62},"complex|full|Devonian Extinction Event":{"ld":34,"lx":11},"complex|full|First Tree-Like Plants":{"ld":42,"lx":7},"complex|full|Dinosaurs Appear":{"ld":18,"lx":11},"complex|full|First Mammals":{"ld":6,"lx":69},"human|full|Ardipithecus (\"Ardi\")":{"ld":-3,"lx":19},"human|full|Australopithecus (\"Lucy\")":{"ld":10,"lx":23},"human|full|Oldest Stone Tools":{"ld":2,"lx":21},"civilization|full|Writing Invented":{"ld":24,"lx":13},"civilization|full|Pyramids & Indus Cities":{"ld":35,"lx":10},"civilization|full|The Axial Age":{"ld":37,"lx":31},"civilization|full|Rome & Han China":{"ld":52,"lx":24},"civilization|full|Golden Age of Islam":{"ld":75,"lx":28},"civilization|full|The Printing Press":{"ld":95,"lx":14},"civilization|full|Industrial Revolution":{"ld":108,"lx":10},"civilization|full|World Wars & Atomic Age":{"ld":131,"lx":6},"civilization|full|Moon Landing":{"ld":142,"lx":6},"civilization|full|The Internet Age":{"ld":151,"lx":6},"stacked|full|universe|Moon forms":{"lx":0,"ld":19},"stacked|full|universe|Big Bang":{"lx":-1,"ld":-103},"stacked|full|universe|Star Formation Begins":{"lx":5,"ld":37},"stacked|full|universe|First galaxies":{"lx":-7,"ld":38},"stacked|full|universe|Milky Way starts forming":{"lx":-4,"ld":-3},"stacked|full|universe|Earth forms":{"lx":-3,"ld":8},"stacked|full|universe|Life emerges on earth":{"lx":16,"ld":59},"stacked|full|universe|Sun forms":{"lx":-1,"ld":-6},"stacked|full|universe|Dinosaur extinction":{"lx":-2,"ld":1},"stacked|full|universe|Genus Homo appears":{"lx":-6,"ld":12},"stacked|full|universe|Homo sapiens appear":{"lx":7,"ld":11},"stacked|full|geologic|Earth forms":{"lx":-2,"ld":-137},"stacked|full|geologic|Moon forms":{"lx":-3,"ld":-52},"stacked|full|geologic|First crust & water":{"lx":-2,"ld":62},"stacked|full|geologic|Oceans form":{"lx":-1,"ld":138},"stacked|full|geologic|Late Heavy Bombardment":{"lx":-4,"ld":-47},"stacked|full|geologic|Life emerges":{"lx":-4,"ld":53},"stacked|full|geologic|Great Oxygenation Event":{"lx":-3,"ld":-50},"stacked|full|geologic|First Ice Age":{"lx":0,"ld":51},"stacked|full|geologic|Vredefort impact":{"lx":2,"ld":9},"stacked|full|geologic|Cambrian / Phanerozoic begins":{"lx":4,"ld":-1},"stacked|full|geologic|Pangaea assembles":{"lx":4,"ld":-6},"stacked|full|geologic|Permian–Triassic 'Great Dying'":{"lx":0,"ld":6},"stacked|full|geologic|Quaternary Ice Ages begin":{"lx":0,"ld":-3},"stacked|full|life|First vertebrates":{"lx":4,"ld":9},"stacked|full|life|Plants colonize land":{"lx":3,"ld":25},"stacked|full|life|First insects":{"lx":-1,"ld":18},"stacked|full|life|First dinosaurs & mammals":{"lx":19,"ld":17},"stacked|full|life|Permian extinction":{"lx":6,"ld":2},"stacked|full|life|Genus Homo appears":{"lx":-5,"ld":-171},"stacked|full|life|First primates":{"lx":2,"ld":16},"stacked|full|life|Dinosaur Extinction":{"lx":-2,"ld":4},"stacked|full|complex|Tiktaalik":{"lx":1,"ld":-70},"stacked|full|complex|First tetrapods established":{"lx":-5,"ld":44},"stacked|full|complex|Triassic–Jurassic extinction":{"lx":40,"ld":-11},"stacked|full|complex|First mammals":{"lx":3,"ld":7},"stacked|full|complex|First dinosaurs":{"lx":2,"ld":2},"stacked|full|human|Oldest stone tools":{"lx":4,"ld":15},"stacked|full|human|Fully upright hominin":{"lx":-13,"ld":-8},"stacked|full|human|Great Out-of-Africa migration":{"lx":-6,"ld":-78},"stacked|full|human|Homo sapiens":{"lx":0,"ld":29},"stacked|full|human|Neanderthals":{"lx":1,"ld":51},"stacked|full|human|Cave art flourishes":{"lx":-2,"ld":7},"stacked|full|civilization|First cities & the wheel":{"lx":-14,"ld":-9},"stacked|full|civilization|Writing invented":{"lx":13,"ld":29},"stacked|full|civilization|Egypt unified":{"lx":9,"ld":33},"stacked|full|civilization|Indus Valley & the Pyramids":{"lx":9,"ld":-4},"stacked|full|civilization|Classical Greece":{"lx":1,"ld":13},"stacked|full|civilization|Alexander the Great":{"lx":-4,"ld":24},"stacked|full|civilization|Roman Empire & Han China":{"lx":-2,"ld":-113},"stacked|full|civilization|Gupta golden age":{"lx":8,"ld":-3},"stacked|full|civilization|Rise of Islam":{"lx":15,"ld":1},"stacked|full|civilization|Genghis Khan":{"lx":5,"ld":10},"stacked|full|civilization|Printing press":{"lx":-5,"ld":-1},"stacked|full|civilization|Columbian Exchange":{"lx":-1,"ld":20},"stacked|full|civilization|British Empire":{"lx":0,"ld":33},"stacked|zoomed|complex|Cambrian explosion":{"lx":2,"ld":-4},"stacked|zoomed|complex|First trilobites":{"lx":-7,"ld":-52},"stacked|zoomed|complex|First chordates":{"lx":-1,"ld":42},"stacked|zoomed|complex|First land plants":{"lx":-7,"ld":-5},"stacked|zoomed|complex|Ordovician–Silurian extinction":{"lx":-10,"ld":-6},"stacked|zoomed|complex|First vascular plants":{"lx":-21,"ld":-17},"stacked|zoomed|complex|Jawed fish diversify":{"lx":-14,"ld":-6},"stacked|zoomed|complex|'Age of Fishes' (Devonian)":{"lx":9,"ld":138},"stacked|zoomed|complex|Carboniferous Rainforest Collapse":{"lx":-26,"ld":-13},"stacked|zoomed|civilization|Mauryan India & Qin China":{"lx":22,"ld":-16},"stacked|zoomed|civilization|Alexander the Great":{"lx":2,"ld":19},"stacked|zoomed|civilization|Fall of Western Rome":{"lx":6,"ld":-8},"stacked|zoomed|civilization|Rise of Islam":{"lx":7,"ld":1},"stacked|zoomed|civilization|Maya & Tang–Song China":{"lx":8,"ld":2},"stacked|zoomed|civilization|Genghis Khan":{"lx":-2,"ld":1},"stacked|zoomed|civilization|Industrial age begins":{"lx":9,"ld":-7},"stacked|zoomed|civilization|Alphabet spreads":{"lx":1,"ld":-10},"stacked|zoomed|civilization|Greek city-states & Rome founded":{"lx":11,"ld":0},"stacked|zoomed|civilization|Gautama Buddha":{"lx":6,"ld":-9},"stacked|zoomed|civilization|Classical Greece":{"lx":27,"ld":-9},"geologic|full|Oceans Form":{"td":-78},"geologic|full|Earth Forms":{"td":80},"stacked|full|geologic|Plants colonize land":{"lx":6,"ld":-8},"stacked|full|geologic|Dinosaur extinction":{"lx":6,"ld":-3},"stacked|full|life|Self-replicating chemistry":{"lx":-5,"ld":-30},"stacked|full|life|First cells":{"lx":-3,"ld":47},"stacked|full|complex|Ordovician–Silurian extinction":{"lx":-1,"ld":-27},"stacked|full|civilization|World Wide Web":{"lx":-2,"ld":-50},"stacked|full|civilization|World War II":{"lx":2,"ld":-67},"stacked|full|civilization|World War I":{"lx":0,"ld":24},"stacked|zoomed|universe|Big Bang":{"lx":3,"ld":-93},"stacked|zoomed|universe|First galaxies":{"lx":-1,"ld":-43},"stacked|zoomed|universe|Reionization":{"lx":3,"ld":74},"stacked|zoomed|universe|Star Formation Begins":{"lx":2,"ld":-48},"stacked|zoomed|universe|First supernovae seed elements":{"lx":-1,"ld":-48},"stacked|zoomed|universe|Milky Way starts forming":{},"stacked|zoomed|geologic|Earth forms":{"lx":0,"ld":-129},"stacked|zoomed|geologic|Moon forms":{"lx":-8,"ld":-46},"stacked|zoomed|geologic|First crust & water":{"lx":-10,"ld":-35},"stacked|zoomed|geologic|Oceans form":{"lx":-2,"ld":42},"stacked|zoomed|geologic|Late Heavy Bombardment":{"lx":-34,"ld":-9},"stacked|zoomed|geologic|Life emerges":{"lx":-14,"ld":-5},"stacked|zoomed|geologic|Oldest sedimentary rocks":{"lx":-12,"ld":-5},"stacked|zoomed|geologic|First stromatolites":{"lx":-10,"ld":-6},"stacked|zoomed|geologic|Barberton Impact Event":{"lx":-12,"ld":-8},"stacked|zoomed|geologic|First continents":{"lx":-8,"ld":-10},"stacked|zoomed|geologic|Suavjärvi Impact Event":{"lx":-28,"ld":-1},"stacked|zoomed|geologic|Great Oxygenation Event":{"lx":6,"ld":1},"stacked|zoomed|geologic|Archean ends":{"lx":-22,"ld":-1},"stacked|zoomed|geologic|First Ice Age":{"lx":-6,"ld":-6},"stacked|zoomed|geologic|Vredefort impact":{"lx":6,"ld":-5},"stacked|zoomed|life|First insects":{"lx":-2,"ld":-15},"stacked|zoomed|life|First vascular land plants":{"lx":0,"ld":-6},"stacked|zoomed|complex|First horses & whales":{"lx":19,"ld":0},"stacked|zoomed|complex|The present":{"lx":-8,"ld":-21},"stacked|zoomed|complex|Human–chimp split":{"lx":3,"ld":19},"stacked|zoomed|complex|Genus Homo":{"lx":1,"ld":-67},"stacked|zoomed|human|Homo heidelbergensis":{"lx":0,"ld":-25},"stacked|zoomed|human|First hafted spears":{"lx":9,"ld":-1},"stacked|zoomed|human|Symbolic behavior begins":{"lx":7,"ld":1},"stacked|zoomed|human|Homo sapiens":{"lx":8,"ld":0},"stacked|zoomed|civilization|British Indian Empire (Raj)":{"lx":-2,"ld":-65},"stacked|zoomed|civilization|Revolutions of liberty":{"lx":10,"ld":39},"stacked|zoomed|civilization|Powered flight":{"lx":12,"ld":-21},"stacked|zoomed|civilization|British Empire":{"lx":16,"ld":-18},"stacked|zoomed|civilization|The Black Death":{"lx":-1,"ld":19},"stacked|zoomed|civilization|Scientific Revolution":{"lx":8,"ld":-107},"stacked|zoomed|civilization|Printing press":{"lx":1,"ld":22},"universe|zoomed|Big Bang":{"td":78},"universe|zoomed|First galaxies":{"td":11},"universe|zoomed|Reionization":{"td":-53},"universe|zoomed|Star Formation Begins":{"td":18},"universe|zoomed|First supernovae seed elements":{"td":8},"universe|zoomed|Milky Way starts forming":{"td":-29},"geologic|zoomed|Earth forms":{"td":88},"geologic|zoomed|Moon forms":{"td":34},"geologic|zoomed|First crust & water":{"td":-15},"geologic|zoomed|Oceans form":{"td":0},"geologic|zoomed|Life emerges":{"td":-26},"geologic|zoomed|Late Devonian extinction":{"td":58},"geologic|zoomed|Plants colonize land":{"td":44},"geologic|zoomed|Ordovician extinction":{"td":13},"geologic|zoomed|Pangaea assembles":{"td":112},"geologic|zoomed|Permian–Triassic 'Great Dying'":{"td":-15},"geologic|zoomed|Manicouagan impact":{"td":29},"life|zoomed|Plants colonize land":{"td":94},"life|zoomed|First jawed fish":{"td":9},"life|zoomed|End-Ordovician extinction":{"td":12},"life|zoomed|Fish-to-land transition":{"td":79},"life|zoomed|First tetrapods & forests":{"td":12},"life|zoomed|Late Devonian extinction":{"td":22},"life|zoomed|First insects":{"td":4},"complex|zoomed|First trilobites":{"td":-25,"ld":-1,"lx":14},"complex|zoomed|First chordates":{"td":-19,"ld":22,"lx":57},"complex|zoomed|Cambrian explosion":{"ld":-7,"lx":-5},"complex|zoomed|First vascular plants":{"ld":15,"lx":5},"complex|zoomed|Jawed fish diversify":{"ld":28,"lx":9},"complex|zoomed|'Age of Fishes' (Devonian)":{"ld":41,"lx":17},"complex|zoomed|First insects":{"ld":59,"lx":11},"complex|zoomed|First archosaurs":{"ld":17,"lx":0},"complex|zoomed|First dinosaurs":{"ld":45,"lx":3},"complex|zoomed|First mammals":{"ld":63,"lx":9},"complex|zoomed|Triassic–Jurassic extinction":{"ld":359,"lx":14},"complex|zoomed|First sauropods":{"ld":367,"lx":75},"complex|zoomed|Tyrannosaurus rex":{"ld":-2,"lx":9},"complex|zoomed|First flowering plants":{"ld":24,"lx":35},"complex|zoomed|Dinosaur extinction":{"ld":14,"lx":22},"complex|zoomed|First primates":{"ld":36,"lx":10},"complex|zoomed|First horses & whales":{"ld":58,"lx":32},"human|full|Humans Migrate out of Africa":{"td":97},"human|full|Humans Develop Agriculture":{"td":10},"human|zoomed|First hafted spears":{"ld":24,"lx":4},"human|zoomed|Symbolic behavior begins":{"ld":48,"lx":23},"human|zoomed|Homo sapiens":{"ld":67,"lx":5},"human|zoomed|Neanderthals":{"ld":82,"lx":6},"human|zoomed|'Mitochondrial Eve'":{"ld":101,"lx":17},"human|zoomed|Early symbolic culture":{"ld":131,"lx":7},"human|zoomed|Toba supereruption":{"ld":149,"lx":-1},"human|zoomed|Oldest known drawing":{"ld":169,"lx":6},"human|zoomed|Humans reach Australia":{"ld":187,"lx":4},"human|zoomed|Great Out-of-Africa migration":{"ld":213,"lx":9},"human|zoomed|Humans in Europe":{"ld":244,"lx":2},"human|zoomed|Cave art flourishes":{"ld":275,"lx":-2},"human|zoomed|Neanderthals go extinct":{"ld":302,"lx":2},"human|zoomed|Dogs domesticated":{"ld":328,"lx":-8},"human|zoomed|Peopling of the Americas":{"ld":348,"lx":-5},"human|zoomed|Agriculture begins":{"ld":368,"lx":-5},"human|zoomed|Writing & cities":{"ld":389,"lx":-26}};
+    this.layout = Object.assign({}, this.FROZEN_ALL);
+    this.evNodes = [];
+    this.tickNodes = [];
+    this.activeCats = new Set(Object.keys(this.CATC));
+    this.activeSubs = new Set();
+    this.animatedStart = this.SCALES[0].startYa;
+    this.rafId = null; this.skyRaf = null;
+    this.imgCache = new Map(); this.modalToken = 0;
+    this.reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  /* ---------- lifecycle ---------- */
+  componentDidMount() {
+    this.initSky();
+    this.applyAccent();
+    this.applyType();
+    this.applyIntroWidth();
+    this.applyVariantUI();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => this.applyIntroWidth());
+    setTimeout(() => this.applyIntroWidth(), 300);
+    this.onResize = this.onResize.bind(this);
+    window.addEventListener("resize", this.onResize);
+    this.onKey = (e) => { if (e.key === "Escape") this.closeModal(); };
+    document.addEventListener("keydown", this.onKey);
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this.skyRaf); cancelAnimationFrame(this.rafId);
+    window.removeEventListener("resize", this.onResize);
+    document.removeEventListener("keydown", this.onKey);
+  }
+  componentDidUpdate(prevProps, prevState) {
+    prevProps = prevProps || {};
+    prevState = prevState || {};
+    if (this.state.screen === "timeline" && !this.built) this.buildTimeline();
+    if (prevState.variant !== this.state.variant) this.applyVariantUI();
+    if (prevProps.landingVariant !== this.props.landingVariant) {
+      const vi = this.VARIANTS.indexOf(this.props.landingVariant || "Cosmic");
+      if (vi >= 0 && vi !== this.state.variant) this.setState({ variant: vi });
+    }
+    if (prevProps.accent !== this.props.accent) this.applyAccent();
+    if (prevProps.typeface !== this.props.typeface) this.applyIntroWidth();
+    if (prevProps.starCount !== this.props.starCount) this.initSky();
+    if (prevProps.typeface !== this.props.typeface) {
+      this.applyType();
+      if (this.built && this.state.view === "explore") { this.buildScale(this.state.currentIndex); this.applyDomain(this.animatedStart); }
+    }
+  }
+
+  applyType() { const r = this.rootRef.current; if (r) r.style.fontFamily = this.face; }
+
+  onResize() {
+    this.resizeSky();
+    this.applyIntroWidth();
+    if (this.state.screen !== "timeline" || !this.built) return;
+    if (this.state.view === "explore") { this.buildScale(this.state.currentIndex); this.applyDomain(this.animatedStart); }
+    else this.buildStacked();
+  }
+
+  /* ---------- helpers ---------- */
+  fmtYa(ya) {
+    ya = Math.max(0, Math.round(ya));
+    if (ya === 0) return "Today";
+    if (ya >= 1e9) return (ya/1e9).toFixed(1).replace(/\.0$/,"") + " Bya";
+    if (ya >= 1e6) return (ya/1e6).toFixed(ya<1e7?1:0).replace(/\.0$/,"") + " Mya";
+    if (ya >= 1e3) return (ya/1e3).toFixed(ya<1e4?1:0).replace(/\.0$/,"") + " kya";
+    return ya + " ya";
+  }
+  xPct(ya, start) { return ((start - ya) / start) * 100; }
+  fmtTime(t) {
+    if (t <= 0) return "0 s";
+    if (t >= 3600) return (t/3600) + " h";
+    if (t >= 60) { const m = t/60; return (Number.isInteger(m) ? m : m.toFixed(1)) + " min"; }
+    if (t >= 1) return t + " s";
+    const e = Math.round(Math.log10(t));
+    const digits = String(Math.abs(e)).split("").map(d => "⁰¹²³⁴⁵⁶⁷⁸⁹"[+d]).join("");
+    return "10" + (e < 0 ? "⁻" : "") + digits + " s";
+  }
+  tFrac(t, sc) {
+    const lo = Math.log10(sc.tMin), hi = Math.log10(sc.tMax);
+    if (t <= sc.tMin) return 0;
+    return Math.max(0, Math.min(1, (Math.log10(t) - lo) / (hi - lo)));
+  }
+  timeBand() { return "linear-gradient(90deg,#f6f8ff 0%,#cfe0ff 10%,#ffe08a 42%,#ff9d2b 68%,#ff5d7a 88%,#7a2a4a 100%)"; }
+  fmtPct(ya, start) {
+    const p = ya / start * 100;
+    if (p <= 0) return "0%";
+    if (p >= 10) return Math.round(p) + "%";
+    if (p >= 1) return p.toFixed(1) + "%";
+    if (p >= 0.1) return p.toFixed(1) + "%";
+    return p.toFixed(2) + "%";
+  }
+  pickIconKey(ev) {
+    if (ev.icon && (this.ICONS[ev.icon] || this.ICON_IMG[ev.icon])) return ev.icon;
+    for (const [re, key] of this.ICON_RULES) if (re.test(ev.title)) return key;
+    return this.CAT_DEFAULT[ev.category] || "sparkle";
+  }
+  iconSVG(key, sw) { sw = sw || 1.6; return '<svg viewBox="0 0 24 24" aria-hidden="true" style="width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:' + sw + ';stroke-linecap:round;stroke-linejoin:round;display:block;">' + (this.ICONS[key] || this.ICONS.sparkle) + '</svg>'; }
+  iconHTML(ev, sw) {
+    const key = this.pickIconKey(ev);
+    if (this.ICON_IMG[key]) return `<img src="${this.ICON_IMG[key]}" alt="" style="width:100%;height:100%;object-fit:contain;">`;
+    if (ev.img) return `<img src="${ev.img}" alt="" style="width:100%;height:100%;object-fit:contain;">`;
+    return this.iconSVG(key, sw);
+  }
+  bandGradient(start) {
+    const E = this.ERAC, BLEND = 1.6, stops = [];
+    let prev = E[0].c; stops.push(prev + " 0%");
+    for (let i = 1; i < E.length; i++) {
+      const c = E[i].c;
+      let x = (start - E[i].ya) / start * 100;
+      x = Math.max(0, Math.min(100, x));
+      stops.push(prev + " " + Math.max(0, x - BLEND).toFixed(2) + "%");
+      stops.push(c + " " + x.toFixed(2) + "%");
+      prev = c;
+    }
+    stops.push(prev + " 100%");
+    return "linear-gradient(90deg, " + stops.join(", ") + ")";
+  }
+  hexA(hex, a) {
+    const h = hex.replace("#",""); const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);
+    return `rgba(${r},${g},${b},${a})`;
+  }
+
+  /* ---------- landing ---------- */
+  applyVariantUI() {
+    const box = this.switchRef.current; if (!box) return;
+    const btns = box.querySelectorAll(".tl-vardot");
+    btns.forEach((b, i) => {
+      const on = i === this.state.variant;
+      b.style.background = on ? "rgba(255,209,102,0.16)" : "transparent";
+      b.style.color = on ? "#ffd166" : "#cfd4ec";
+      b.style.fontWeight = on ? "700" : "400";
+    });
+  }
+  applyIntroWidth() {
+    const el = this.introRef.current, h = this.headingRef.current;
+    if (!el || !h) return;
+    // match the intro block width exactly to the rendered heading width
+    const w = Math.round(h.getBoundingClientRect().width);
+    if (w > 0) el.style.width = w + "px";
+  }
+  applyAccent() {
+    const root = this.rootRef.current; if (!root) return;
+    const acc = this.props.accent || "#ffd166";
+    root.querySelectorAll("[data-accent]").forEach(b => {
+      b.style.background = `linear-gradient(180deg, ${this.lighten(acc)}, ${acc})`;
+      b.style.setProperty("--gl", this.hexA(acc, 0.7));
+    });
+  }
+  lighten(hex) {
+    const h = hex.replace("#",""); let r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);
+    r=Math.min(255,r+26); g=Math.min(255,g+22); b=Math.min(255,b+18);
+    return `rgb(${r},${g},${b})`;
+  }
+  enterTimeline() {
+    this.setState({ screen:"timeline" });
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- starfield ---------- */
+  initSky() {
+    const c = this.skyRef.current; if (!c) return;
+    this.ctx = c.getContext("2d");
+    this.resizeSky();
+    const n = Math.round(this.props.starCount || 900);
+    this.stars = [];
+    for (let i = 0; i < n; i++) this.stars.push(this.newStar(true));
+    this.twinkles = [];
+    for (let i = 0; i < 150; i++) {
+      this.twinkles.push({ x: Math.random(), y: Math.random(), r: Math.random()*1.1+0.3, ph: Math.random()*Math.PI*2, sp: Math.random()*0.7+0.3 });
+    }
+    if (!this.skyRunning) { this.skyRunning = true; this.lastT = performance.now(); this.tickSky = this.tickSky.bind(this); this.skyRaf = requestAnimationFrame(this.tickSky); }
+  }
+  newStar(spread) {
+    const hueRoll = Math.random();
+    const col = hueRoll > 0.94 ? "#bcd4ff" : hueRoll > 0.88 ? "#ffe6bd" : "#ffffff";
+    return { x: (Math.random()*2-1), y: (Math.random()*2-1), z: spread ? Math.random()*0.95+0.05 : 1, col };
+  }
+  resizeSky() {
+    const c = this.skyRef.current; if (!c) return;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    this.vw = window.innerWidth; this.vh = window.innerHeight;
+    c.width = this.vw * dpr; c.height = this.vh * dpr;
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  tickSky(now) {
+    const ctx = this.ctx; if (!ctx) { this.skyRaf = requestAnimationFrame(this.tickSky); return; }
+    const dt = Math.min(64, now - (this.lastT || now)); this.lastT = now;
+    const w = this.vw, h = this.vh, cx = w/2, cy = h/2;
+    ctx.clearRect(0, 0, w, h);
+    const dim = this.state.screen === "timeline" ? 0.7 : 1;
+    // twinkles
+    for (const t of this.twinkles) {
+      const a = (0.5 + 0.5*Math.sin(now*0.001*t.sp + t.ph)) * dim;
+      ctx.beginPath(); ctx.arc(t.x*w, t.y*h, t.r, 0, 6.283);
+      ctx.fillStyle = `rgba(255,255,255,${a.toFixed(3)})`; ctx.fill();
+    }
+    // warp field
+    const speed = this.reduced ? 0 : (this.props.warpSpeed != null ? this.props.warpSpeed : 0.1) * 0.00019 * dt;
+    const focal = Math.min(w, h) * 0.62;
+    for (const s of this.stars) {
+      if (speed) { s.z -= speed; if (s.z <= 0.03) { const ns = this.newStar(false); s.x = ns.x; s.y = ns.y; s.z = 1; s.col = ns.col; } }
+      const k = focal / s.z;
+      const sx = cx + s.x * k, sy = cy + s.y * k;
+      if (sx < -20 || sx > w+20 || sy < -20 || sy > h+20) continue;
+      const size = Math.max(0.45, (1 - s.z) * 2.6);
+      const a = Math.min(1, (1 - s.z) * 1.5 + 0.4) * dim;
+      ctx.beginPath(); ctx.arc(sx, sy, size, 0, 6.283);
+      ctx.fillStyle = s.col === "#ffffff" ? `rgba(255,255,255,${a.toFixed(3)})` : (s.col === "#bcd4ff" ? `rgba(210,226,255,${a.toFixed(3)})` : `rgba(255,238,208,${a.toFixed(3)})`);
+      ctx.fill();
+    }
+    this.skyRaf = requestAnimationFrame(this.tickSky);
+  }
+
+  /* ---------- timeline build ---------- */
+  mk(tag, css, html) { const e = document.createElement(tag); if (css) e.style.cssText = css; if (html != null) e.innerHTML = html; return e; }
+
+  buildTimeline() {
+    this.built = true;
+    const stage = this.stageRef.current;
+    this.measureCanvas = document.createElement("canvas").getContext("2d");
+    // scrollable track holds band + ticks + today marker + events
+    this.track = this.mk("div", "position:absolute;left:0;top:0;height:100%;");
+    this.tickLayer = this.mk("div", "position:absolute;left:0;top:0;bottom:0;right:0;z-index:0;");
+    this.bandEl = this.mk("div", "position:absolute;height:14px;border-radius:7px;box-shadow:0 0 26px -6px rgba(120,120,255,.35),inset 0 1px 0 rgba(255,255,255,.28);z-index:1;");
+    this.todayEl = this.mk("div", "position:absolute;width:2px;background:#eef1f8;box-shadow:0 0 10px rgba(255,255,255,.5);z-index:2;");
+    this.todayEl.appendChild(this.mk("div", "position:absolute;top:-4px;right:6px;font:600 11px 'Space Mono',monospace;letter-spacing:1px;color:#eef1f8;white-space:nowrap;", "TODAY"));
+    this.track.appendChild(this.tickLayer);
+    this.track.appendChild(this.bandEl);
+    this.track.appendChild(this.todayEl);
+    stage.appendChild(this.track);
+    this.buildModal();
+    this.buildDetailbar();
+    this.buildScaleButtons();
+    if (this.state.view === "stacked") this.gotoAll();
+    else this.gotoScale(this.state.currentIndex);
+  }
+
+  buildDetailbar() {
+    const bar = this.detailbarRef.current; if (!bar) return; bar.innerHTML = "";
+    // iOS-style toggle: "Zoom Out" (left, default = full) ↔ "Zoom In" (right = zoomed)
+    const on = this.detail === "zoomed";
+    const wrap = this.mk("div", "display:inline-flex;align-items:center;gap:12px;");
+    const lOut = this.mk("span", `font-family:inherit;font-size:13px;transition:color .15s;color:${on ? "#8a90b0" : "#fff"};`, "Zoom Out");
+    const track = this.mk("div", `position:relative;width:46px;height:26px;border-radius:999px;cursor:pointer;transition:background .2s;background:${on ? "#ffd166" : "rgba(255,255,255,0.18)"};box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);`);
+    const knob = this.mk("div", `position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.4);transition:transform .2s;transform:translateX(${on ? "20px" : "0"});`);
+    track.appendChild(knob);
+    const lIn = this.mk("span", `font-family:inherit;font-size:13px;transition:color .15s;color:${on ? "#fff" : "#8a90b0"};`, "Zoom In");
+    track.onclick = () => this.setDetail(this.detail === "zoomed" ? "full" : "zoomed");
+    lOut.style.cursor = "pointer"; lOut.onclick = () => this.setDetail("full");
+    lIn.style.cursor = "pointer"; lIn.onclick = () => this.setDetail("zoomed");
+    wrap.appendChild(lOut); wrap.appendChild(track); wrap.appendChild(lIn);
+    bar.appendChild(wrap);
+    this._zoomKnob = knob; this._zoomTrack = track; this._zoomLOut = lOut; this._zoomLIn = lIn;
+  }
+  syncZoomToggle() {
+    const on = this.detail === "zoomed";
+    if (!this._zoomKnob) return;
+    this._zoomTrack.style.background = on ? "#ffd166" : "rgba(255,255,255,0.18)";
+    this._zoomKnob.style.transform = `translateX(${on ? "20px" : "0"})`;
+    this._zoomLOut.style.color = on ? "#8a90b0" : "#fff";
+    this._zoomLIn.style.color = on ? "#fff" : "#8a90b0";
+  }
+  toggleAdjust() {
+    this.adjust = !this.adjust;
+    const on = this.adjust;
+    this.adjustBtn.style.background = on ? "rgba(255,209,102,.16)" : "rgba(255,255,255,0.05)";
+    this.adjustBtn.style.color = on ? "#ffd166" : "#b6bcd6";
+    this.adjustBtn.style.borderColor = on ? "rgba(255,209,102,.5)" : "rgba(255,255,255,0.12)";
+    this.resetBtn.style.display = on ? "" : "none";
+    if (this.state.view === "explore") {
+      this.subtitleRef.current.innerHTML = on
+        ? `<b style="color:#ffd166;">Adjust mode.</b> Drag any <b style="color:#fff;">label</b> in any direction, or a <b style="color:#fff;">time</b> up/down, to reposition it. Changes save automatically.`
+        : this._subtitleCache || "";
+      this.buildScale(this.state.currentIndex); this.applyDomain(this.animatedStart);
+    } else {
+      this.buildStacked();
+    }
+  }
+  layoutKey(scaleId, ev) { return scaleId + "|" + this.detail + "|" + ev.title; }
+  positionNode(n) {
+    const ov = this.layout[n.key] || {}; const ld = ov.ld || 0, td = ov.td || 0, lx = ov.lx || 0;
+    n.group.style.top = (n.gTop + ld) + "px";
+    n.group.style.transform = n.gtx + ` translateX(${lx}px)`;
+    if (n.tl) n.tl.style.top = (n.tY + td) + "px";
+    const top = n.gTop + ld + n.GH;
+    const bot = n.tl ? (n.tY + td) : n.bandBot;
+    n.line.style.top = top + "px";
+    n.line.style.height = Math.max(0, bot - top) + "px";
+  }
+  dragY(n, kind, startEvt) {
+    startEvt.preventDefault(); startEvt.stopPropagation();
+    const sx = startEvt.clientX, sy = startEvt.clientY;
+    const ov = this.layout[n.key] || (this.layout[n.key] = {});
+    const bl = ov.ld || 0, bt = ov.td || 0, bx = ov.lx || 0;
+    const move = (e) => {
+      if (kind === "label") { ov.ld = bl + (e.clientY - sy); ov.lx = bx + (e.clientX - sx); }
+      else { ov.td = bt + (e.clientY - sy); }
+      this.positionNode(n);
+    };
+    const up = () => { document.removeEventListener("mousemove", move); document.removeEventListener("mouseup", up); try { localStorage.setItem("tl-layout", JSON.stringify(this.layout)); } catch (e) {} };
+    document.addEventListener("mousemove", move); document.addEventListener("mouseup", up);
+  }
+  resetLayout() {
+    const prefix = this.state.view === "stacked"
+      ? "stacked|" + this.detail + "|"
+      : this.SCALES[this.state.currentIndex].id + "|" + this.detail + "|";
+    Object.keys(this.layout).forEach(k => { if (k.indexOf(prefix) === 0) delete this.layout[k]; });
+    try { localStorage.setItem("tl-layout", JSON.stringify(this.layout)); } catch (e) {}
+    this.buildScale(this.state.currentIndex); this.applyDomain(this.animatedStart);
+  }
+  setDetail(d) {
+    if (this.detail === d) return;
+    this.detail = d;
+    this.syncZoomToggle();
+    if (d !== "zoomed") this.activeSubs.clear();
+    this.buildSubfilters(this.state.currentIndex);
+    if (this.state.view === "explore") { this.buildScale(this.state.currentIndex); this.applyDomain(this.animatedStart); }
+    else this.buildStacked();
+  }
+
+  subGroupsFor(scale) {
+    const seen = new Set(), out = [];
+    scale.events.forEach(ev => (ev.subs||[]).forEach(s => { if (!seen.has(s)) { seen.add(s); out.push(s); } }));
+    return out.sort((a,b) => { const ia=this.SUBORDER.indexOf(a), ib=this.SUBORDER.indexOf(b); return (ia<0?99:ia)-(ib<0?99:ib); });
+  }
+  buildSubfilters(index) {
+    const el = this.subfilterRef.current; if (!el) return; el.innerHTML = "";
+    if (this.detail !== "zoomed") { el.style.display = "none"; return; }
+    const groups = this.subGroupsFor(this.SCALES[index]);
+    if (!groups.length) { el.style.display = "none"; return; }
+    el.style.display = "flex";
+    el.appendChild(this.mk("span", "font:12px 'Space Mono',monospace;color:#767c9c;letter-spacing:1px;margin-right:2px;", "ISOLATE"));
+    groups.forEach(g => {
+      const on = this.activeSubs.has(g);
+      const b = this.mk("button", `cursor:pointer;font-family:inherit;font-size:12.5px;padding:6px 12px;border-radius:999px;transition:.15s;border:1px solid ${on?'rgba(255,209,102,.6)':'rgba(255,255,255,.12)'};background:${on?'rgba(255,209,102,.15)':'rgba(255,255,255,.04)'};color:${on?'#fff':'#cfd4ec'};`);
+      b.textContent = g;
+      b.onclick = () => {
+        if (this.activeSubs.has(g)) this.activeSubs.delete(g); else this.activeSubs.add(g);
+        this.buildSubfilters(index);
+        this.refreshFilter();
+      };
+      el.appendChild(b);
+    });
+    if (this.activeSubs.size) {
+      const clr = this.mk("button", "border:none;background:none;color:#ffd166;cursor:pointer;font-family:inherit;font-size:12px;text-decoration:underline;padding:6px;", "Clear");
+      clr.onclick = () => { this.activeSubs.clear(); this.buildSubfilters(index); this.refreshFilter(); };
+      el.appendChild(clr);
+    }
+  }
+  evDim(ev) {
+    if (!this.catOn(ev.category)) return true;
+    if (this.activeSubs.size > 0 && !(ev.subs||[]).some(s => this.activeSubs.has(s))) return true;
+    return false;
+  }
+
+  chipBox(ev, size) {
+    const color = this.CATC[ev.category] || "#9fb0ff";
+    const box = this.mk("span", `width:${size}px;height:${size}px;border-radius:${Math.round(size*0.34)}px;display:grid;place-items:center;flex:none;background:radial-gradient(circle at 32% 26%, rgba(30,34,52,.95), rgba(10,12,20,.95));border:1.6px solid ${color};color:${color};box-shadow:0 0 12px -3px ${color};overflow:hidden;`);
+    box.innerHTML = this.iconHTML(ev);
+    return box;
+  }
+
+  buildScaleButtons() {
+    const wrap = this.scalesRef.current; wrap.innerHTML = "";
+    this.navBtns = [];
+    const navScales = this.SCALES.filter(s => !s.timeAxis);
+    const mkBtn = () => this.mk("button", `cursor:pointer;font-family:inherit;font-size:13px;padding:6px 15px;border-radius:999px;transition:.16s;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#b6bcd6;`);
+    navScales.forEach((s) => {
+      const i = this.SCALES.indexOf(s);
+      const b = mkBtn();
+      b.textContent = this.navLabel(s);
+      b.onclick = () => this.gotoScale(i);
+      wrap.appendChild(b);
+      this.navBtns.push({ el: b, kind: "scale", i });
+    });
+    const all = mkBtn();
+    all.textContent = "All";
+    all.title = "See all six scales stacked together";
+    all.onclick = () => this.gotoAll();
+    wrap.appendChild(all);
+    this.navBtns.push({ el: all, kind: "all" });
+    this.refreshNav();
+  }
+  navLabel(s) { return s.id === "universe" ? "Cosmic" : s.label; }
+  refreshNav() {
+    if (!this.navBtns) return;
+    this.navBtns.forEach(nb => {
+      const on = nb.kind === "all" ? this.state.view === "stacked"
+                                   : (this.state.view === "explore" && nb.i === this.state.currentIndex);
+      nb.el.style.border = `1px solid ${on?'rgba(255,209,102,.55)':'rgba(255,255,255,.12)'}`;
+      nb.el.style.background = on?'rgba(255,209,102,.14)':'rgba(255,255,255,.04)';
+      nb.el.style.color = on?'#fff':'#b6bcd6';
+    });
+  }
+  refreshScaleButtons() { this.refreshNav(); }
+
+  gotoScale(i) {
+    this.exploreRef.current.hidden = false;
+    this.stackedRef.current.hidden = true;
+    this.setState({ view: "explore" });
+    this.selectScale(i);
+    this.refreshNav();
+  }
+  gotoAll() {
+    this.exploreRef.current.hidden = true;
+    this.stackedRef.current.hidden = false;
+    this.setState({ view: "stacked" });
+    this.buildStacked();
+    this.refreshNav();
+  }
+  setView(v) {
+    this.setState({ view: v });
+    const ex = v === "explore";
+    this.exploreRef.current.hidden = !ex;
+    this.stackedRef.current.hidden = ex;
+    if (ex) { this.buildScale(this.state.currentIndex); this.applyDomain(this.animatedStart); }
+    else this.buildStacked();
+    this.refreshNav();
+  }
+
+  refreshFilter() {
+    if (this.state.view === "explore") this.applyDomain(this.animatedStart);
+    else this.applyStackFilter();
+  }
+  catOn(cat) { return this.activeCats.has(cat); }
+
+  /* ---------- explore: line-on-bar + icon + label above ---------- */
+  measureLabel(text) { this.measureCanvas.font = "600 11px " + this.face; return this.measureCanvas.measureText(text).width; }
+
+  buildScale(index) {
+    const stage = this.stageRef.current; if (!stage) return;
+    this.evNodes.forEach(n => n.el.remove()); this.evNodes = [];
+    const scale = this.SCALES[index];
+    const PAD = 16;
+    const zoom = this.detail === "zoomed";
+    const timeAxis = !!scale.timeAxis;
+    this.curTimeAxis = timeAxis;
+    const feat = (!zoom && this.FEAT[scale.id]) ? this.FEAT[scale.id] : null;
+    const cw = Math.max(320, stage.clientWidth) - PAD*2;
+    let evsAll = feat ? feat : scale.events.filter(ev => zoom || ev.tier === "primary");
+    // Universe: collapse the pile-up of events that all sit at the Big Bang
+    // (13.8 Bya) into a single Big Bang marker — the detail lives in the
+    // dedicated "First 3 Minutes" scale.
+    if (scale.id === "universe") {
+      let seenStart = false;
+      evsAll = evsAll.filter(ev => {
+        if (ev.ya >= scale.startYa * 0.99999) { if (seenStart) return false; seenStart = true; }
+        return true;
+      });
+    }
+    const innerW = zoom ? Math.max(cw, evsAll.length * 88, cw * 1.35) : cw;
+    this.innerW = innerW; this.curPAD = PAD;
+    const laneH = 72, baseGap = 18, TOPPAD = 22, GH = 42;
+    const posFrac = ev => timeAxis ? this.tFrac(ev.t, scale) : this.xPct(ev.ya, scale.startYa)/100;
+    const whenText = ev => timeAxis ? this.fmtTime(ev.t) : this.fmtYa(ev.ya);
+
+    const items = evsAll.map(ev => ({ ev, x: posFrac(ev)*innerW, w: Math.max(50, Math.min(176, this.measureLabel(ev.title)*1.12 + 14)) }))
+      .sort((a,b) => a.x - b.x);
+    // Full = zoomed-out: keep every event's line but only LABEL a decluttered
+    // subset (min horizontal gap) so the crowded right edge stays legible.
+    // Zoomed = labels on everything.
+    const labeled = new Set();
+    if (zoom || feat || timeAxis) { items.forEach(it => labeled.add(it)); }
+    else {
+      const MINGAP = 86; let lastX = -Infinity;
+      items.forEach(it => { if (it.x - lastX >= MINGAP) { labeled.add(it); lastX = it.x; } });
+      if (items.length) labeled.add(items[items.length - 1]); // always label the endpoint
+    }
+    // Text sits to the LEFT of its line by default; the leftmost events flip so
+    // their text doesn't run off-screen. Lanes are assigned DIRECTIONALLY so a
+    // label's text always clears its neighbours' vertical lines:
+    //  • left cluster (text → right): leftmost sits highest, so its rightward
+    //    text passes above the shorter lines to its right.
+    //  • right region (text ← left): lanes rise with x, so leftward text passes
+    //    above the shorter lines to its left.
+    items.forEach(it => {
+      it.side = (it.x - it.w - 8 < 0) ? "left" : "right";
+      it.lane = 0;
+    });
+    const lab = items.filter(it => labeled.has(it));
+    const leftG = lab.filter(it => it.side === "left").sort((a, b) => b.x - a.x);
+    const rightG = lab.filter(it => it.side === "right").sort((a, b) => a.x - b.x);
+    leftG.forEach(it => {
+      let mx = -1;
+      for (const j of leftG) if (j !== it && j.x > it.x && j.x <= it.x + it.w) mx = Math.max(mx, j.lane);
+      it.lane = mx + 1;
+    });
+    rightG.forEach(it => {
+      let mx = -1;
+      for (const j of rightG) if (j !== it && j.x < it.x && j.x >= it.x - it.w) mx = Math.max(mx, j.lane);
+      it.lane = mx + 1;
+    });
+    // final pass: raise any label that still overlaps another (e.g. across the
+    // left/right boundary) to a free lane — moving up only clears lines further.
+    {
+      const placed = [];
+      lab.slice().sort((a, b) => a.x - b.x).forEach(it => {
+        const L = it.side === "right" ? it.x - it.w : it.x;
+        const R = it.side === "right" ? it.x : it.x + it.w;
+        let bump = true;
+        while (bump) {
+          bump = false;
+          for (const p of placed) if (p.lane === it.lane && !(p.R < L || p.L > R)) { it.lane++; bump = true; break; }
+        }
+        placed.push({ L, R, lane: it.lane });
+      });
+    }
+    // stagger the time labels below the bar into rows so close ones don't collide
+    let maxRowT = 0;
+    {
+      const trows = [], TW = 68;
+      items.forEach(it => {
+        if (!labeled.has(it)) return;
+        const l = it.side === "right" ? it.x - TW : it.x;
+        const r = it.side === "right" ? it.x : it.x + TW;
+        let row = 0;
+        while (true) { if (!trows[row]) trows[row] = []; if (!trows[row].some(iv => !(r < iv[0] || l > iv[1]))) { trows[row].push([l, r]); break; } row++; }
+        it.rowT = row; if (row > maxRowT) maxRowT = row;
+      });
+    }
+    const BOTTOM = 16 + (maxRowT + 1) * 26;
+    const maxLane = Math.max(1, ...lab.map(it => it.lane + 1));
+    const H = Math.max(500, TOPPAD + maxLane*laneH + baseGap + 14 + BOTTOM);
+    stage.style.height = H + "px";
+    const trackW = innerW + PAD*2;
+    this.track.style.width = trackW + "px"; this.track.style.height = H + "px";
+    const bandCenter = H - BOTTOM;
+    this.bandCenter = bandCenter;
+    this.bandEl.style.left = PAD + "px"; this.bandEl.style.width = innerW + "px"; this.bandEl.style.top = (bandCenter - 7) + "px";
+    this.todayEl.style.left = (PAD + innerW - 1) + "px"; this.todayEl.style.top = TOPPAD + "px"; this.todayEl.style.height = (bandCenter + 13 - TOPPAD) + "px";
+    // band fill + end marker label depend on axis type
+    if (timeAxis) this.bandEl.style.background = this.timeBand();
+    const endLab = this.todayEl.firstChild; if (endLab) endLab.textContent = timeAxis ? "NUCLEI" : "TODAY";
+
+    const showTimes = true; // every line gets its own time label, in Full and Zoomed
+    items.forEach(it => {
+      const ev = it.ev, side = it.side;
+      const el = this.mk("div", "position:absolute;left:0;top:0;will-change:transform;");
+      el.style.transform = `translateX(${it.x + PAD}px)`;
+
+      const LINE = "rgba(203,210,231,0.62)"; // uniform grey event line
+      let group = null;
+      if (labeled.has(it)) {
+        const groupTopY = bandCenter - baseGap - (it.lane+1)*laneH + (laneH - GH);
+        const topY = groupTopY + GH;
+        const botY = showTimes ? (bandCenter + 14 + (it.rowT||0)*26) : (bandCenter + 12);
+        const line = this.mk("div", `position:absolute;left:0;margin-left:-0.75px;top:${topY}px;width:1.5px;height:${Math.max(0, botY - topY)}px;background:${LINE};box-shadow:0 0 0 .5px rgba(0,0,0,.22);`);
+        el.appendChild(line);
+        const align = side === "right" ? "align-items:flex-end;text-align:right;" : "align-items:flex-start;text-align:left;";
+        const gtx = side === "right" ? "translateX(calc(-100% - 7px))" : "translateX(7px)";
+        group = this.mk("div", `position:absolute;left:0;top:${groupTopY}px;transform:${gtx};display:flex;flex-direction:column;${align}gap:6px;width:max-content;max-width:158px;cursor:${this.adjust ? "move" : "pointer"};user-select:none;`);
+        const ic = this.mk("span", `width:22px;height:22px;display:block;flex:none;color:#eef1f8;transition:color .15s,transform .15s;`);
+        ic.innerHTML = this.iconHTML(ev, 1.4);
+        group.appendChild(ic);
+        const label = this.mk("div", `font:500 11px/1.28 ${this.face};color:#dfe3f2;max-width:158px;letter-spacing:.2px;text-shadow:0 1px 4px rgba(0,0,0,.7);`, ev.title);
+        group.appendChild(label);
+        group.title = this.adjust ? "Drag up/down to reposition" : whenText(ev) + " — click for detail";
+        group.onclick = () => { if (this.adjust) return; this.openModal(ev); };
+        group.onmouseenter = () => { if (this.adjust) return; ic.style.color = "#ffffff"; ic.style.transform = "scale(1.14)"; line.style.background = "#ffd166"; };
+        group.onmouseleave = () => { ic.style.color = "#eef1f8"; ic.style.transform = "none"; line.style.background = LINE; };
+        el.appendChild(group);
+        let tl = null;
+        if (showTimes) {
+          const toff = side === "right" ? "transform:translateX(calc(-100% - 5px));text-align:right;" : "transform:translateX(5px);text-align:left;";
+          tl = this.mk("div", `position:absolute;left:0;top:${bandCenter + 14 + (it.rowT||0)*26}px;${toff}white-space:nowrap;font:700 11px 'Space Mono',monospace;color:#c9cee3;pointer-events:${this.adjust ? "auto" : "none"};cursor:${this.adjust ? "ns-resize" : "default"};user-select:none;`);
+          tl.textContent = whenText(ev);
+          el.appendChild(tl);
+        }
+        const node = { el, group, tl, line, ya: ev.ya, halfW: it.w/2, ev, gTop: groupTopY, tY: bandCenter + 14 + (it.rowT||0)*26, GH, bandBot: bandCenter + 12, gtx, key: this.layoutKey(scale.id, ev) };
+        if (this.adjust) {
+          group.addEventListener("mousedown", (e) => this.dragY(node, "label", e));
+          if (tl) tl.addEventListener("mousedown", (e) => this.dragY(node, "time", e));
+        }
+        this.evNodes.push(node);
+        if (this.layout[node.key]) this.positionNode(node);
+      } else {
+        const line = this.mk("div", `position:absolute;left:0;margin-left:-0.75px;top:${bandCenter-12}px;width:1.5px;height:24px;background:${LINE};box-shadow:0 0 0 .5px rgba(0,0,0,.22);`);
+        const hit = this.mk("div", `position:absolute;left:-6px;top:${bandCenter-16}px;width:12px;height:32px;cursor:pointer;`);
+        hit.title = ev.title + " — " + whenText(ev);
+        hit.onclick = () => this.openModal(ev);
+        hit.onmouseenter = () => { line.style.background = "#ffd166"; };
+        hit.onmouseleave = () => { line.style.background = LINE; };
+        el.appendChild(line); el.appendChild(hit);
+        this.evNodes.push({ el, group: null, ya: ev.ya, halfW: it.w/2, ev });
+      }
+
+      this.track.appendChild(el);
+    });
+
+    this.tickNodes.forEach(t => t.remove()); this.tickNodes = [];
+    stage.scrollLeft = 0;
+  }
+
+  buildTicks(PAD, innerW, bandCenter) {
+    this.tickNodes.forEach(t => t.remove()); this.tickNodes = [];
+    const N = 6;
+    for (let i = 0; i < N - 1; i++) {
+      const frac = i / (N - 1);
+      const t = this.mk("div", `position:absolute;top:${(bandCenter||0)-40}px;bottom:0;left:${(PAD + frac*innerW).toFixed(1)}px;width:1px;background:rgba(255,255,255,.06);`);
+      const lab = this.mk("div", "position:absolute;bottom:6px;left:4px;font:11px 'Space Mono',monospace;color:#6a7192;white-space:nowrap;");
+      t.appendChild(lab);
+      this.tickLayer.appendChild(t); this.tickNodes.push(t);
+    }
+  }
+
+  applyDomain(start) {
+    if (!this.track) return;
+    const PAD = this.curPAD || 16, innerW = this.innerW || 0;
+    if (this.curTimeAxis) {
+      // time-axis scale: positions & band are fixed at build time; only filters change
+      this.evNodes.forEach(n => {
+        const dim = this.evDim(n.ev);
+        n.el.style.opacity = dim ? "0.08" : "1";
+        n.el.style.pointerEvents = dim ? "none" : "auto";
+      });
+      return;
+    }
+    this.bandEl.style.background = this.bandGradient(start);
+    this.evNodes.forEach(n => {
+      if (n.ya > start * 1.0000001) { n.el.style.opacity = "0"; n.el.style.pointerEvents = "none"; return; }
+      const xpx = this.xPct(n.ya, start)/100*innerW;
+      n.el.style.transform = `translateX(${xpx + PAD}px)`;
+      const dim = this.evDim(n.ev);
+      n.el.style.opacity = dim ? "0.08" : "1";
+      n.el.style.pointerEvents = dim ? "none" : "auto";
+      // group keeps its build-time left/right offset; no per-frame reflow needed
+    });
+    this.tickNodes.forEach((t, i) => { t.querySelector("div").textContent = this.fmtYa(start * (1 - i/5)); });
+  }
+
+  selectScale(index) {
+    const sNew = this.SCALES[index];
+    const from = this.animatedStart, to = sNew.startYa;
+    this.setState({ currentIndex: index });
+    this.refreshScaleButtons();
+    this.activeSubs.clear();
+    this.buildSubfilters(index);
+    const s = this.SCALES[index];
+    this._subtitleCache = "";
+    this.subtitleRef.current.innerHTML = this.adjust
+      ? `<b style="color:#ffd166;">Adjust mode.</b> Drag any <b style="color:#fff;">label</b> in any direction, or a <b style="color:#fff;">time</b> up/down, to reposition it. Changes save automatically.`
+      : "";
+    this.buildScale(index);
+    this.closeTip();
+    if (this.rafId) cancelAnimationFrame(this.rafId);
+    if (s.timeAxis) { this.applyDomain(); return; }
+    if (this.reduced || from === to || !from) { this.animatedStart = to; this.applyDomain(to); return; }
+    const DUR = 900, t0 = performance.now(), lf = Math.log(from), lt = Math.log(to);
+    const ease = t => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+    const frame = (now) => {
+      const p = Math.min(1, (now - t0)/DUR);
+      this.animatedStart = Math.exp(lf + (lt - lf)*ease(p));
+      this.applyDomain(this.animatedStart);
+      if (p < 1) this.rafId = requestAnimationFrame(frame);
+      else { this.animatedStart = to; this.applyDomain(to); }
+    };
+    this.rafId = requestAnimationFrame(frame);
+  }
+  closeTip() {}
+
+  /* ---------- stacked view ---------- */
+  buildStacked() {
+    const host = this.stackedRef.current; if (!host) return;
+    const cw = host.clientWidth; if (!cw) return;
+    host.innerHTML = "";
+    const PAD = 18, zoom = this.detail === "zoomed";
+    const LEFTW = 150; // gutter for scale labels, left of the bars
+    const bandX0 = PAD + LEFTW;
+    const IW = zoom ? Math.max(cw - bandX0 - PAD, (cw - bandX0 - PAD) * 2.2) : cw - bandX0 - PAD;
+    const trackW = bandX0 + IW + PAD;
+    const ROW_H = 250, TOPPAD = 200, BOTTOM = 44;
+    const stackScales = this.SCALES.filter(s => !s.timeAxis); // funnels use the nested ya-scales only
+    const H = stackScales.length * ROW_H + BOTTOM;
+    host.style.height = H + "px";
+    host.style.overflowX = zoom ? "auto" : "hidden";
+    const track = this.mk("div", `position:relative;width:${trackW}px;height:${H}px;`);
+    host.appendChild(track);
+    const yOf = i => i * ROW_H + TOPPAD;
+    const SVGNS = "http://www.w3.org/2000/svg";
+
+    const svg = document.createElementNS(SVGNS, "svg");
+    svg.setAttribute("width", trackW); svg.setAttribute("height", H);
+    svg.setAttribute("viewBox", `0 0 ${trackW} ${H}`);
+    svg.style.cssText = "position:absolute;left:0;top:0;z-index:0;pointer-events:none;";
+    let inner = `<defs><linearGradient id="tlFun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(180,196,255,0.14)"/><stop offset="1" stop-color="rgba(180,196,255,0.02)"/></linearGradient></defs>`;
+    for (let i = 0; i < stackScales.length - 1; i++) {
+      const yN = yOf(i), yN1 = yOf(i+1), dy = yN1 - yN;
+      const frac = (stackScales[i].startYa - stackScales[i+1].startYa) / stackScales[i].startYa;
+      const xseg = bandX0 + frac * IW;
+      const curve = `M ${xseg.toFixed(1)} ${yN} C ${xseg.toFixed(1)} ${(yN+dy*0.5).toFixed(1)}, ${bandX0} ${(yN1-dy*0.5).toFixed(1)}, ${bandX0} ${yN1}`;
+      inner += `<path d="${curve} L ${bandX0+IW} ${yN1} L ${bandX0+IW} ${yN} Z" fill="url(#tlFun)"/>`;
+      inner += `<path d="${curve}" fill="none" stroke="rgba(190,205,255,0.28)" stroke-width="1.1"/>`;
+      inner += `<line x1="${xseg.toFixed(1)}" y1="${yN-9}" x2="${xseg.toFixed(1)}" y2="${yN+9}" stroke="rgba(190,205,255,0.4)" stroke-width="1" stroke-dasharray="2 2"/>`;
+    }
+    inner += `<line x1="${bandX0+IW}" y1="${yOf(0)-16}" x2="${bandX0+IW}" y2="${yOf(stackScales.length-1)+16}" stroke="#eef1f8" stroke-width="1.4" opacity="0.8"/>`;
+    svg.innerHTML = inner;
+    track.appendChild(svg);
+
+    stackScales.forEach((s, i) => {
+      const y = yOf(i);
+      // scale label — left of the bar, vertically centred on the band, left-aligned
+      const name = this.mk("div", `position:absolute;left:${PAD}px;width:${LEFTW - 14}px;top:${y}px;transform:translateY(-50%);text-align:left;z-index:3;`);
+      name.innerHTML = `<div style="font:700 15px/1.2 ${this.face};color:#fff;letter-spacing:-.2px;"><span style="color:#767c9c;margin-right:7px;">${i+1}</span>${s.label} Scale</div><div style="font:11px 'Space Mono',monospace;color:#767c9c;margin-top:3px;">${s.span}</div>`;
+      track.appendChild(name);
+      const bandEl = this.mk("div", `position:absolute;left:${bandX0}px;width:${IW}px;top:${y-7}px;height:14px;border-radius:7px;z-index:1;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 0 22px -8px rgba(120,120,255,.4);background:${this.bandGradient(s.startYa)};`);
+      track.appendChild(bandEl);
+
+      let evs = s.events.filter(ev => zoom || ev.tier === "primary");
+      if (s.id === "universe") { let seen = false; evs = evs.filter(ev => { if (ev.ya >= s.startYa*0.99999) { if (seen) return false; seen = true; } return true; }); }
+      const items = evs.map(ev => {
+        const maxWord = Math.max.apply(null, ev.title.split(/\s+/).map(w => this.measureLabel(w))) * (10/11);
+        return { ev, x: bandX0 + this.xPct(ev.ya, s.startYa)/100*IW, w: maxWord + 6, lines: ev.title.split(/\s+/).length };
+      }).sort((a,b) => a.x - b.x);
+      // Stack labels into up to 4 vertical lanes so crowded clusters (e.g. Earth
+      // forms / Moon forms / Oceans form) all show without overlap. Only truly
+      // unplaceable labels are dropped (their line goes too).
+      const NL = 4, LANE_H = 48, laneRight = new Array(NL).fill(-Infinity);
+      const kept = [];
+      items.forEach(it => {
+        const rightHalf = it.x > bandX0 + IW/2;
+        const L = rightHalf ? it.x - it.w : it.x;
+        const R = rightHalf ? it.x : it.x + it.w;
+        let lane = -1;
+        for (let l = 0; l < NL; l++) { if (L - 5 >= laneRight[l]) { lane = l; laneRight[l] = R; break; } }
+        if (lane >= 0) { it.lane = lane; it.rightHalf = rightHalf; kept.push(it); }
+      });
+      kept.forEach(it => {
+        const ev = it.ev;
+        const wrap = this.mk("div", `position:absolute;left:${it.x}px;top:${y-15}px;width:14px;margin-left:-7px;height:30px;z-index:2;cursor:pointer;display:flex;justify-content:center;transition:opacity .2s;`);
+        wrap.dataset.cat = ev.category;
+        const line = this.mk("div", "width:1.5px;height:100%;background:rgba(203,210,231,0.62);box-shadow:0 0 0 .5px rgba(0,0,0,.22);transition:background .12s,box-shadow .12s;");
+        wrap.appendChild(line);
+        wrap.title = ev.title + " — " + this.fmtYa(ev.ya);
+        wrap.onclick = () => this.openModal(ev);
+        wrap.onmouseenter = () => { line.style.background = "#ffd166"; line.style.boxShadow = "0 0 11px #ffd166"; if (wrap._lab) wrap._lab.style.color = "#ffd166"; };
+        wrap.onmouseleave = () => { line.style.background = "rgba(203,210,231,0.62)"; line.style.boxShadow = "0 0 0 .5px rgba(0,0,0,.22)"; if (wrap._lab) wrap._lab.style.color = "#cfd4ec"; };
+        track.appendChild(wrap);
+        const labBottomY = y - 18 - it.lane*LANE_H;
+        // vertical leader line at the event's x, from the line top up to the label
+        const conn = this.mk("div", `position:absolute;width:1px;margin-left:-0.5px;background:rgba(203,210,231,0.28);z-index:1;`);
+        conn.dataset.cat = ev.category;
+        track.appendChild(conn);
+        const drawLeader = (ly) => {
+          const top = Math.min(y - 15, ly);
+          conn.style.left = it.x + "px";
+          conn.style.top = top + "px";
+          conn.style.height = Math.abs((y - 15) - ly) + "px";
+        };
+        // horizontal label, one word per line; left half → left-aligned, right half → right-aligned
+        const anchor = it.rightHalf ? "transform:translateX(-100%);text-align:right;" : "transform:translateX(0);text-align:left;";
+        const key = "stacked|" + this.detail + "|" + s.id + "|" + ev.title;
+        const ov = this.layout[key] || {};
+        const dx = ov.lx || 0, dy = ov.ld || 0;
+        const lab = this.mk("div", `position:absolute;left:${it.x + dx}px;bottom:${(H - (labBottomY + dy))}px;${anchor}white-space:nowrap;font:600 10px/1.25 ${this.face};color:#cfd4ec;text-shadow:0 1px 4px rgba(0,0,0,.85);z-index:2;pointer-events:auto;cursor:${this.adjust ? "move" : "pointer"};user-select:none;transition:color .12s;`);
+        lab.innerHTML = ev.title.split(/\s+/).map(w => w.replace(/&/g, "&amp;").replace(/</g, "&lt;")).join("<br>");
+        lab.dataset.cat = ev.category;
+        if (!this.adjust) {
+          lab.onclick = () => this.openModal(ev);
+          lab.onmouseenter = () => { lab.style.color = "#ffd166"; line.style.background = "#ffd166"; line.style.boxShadow = "0 0 11px #ffd166"; };
+          lab.onmouseleave = () => { lab.style.color = "#cfd4ec"; line.style.background = "rgba(203,210,231,0.62)"; line.style.boxShadow = "0 0 0 .5px rgba(0,0,0,.22)"; };
+        }
+        drawLeader(labBottomY + dy);
+        if (this.adjust) {
+          lab.addEventListener("mousedown", (e) => {
+            e.preventDefault(); e.stopPropagation();
+            const sx = e.clientX, sy = e.clientY;
+            const o = this.layout[key] || (this.layout[key] = {});
+            const bx = o.lx || 0, by = o.ld || 0;
+            const mv = (ev2) => {
+              o.lx = bx + (ev2.clientX - sx); o.ld = by + (ev2.clientY - sy);
+              lab.style.left = (it.x + o.lx) + "px"; lab.style.bottom = (H - (labBottomY + o.ld)) + "px";
+              drawLeader(labBottomY + o.ld);
+            };
+            const up = () => { document.removeEventListener("mousemove", mv); document.removeEventListener("mouseup", up); try { localStorage.setItem("tl-layout", JSON.stringify(this.layout)); } catch (er) {} };
+            document.addEventListener("mousemove", mv); document.addEventListener("mouseup", up);
+          });
+        }
+        track.appendChild(lab);
+        wrap._lab = lab;
+      });
+    });
+    host.scrollLeft = 0;
+    this.applyStackFilter();
+  }
+  applyStackFilter() {
+    const host = this.stackedRef.current; if (!host) return;
+    host.querySelectorAll("[data-cat]").forEach(w => {
+      const on = this.catOn(w.dataset.cat);
+      w.style.opacity = on ? "1" : "0.08";
+      w.style.pointerEvents = on ? "auto" : "none";
+    });
+  }
+
+  /* ---------- modal ---------- */
+  buildModal() {
+    const root = this.rootRef.current;
+    const bd = this.mk("div", "position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(4,5,10,0.62);backdrop-filter:blur(5px);opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;");
+    const modal = this.mk("div", "position:relative;width:min(460px,calc(100vw - 40px));max-height:calc(100vh - 56px);overflow:auto;background:linear-gradient(180deg,#12141f,#0a0c14);border:1px solid rgba(255,255,255,.14);border-radius:20px;box-shadow:0 30px 90px -24px rgba(0,0,0,.9);transform:translateY(12px) scale(.98);transition:transform .2s;");
+    const close = this.mk("button", "position:absolute;top:14px;right:14px;z-index:3;width:32px;height:32px;border-radius:9px;border:1px solid rgba(255,255,255,.16);background:rgba(8,10,16,.55);backdrop-filter:blur(6px);color:#e7eaf6;font-size:19px;line-height:1;cursor:pointer;", "×");
+    close.onclick = () => this.closeModal();
+    this.mVisual = this.mk("div", "position:relative;width:100%;height:176px;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 40% 30%,rgba(40,46,72,.9),rgba(10,12,20,.96));border-bottom:1px solid rgba(255,255,255,.08);");
+    const body = this.mk("div", "padding:20px 24px 24px;");
+    this.mWhen = this.mk("div", "font:11px 'Space Mono',monospace;letter-spacing:1px;text-transform:uppercase;color:#8a90b0;");
+    this.mTitle = this.mk("h2", `margin:6px 0 12px;font-size:22px;font-weight:600;line-height:1.22;letter-spacing:-.2px;color:#fff;font-family:${this.face};`);
+    this.mDesc = this.mk("p", "margin:0;font-size:14px;line-height:1.62;color:#c2c8e0;");
+    const foot = this.mk("div", "display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;flex-wrap:wrap;");
+    this.mCat = this.mk("span", "font:11px 'Space Mono',monospace;padding:4px 11px;border-radius:999px;text-transform:capitalize;border:1px solid currentColor;");
+    this.mWiki = this.mk("a", "font-size:12.5px;font-family:inherit;color:#ffd166;text-decoration:none;display:inline-flex;align-items:center;gap:5px;");
+    this.mWiki.target = "_blank"; this.mWiki.rel = "noopener noreferrer";
+    this.mWiki.innerHTML = 'Read on Wikipedia <span style="font-size:13px;">↗</span>';
+    foot.appendChild(this.mCat); foot.appendChild(this.mWiki);
+    this.mZoom = this.mk("button", "margin-top:16px;width:100%;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;letter-spacing:.4px;color:#0b0c12;background:linear-gradient(180deg,#ffe08a,#ffd166);border:none;padding:11px 16px;border-radius:12px;display:none;");
+    this.mZoom.innerHTML = "Zoom into the first 3 minutes →";
+    this.mZoom.onclick = () => {
+      const idx = this.SCALES.findIndex(s => s.timeAxis);
+      this.closeModal();
+      if (idx >= 0) this.gotoScale(idx);
+    };
+    body.appendChild(this.mWhen); body.appendChild(this.mTitle); body.appendChild(this.mDesc); body.appendChild(foot); body.appendChild(this.mZoom);
+    modal.appendChild(close); modal.appendChild(this.mVisual); modal.appendChild(body);
+    bd.appendChild(modal);
+    bd.onclick = (e) => { if (e.target === bd) this.closeModal(); };
+    root.appendChild(bd);
+    this.backdrop = bd; this.modalEl = modal;
+  }
+  iconBanner(ev, color) {
+    const key = this.pickIconKey(ev);
+    if (this.ICON_IMG[key]) return `<div style="width:60px;height:60px;">${this.iconHTML(ev)}</div>`;
+    return `<div style="width:56px;height:56px;color:${color};opacity:.92;">${this.iconSVG(key, 1.3)}</div>`;
+  }
+  openModal(ev) {
+    const color = this.CATC[ev.category] || "#9fb0ff";
+    this.modalEl.scrollTop = 0;
+    this.mVisual.style.color = color;
+    this.mVisual.innerHTML = this.iconBanner(ev, color);
+    this.mWhen.textContent = this.fmtYa(ev.ya) + (ev.tier === "primary" ? " · Key event" : "");
+    this.mTitle.textContent = ev.title;
+    this.mDesc.textContent = ev.desc;
+    this.mCat.textContent = ev.category; this.mCat.style.color = color;
+    if (ev.wiki) { this.mWiki.href = ev.wiki; this.mWiki.style.display = ""; } else this.mWiki.style.display = "none";
+    const showZoom = /big bang/i.test(ev.title) && !this.SCALES[this.state.currentIndex].timeAxis;
+    this.mZoom.style.display = showZoom ? "" : "none";
+    this.backdrop.style.opacity = "1"; this.backdrop.style.visibility = "visible";
+    this.modalEl.style.transform = "translateY(0) scale(1)";
+    this.loadWikiImage(ev, color);
+  }
+  loadWikiImage(ev, color) {
+    const token = ++this.modalToken;
+    // maps are allowed only for human-migration events; elsewhere fall back to the icon
+    const allowMap = (ev.subs && ev.subs.indexOf("Migration") >= 0) || /migrat|out.of.africa|peopling|reach (europe|australia|the americas)|dispersal|settlement of/i.test(ev.title);
+    const isMap = (src) => /map|locator|orthographic|\.svg(\?|$)|_in_|\bworld\b/i.test(src.split("/").pop());
+    const apply = (src, force) => {
+      if (token !== this.modalToken || !src) return;
+      if (!force && isMap(src) && !allowMap) return; // keep the icon instead of a map
+      const img = new Image();
+      img.onload = () => {
+        if (token !== this.modalToken) return;
+        this.mVisual.innerHTML = "";
+        img.style.cssText = "width:100%;height:100%;object-fit:cover;";
+        this.mVisual.appendChild(img);
+        this.mVisual.appendChild(this.mk("div", "position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,12,20,0) 45%,rgba(10,12,20,.7));"));
+      };
+      img.src = src;
+    };
+    if (ev.img) { apply(ev.img); return; }
+    const srcWiki = ev.imgWiki ? ("https://en.wikipedia.org/wiki/" + encodeURIComponent(ev.imgWiki)) : ev.wiki;
+    const force = !!ev.imgWiki;
+    if (!srcWiki || !srcWiki.includes("/wiki/")) return;
+    if (this.imgCache.has(srcWiki)) { apply(this.imgCache.get(srcWiki), force); return; }
+    let api;
+    try { const u = new URL(srcWiki); api = u.origin + "/api/rest_v1/page/summary/" + u.pathname.split("/wiki/")[1]; }
+    catch (e) { return; }
+    fetch(api, { headers: { "Accept": "application/json" } })
+      .then(r => r.ok ? r.json() : null)
+      .then(j => { const src = j && ((j.thumbnail && j.thumbnail.source) || (j.originalimage && j.originalimage.source)); this.imgCache.set(srcWiki, src || null); apply(src, force); })
+      .catch(() => { this.imgCache.set(srcWiki, null); });
+  }
+  closeModal() {
+    if (!this.backdrop) return;
+    this.backdrop.style.opacity = "0"; this.backdrop.style.visibility = "hidden";
+    this.modalEl.style.transform = "translateY(12px) scale(.98)";
+  }
+
+  renderVals() {
+    const v = this.state.variant;
+    return {
+      rootRef: this.rootRef, skyRef: this.skyRef, switchRef: this.switchRef,
+      introRef: this.introRef, headingRef: this.headingRef,
+      legendRef: this.legendRef, viewbarRef: this.viewbarRef, detailbarRef: this.detailbarRef, subfilterRef: this.subfilterRef, scalesRef: this.scalesRef,
+      subtitleRef: this.subtitleRef, exploreRef: this.exploreRef, stageRef: this.stageRef, stackedRef: this.stackedRef,
+      hideLanding: this.state.screen !== "landing",
+      hideTimeline: this.state.screen !== "timeline",
+      hideVarA: v !== 0, hideVarB: v !== 1, hideVarC: v !== 2,
+      start: () => this.enterTimeline(),
+      back: () => this.setState({ screen: "landing" }),
+      goVar0: () => this.setState({ variant: 0 }),
+      goVar1: () => this.setState({ variant: 1 }),
+      goVar2: () => this.setState({ variant: 2 })
+    };
+  }
+}
+</script>
+
+<script>
+/* ---- Bootstrap: bind {{ }} template attributes to the component ---- */
+(function () {
+  var DEFAULT_PROPS = {"accent": "#ffd166", "warpSpeed": 0.1, "starCount": 900};
+  var inst = new Component(DEFAULT_PROPS);
+
+  var bindings = [];
+  (function walk(el) {
+    if (el.attributes) {
+      Array.prototype.slice.call(el.attributes).forEach(function (attr) {
+        var m = attr.value.match(/^\s*\{\{\s*([\w$]+)\s*\}\}\s*$/);
+        if (m) bindings.push({ el: el, name: attr.name.toLowerCase(), key: m[1] });
+      });
+    }
+    Array.prototype.slice.call(el.children).forEach(walk);
+  })(document.body);
+
+  // strip template attributes; attach event listeners once
+  bindings.forEach(function (b) {
+    b.el.removeAttribute(b.name);
+    if (b.name === "hidden") b.origDisplay = b.el.style.display; // inline display would override the hidden attr
+    if (b.name.indexOf("on") === 0) {
+      b.el.addEventListener(b.name.slice(2), function (e) {
+        var v = inst.renderVals()[b.key];
+        if (typeof v === "function") v(e);
+      });
+    }
+  });
+
+  function render() {
+    var vals = inst.renderVals();
+    bindings.forEach(function (b) {
+      var v = vals[b.key];
+      if (b.name === "ref") { if (v) v.current = b.el; }
+      else if (b.name === "hidden") {
+        b.el.hidden = !!v;
+        b.el.style.display = v ? "none" : b.origDisplay;
+      }
+    });
+  }
+  window.__dcRender = render;
+
+  render();
+  if (typeof inst.componentDidMount === "function") inst.componentDidMount();
+  window.addEventListener("beforeunload", function () {
+    if (typeof inst.componentWillUnmount === "function") inst.componentWillUnmount();
+  });
+})();
+</script>
+
+</body>
+</html>
