@@ -171,15 +171,85 @@ a { color: var(--link); }
 }
 
 /* ============================================================
-   5. EMPTY STATE
+   5. CONSTELLATION MAP
    ============================================================ */
 .content { padding-block: 8px 24px; }
-.empty-state { border: 1px dashed var(--border); border-radius: var(--radius); padding: 40px; text-align: center; }
-.empty-label {
-  font-family: var(--font-mono); font-size: 12px; letter-spacing: .16em;
-  text-transform: uppercase; color: var(--link); margin-bottom: 12px;
+
+.map-note {
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .06em;
+  color: var(--text-soft); text-align: center; margin: 0 0 18px;
 }
-.empty-state p { font-size: 15px; line-height: 1.6; color: var(--text-soft); margin: 0 auto; max-width: 32rem; }
+.map-wrap {
+  position: relative;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: var(--surface);
+  background-image: radial-gradient(var(--dot) 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  overflow: hidden;
+}
+.map-svg { display: block; width: 100%; height: auto; }
+
+.edge { stroke: var(--border); stroke-width: 1; }
+.edge.bridge { stroke-dasharray: 3 4; }
+
+.cluster-label {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .16em;
+  text-transform: uppercase; fill: var(--link);
+}
+.node { cursor: pointer; outline: none; }
+.node circle {
+  fill: var(--accent); stroke: var(--surface); stroke-width: 2;
+  transition: r .15s ease;
+}
+.node text {
+  font-family: var(--font-body); font-size: 12.5px; fill: var(--text);
+  pointer-events: none;
+}
+.node:hover circle, .node.is-active circle { r: 8; }
+.node:focus-visible circle { stroke: var(--link); stroke-width: 3; }
+.node.is-dim { opacity: .35; }
+
+@keyframes nodein { from { opacity: 0; } to { opacity: 1; } }
+.map-svg .node, .map-svg .edge, .map-svg .cluster-label { animation: nodein .6s ease backwards; }
+@media (prefers-reduced-motion: reduce) {
+  .map-svg .node, .map-svg .edge, .map-svg .cluster-label { animation: none; }
+}
+
+.map-card {
+  position: absolute; z-index: 10; display: none;
+  max-width: 270px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 16px 15px;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+.map-card.is-open { display: block; }
+.map-card .mc-thread {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--link); margin-bottom: 6px;
+}
+.map-card .mc-name { font-family: var(--font-head); font-weight: 600; font-size: 17px; }
+.map-card .mc-years { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .06em; color: var(--text-soft); margin: 2px 0 8px; }
+.map-card .mc-line { font-size: 13.5px; line-height: 1.55; color: var(--text-soft); margin: 0; }
+
+/* --- Grouped list (accessible source of truth; the only view on small screens) --- */
+.threads { margin-top: 44px; }
+.thread-head { display: flex; align-items: center; gap: 16px; margin: 34px 0 6px; }
+.thread-num { font-family: var(--font-mono); font-size: 14px; color: var(--link); }
+.thread-title {
+  font-family: var(--font-head); font-weight: 600; font-size: 13px;
+  letter-spacing: .18em; text-transform: uppercase; margin: 0;
+}
+.thread-rule { flex: 1; height: 1px; background: var(--border); }
+.person { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; padding: 14px 2px; border-bottom: 1px solid var(--border); }
+.person:last-child { border-bottom: none; }
+.person .p-name { font-family: var(--font-head); font-weight: 600; font-size: 17px; }
+.person .p-years { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; color: var(--text-soft); }
+.person .p-line { flex-basis: 100%; font-size: 14.5px; line-height: 1.55; color: var(--text-soft); margin: 0; }
+
+@media (max-width: 720px) {
+  .map-wrap, .map-note { display: none; }
+  .threads { margin-top: 8px; }
+}
 
 /* ============================================================
    6. FOOTER
@@ -237,15 +307,24 @@ a { color: var(--link); }
     <div class="glow" aria-hidden="true"></div>
     <p class="kicker">Standing on shoulders</p>
     <h1>Influences</h1>
-    <p class="lead">The thinkers, makers, books, and works that shaped how I think and build — and keep reshaping it.</p>
+    <p class="lead">The thinkers, makers, explorers, and craftsmen who shaped how I think and build — mapped as the constellation they form in my head.</p>
   </section>
 
   <!-- Content -->
   <section class="content wrap" id="influences" aria-label="Influences">
-    <div class="empty-state">
-      <div class="empty-label">Being curated</div>
-      <p>The list is long and the cuts are hard. A proper set of influences will land here soon — the people and ideas I keep coming back to, and why.</p>
+    <p class="map-note">Hover or tap a name. The lines trace connections as I experienced them, not as history records them.</p>
+    <div class="map-wrap" aria-hidden="true">
+      <svg class="map-svg" viewBox="0 0 1160 660" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="map-card" id="mapCard" role="presentation">
+        <div class="mc-thread" id="mcThread"></div>
+        <div class="mc-name" id="mcName"></div>
+        <div class="mc-years" id="mcYears"></div>
+        <p class="mc-line" id="mcLine"></p>
+      </div>
     </div>
+
+    <!-- Full list: the accessible source of truth (and the whole view on phones) -->
+    <div class="threads" id="threadList"></div>
   </section>
 </main>
 
@@ -281,6 +360,198 @@ a { color: var(--link); }
   var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   btn.textContent = t === 'dark' ? 'Light' : 'Dark';
   btn.setAttribute('aria-label', 'Switch to ' + (t === 'dark' ? 'light' : 'dark') + ' theme');
+})();
+</script>
+
+<script>
+/* ============================================================
+   INFLUENCES DATA — edit lines freely; each "line" is what this
+   person gave me. Threads and layout are defined below the data.
+   ============================================================ */
+(function () {
+  var THREADS = [
+    { id: 'cosmos',    name: 'Science & the cosmos',           cx: 200,  cy: 165, r: 72, a0: -105 },
+    { id: 'deeptime',  name: 'Deep time & the living world',   cx: 480,  cy: 120, r: 58, a0: -30 },
+    { id: 'futures',   name: 'Imagined futures',               cx: 790,  cy: 140, r: 70, a0: -75 },
+    { id: 'builders',  name: 'Builders & craft',               cx: 1010, cy: 300, r: 56, a0: 10 },
+    { id: 'markets',   name: 'Markets & ideas',                cx: 930,  cy: 505, r: 70, a0: 35 },
+    { id: 'history',   name: 'History & civilization',         cx: 610,  cy: 525, r: 70, a0: 60 },
+    { id: 'explorers', name: 'Explorers',                      cx: 265,  cy: 495, r: 70, a0: -140 },
+    { id: 'film',      name: 'Performance & film',             cx: 545,  cy: 315, r: 54, a0: -20 }
+  ];
+
+  var PEOPLE = [
+    { id: 'sagan',       t: 'cosmos',    name: 'Carl Sagan',          years: '1934–1996', line: 'Made the cosmos feel personal — wonder practiced as a discipline.' },
+    { id: 'feynman',     t: 'cosmos',    name: 'Richard Feynman',     years: '1918–1988', line: 'Play as a method. What you cannot build, you do not understand.' },
+    { id: 'hawking',     t: 'cosmos',    name: 'Stephen Hawking',     years: '1942–2018', line: 'The biggest questions, asked from the smallest room.' },
+    { id: 'hazen',       t: 'cosmos',    name: 'Robert M. Hazen',     years: 'b. 1948',   line: 'Earth’s whole story told through its minerals — deep time made tangible.' },
+
+    { id: 'attenborough',t: 'deeptime',  name: 'David Attenborough',  years: 'b. 1926',   line: 'Seventy years of making the living world impossible to ignore.' },
+    { id: 'christian',   t: 'deeptime',  name: 'David Christian',     years: 'b. 1946',   line: 'All 13.8 billion years as one continuous story.' },
+    { id: 'corbett',     t: 'deeptime',  name: 'Jim Corbett',         years: '1875–1955', line: 'Tracked man-eaters, then spent his life defending the tiger. Attention as respect.' },
+
+    { id: 'verne',       t: 'futures',   name: 'Jules Verne',         years: '1828–1905', line: 'Engineering as adventure, a century ahead of schedule.' },
+    { id: 'wells',       t: 'futures',   name: 'H.G. Wells',          years: '1866–1946', line: 'The future treated as a serious subject.' },
+    { id: 'clarke',      t: 'futures',   name: 'Arthur C. Clarke',    years: '1917–2008', line: 'Calm, precise imagination — and an unreasonable hit rate.' },
+    { id: 'kurzweil',    t: 'futures',   name: 'Ray Kurzweil',        years: 'b. 1948',   line: 'Exponential curves, taken literally.' },
+
+    { id: 'musk',        t: 'builders',  name: 'Elon Musk',           years: 'b. 1971',   line: 'First principles, taken all the way.' },
+    { id: 'bezos',       t: 'builders',  name: 'Jeff Bezos',          years: 'b. 1964',   line: 'Long-term thinking, turned into an operating system.' },
+    { id: 'sharon',      t: 'builders',  name: 'Tomer Sharon',        years: '',          line: 'It’s Our Research — evidence as a team sport, not a deliverable.' },
+
+    { id: 'schumpeter',  t: 'markets',   name: 'Joseph Schumpeter',   years: '1883–1950', line: 'Creative destruction — progress has a price and a pattern.' },
+    { id: 'hayek',       t: 'markets',   name: 'Friedrich Hayek',     years: '1899–1992', line: 'Knowledge is distributed. Stay humble about grand designs.' },
+    { id: 'friedman',    t: 'markets',   name: 'Milton Friedman',     years: '1912–2006', line: 'Clarity as an argument in itself.' },
+    { id: 'taleb',       t: 'markets',   name: 'Nassim Taleb',        years: 'b. 1960',   line: 'Build things that gain from disorder.' },
+
+    { id: 'durant',      t: 'history',   name: 'Will Durant',         years: '1885–1981', line: 'Civilization as one long conversation across centuries.' },
+    { id: 'wood',        t: 'history',   name: 'Michael Wood',        years: 'b. 1948',   line: 'History walked on foot and told with delight.' },
+    { id: 'sleeman',     t: 'history',   name: 'William H. Sleeman',  years: '1788–1856', line: 'Rambles and Recollections — India observed with a surveyor’s patience.' },
+    { id: 'nehru',       t: 'history',   name: 'Jawaharlal Nehru',    years: '1889–1964', line: 'The Discovery of India, written from a prison cell — history as self-discovery.' },
+
+    { id: 'hillary',     t: 'explorers', name: 'Edmund Hillary',      years: '1919–2008', line: 'First up Everest — then a lifetime spent lifting others up.' },
+    { id: 'messner',     t: 'explorers', name: 'Reinhold Messner',    years: 'b. 1944',   line: 'Style over summit. How you climb matters more than that you climb.' },
+    { id: 'shipton',     t: 'explorers', name: 'Eric Shipton',        years: '1907–1977', line: 'Small, light expeditions — exploration as curiosity, not conquest.' },
+    { id: 'armstrong',   t: 'explorers', name: 'Neil Armstrong',      years: '1930–2012', line: 'The quietest man took the loudest step.' },
+
+    { id: 'knopfler',    t: 'film',      name: 'Mark Knopfler',       years: 'b. 1949',   line: 'Understatement as virtuosity.' },
+    { id: 'seinfeld',    t: 'film',      name: 'Jerry Seinfeld',      years: 'b. 1954',   line: 'Decades of craft applied to the ordinary.' },
+    { id: 'kubrick',     t: 'film',      name: 'Stanley Kubrick',     years: '1928–1999', line: 'Obsession as quality control.' }
+  ];
+
+  /* Cross-thread connections, as I experienced them */
+  var BRIDGES = [
+    ['clarke', 'kubrick'],      /* 2001, built together            */
+    ['christian', 'hazen'],     /* deep time, two routes in        */
+    ['sleeman', 'corbett'],     /* India's wild, a century apart   */
+    ['kurzweil', 'musk'],       /* imagined futures -> built ones  */
+    ['verne', 'wells']          /* the two fathers, side by side   */
+  ];
+
+  /* ---------- layout ---------- */
+  var byId = {};
+  THREADS.forEach(function (t) { t.members = []; });
+  PEOPLE.forEach(function (p) {
+    byId[p.id] = p;
+    var t = THREADS.filter(function (x) { return x.id === p.t; })[0];
+    t.members.push(p);
+    p.thread = t;
+  });
+  THREADS.forEach(function (t) {
+    var n = t.members.length;
+    t.members.forEach(function (p, i) {
+      var ang = (t.a0 + i * (360 / n)) * Math.PI / 180;
+      p.x = t.cx + t.r * Math.cos(ang);
+      p.y = t.cy + t.r * Math.sin(ang);
+    });
+  });
+
+  var svg = document.querySelector('.map-svg');
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  /* edges: chain within each thread + bridges */
+  var delay = 0;
+  THREADS.forEach(function (t) {
+    for (var i = 0; i < t.members.length - 1; i++) {
+      var a = t.members[i], b = t.members[i + 1];
+      var e = el('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, 'class': 'edge' });
+      e.style.animationDelay = (delay += 20) + 'ms';
+      svg.appendChild(e);
+    }
+  });
+  BRIDGES.forEach(function (pair) {
+    var a = byId[pair[0]], b = byId[pair[1]];
+    var e = el('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, 'class': 'edge bridge' });
+    e.style.animationDelay = (delay += 20) + 'ms';
+    svg.appendChild(e);
+  });
+
+  /* thread labels */
+  THREADS.forEach(function (t, ti) {
+    var lbl = el('text', { x: t.cx, y: t.cy - t.r - 22, 'text-anchor': 'middle', 'class': 'cluster-label' });
+    lbl.textContent = t.name;
+    lbl.style.animationDelay = (150 + ti * 60) + 'ms';
+    svg.appendChild(lbl);
+  });
+
+  /* nodes */
+  var card = document.getElementById('mapCard');
+  var wrap = document.querySelector('.map-wrap');
+  var pinned = null;
+
+  function showCard(p) {
+    document.getElementById('mcThread').textContent = p.thread.name;
+    document.getElementById('mcName').textContent = p.name;
+    document.getElementById('mcYears').textContent = p.years;
+    document.getElementById('mcYears').style.display = p.years ? '' : 'none';
+    document.getElementById('mcLine').textContent = p.line;
+    card.classList.add('is-open');
+    var rect = wrap.getBoundingClientRect();
+    var sx = rect.width / 1160, sy = rect.height / 660;
+    var px = p.x * sx + 16, py = p.y * sy + 14;
+    card.style.left = '0px'; card.style.top = '0px'; /* reset before measuring */
+    var cw = card.offsetWidth, ch = card.offsetHeight;
+    if (px + cw > rect.width - 10) px = p.x * sx - cw - 16;
+    if (py + ch > rect.height - 10) py = p.y * sy - ch - 14;
+    card.style.left = Math.max(8, px) + 'px';
+    card.style.top = Math.max(8, py) + 'px';
+  }
+  function hideCard() { if (!pinned) card.classList.remove('is-open'); }
+
+  PEOPLE.forEach(function (p, pi) {
+    var g = el('g', { 'class': 'node', tabindex: 0, role: 'button' });
+    g.setAttribute('aria-label', p.name + ' — ' + p.line);
+    var c = el('circle', { cx: p.x, cy: p.y, r: 6 });
+    var label = el('text', { x: p.x, y: p.y + 21, 'text-anchor': 'middle' });
+    label.textContent = p.name;
+    g.appendChild(c); g.appendChild(label);
+    g.style.animationDelay = (200 + pi * 35) + 'ms';
+
+    g.addEventListener('mouseenter', function () { if (!pinned) showCard(p); });
+    g.addEventListener('mouseleave', hideCard);
+    g.addEventListener('focus', function () { if (!pinned) showCard(p); });
+    g.addEventListener('blur', hideCard);
+    g.addEventListener('click', function (ev) {
+      ev.stopPropagation();
+      if (pinned === p) { pinned = null; card.classList.remove('is-open'); }
+      else { pinned = p; showCard(p); }
+    });
+    g.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); g.click(); }
+    });
+    svg.appendChild(g);
+  });
+  document.addEventListener('click', function () { pinned = null; card.classList.remove('is-open'); });
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape') { pinned = null; card.classList.remove('is-open'); }
+  });
+
+  /* ---------- grouped list ---------- */
+  var listRoot = document.getElementById('threadList');
+  THREADS.forEach(function (t, i) {
+    var head = document.createElement('div');
+    head.className = 'thread-head';
+    var num = String(i + 1).padStart(2, '0');
+    head.innerHTML = '<span class="thread-num" aria-hidden="true">' + num + '</span>' +
+      '<h2 class="thread-title">' + t.name + '</h2>' +
+      '<span class="thread-rule" aria-hidden="true"></span>';
+    listRoot.appendChild(head);
+    t.members.forEach(function (p) {
+      var row = document.createElement('div');
+      row.className = 'person';
+      row.innerHTML = '<span class="p-name"></span>' +
+        (p.years ? '<span class="p-years">' + p.years + '</span>' : '') +
+        '<p class="p-line"></p>';
+      row.querySelector('.p-name').textContent = p.name;
+      row.querySelector('.p-line').textContent = p.line;
+      listRoot.appendChild(row);
+    });
+  });
 })();
 </script>
 </body>
