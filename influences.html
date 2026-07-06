@@ -4,11 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Influences — Sandeep Sharma</title>
-<meta name="description" content="The people and books that shaped how Sandeep Sharma thinks and builds — mapped as constellations: 29 people across 8 threads, 80 books across 11 shelves." />
+<meta name="description" content="The people and books that shaped how Sandeep Sharma thinks and builds — 34 people and 80 books, shelved by theme and ordered by time." />
 
 <link rel="canonical" href="https://gosandeepsharma.com/influences" />
 <meta property="og:title" content="Influences — Sandeep Sharma" />
-<meta property="og:description" content="The people and books that shaped how I think and build — mapped as the constellations they form in my head." />
+<meta property="og:description" content="The people and books that shaped how I think and build — shelved by theme, ordered by time." />
 <meta property="og:url" content="https://gosandeepsharma.com/influences" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Sandeep Sharma" />
@@ -170,7 +170,7 @@ a { color: var(--link); }
   margin: 0; max-width: 44rem;
 }
 
-.tabs { display: flex; gap: 10px; justify-content: center; padding: 6px 20px 30px; }
+.tabs { display: flex; gap: 10px; justify-content: center; padding: 6px 20px 8px; }
 .tab {
   font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em;
   text-transform: uppercase; color: var(--text-soft);
@@ -183,94 +183,57 @@ a { color: var(--link); }
 }
 [role="tabpanel"][hidden] { display: none; }
 
+.sort-note {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em;
+  color: var(--text-soft); text-align: center; margin: 10px 0 0;
+}
+
 /* ============================================================
-   5. CONSTELLATION MAPS
+   5. CATEGORY SHELVES
    ============================================================ */
-.content { padding-block: 0 24px; }
-.map-note {
-  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .06em;
-  color: var(--text-soft); text-align: center; margin: 0 0 18px;
-}
-.map-wrap {
-  position: relative;
-  border: 1px solid var(--border); border-radius: 12px;
-  background: var(--surface);
-  background-image: radial-gradient(var(--dot) 1px, transparent 1.4px);
-  background-size: 24px 24px;
-  overflow: hidden;
-}
-.map-svg { display: block; width: 100%; height: auto; }
-
-.edge { stroke: var(--border); stroke-width: 1; }
-.edge.bridge { stroke-dasharray: 3 4; }
-
-.cluster-label {
-  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .16em;
-  text-transform: uppercase; fill: var(--link);
-}
-.node { cursor: pointer; outline: none; }
-.node .ring { fill: var(--surface); stroke: var(--border); stroke-width: 1.5; }
-.node:hover .ring, .node.is-active .ring { stroke: var(--accent); stroke-width: 2.5; }
-.node:focus-visible .ring { stroke: var(--link); stroke-width: 3; }
-.node text.nlabel {
-  font-family: var(--font-body); font-size: 12px; fill: var(--text);
-  pointer-events: none;
-}
-.node .ph { fill: var(--accent-soft); }
-.node text.initials {
-  font-family: var(--font-mono); font-size: 13px; fill: var(--link);
-  pointer-events: none;
-}
-.node .cover-frame { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
-.node:hover .cover-frame, .node.is-active .cover-frame { stroke: var(--accent); stroke-width: 2; }
-.node:focus-visible .cover-frame { stroke: var(--link); stroke-width: 2.5; }
-
-@keyframes nodein { from { opacity: 0; } to { opacity: 1; } }
-.map-svg .node, .map-svg .edge, .map-svg .cluster-label { animation: nodein .6s ease backwards; }
-@media (prefers-reduced-motion: reduce) {
-  .map-svg .node, .map-svg .edge, .map-svg .cluster-label { animation: none; }
-}
-
-.map-card {
-  position: absolute; z-index: 10; display: none;
-  max-width: 280px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 14px 16px 15px;
-  box-shadow: inset 3px 0 0 var(--accent);
-}
-.map-card.is-open { display: block; }
-.map-card .mc-thread {
-  font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--link); margin-bottom: 6px;
-}
-.map-card .mc-name { font-family: var(--font-head); font-weight: 600; font-size: 17px; }
-.map-card .mc-years { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .06em; color: var(--text-soft); margin: 2px 0 8px; }
-.map-card .mc-line { font-size: 13.5px; line-height: 1.55; color: var(--text-soft); margin: 0; }
-
-/* --- Grouped lists (accessible source of truth; the only view on phones) --- */
-.threads { margin-top: 44px; }
-.thread-head { display: flex; align-items: center; gap: 16px; margin: 34px 0 6px; }
-.thread-num { font-family: var(--font-mono); font-size: 14px; color: var(--link); }
-.thread-title {
+.content { padding-block: 8px 24px; }
+.shelf-head { display: flex; align-items: center; gap: 16px; margin: 40px 0 22px; }
+.shelf-num { font-family: var(--font-mono); font-size: 14px; color: var(--link); }
+.shelf-title {
   font-family: var(--font-head); font-weight: 600; font-size: 13px;
   letter-spacing: .18em; text-transform: uppercase; margin: 0;
 }
-.thread-rule { flex: 1; height: 1px; background: var(--border); }
-.person { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; padding: 14px 2px; border-bottom: 1px solid var(--border); }
-.person:last-child { border-bottom: none; }
-.person .p-name { font-family: var(--font-head); font-weight: 600; font-size: 17px; }
-.person .p-years { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; color: var(--text-soft); }
-.person .p-line { flex-basis: 100%; font-size: 14.5px; line-height: 1.55; color: var(--text-soft); margin: 0; }
+.shelf-rule { flex: 1; height: 1px; background: var(--border); }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(126px, 1fr)); gap: 24px 20px; }
+
+.card { margin: 0; display: flex; flex-direction: column; gap: 9px; }
+.frame {
+  position: relative; width: 100%;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface); overflow: hidden;
+}
+.frame.f-person { aspect-ratio: 5 / 6; }
+.frame.f-book   { aspect-ratio: 2 / 3; }
+.frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.card:hover .frame { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+.frame .ph {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background-color: var(--accent-soft);
+  background-image: repeating-linear-gradient(45deg, rgba(14,158,146,.10) 0 9px, transparent 9px 18px);
+  font-family: var(--font-mono); font-size: 16px; letter-spacing: .1em; color: var(--link);
+}
+.card figcaption { display: flex; flex-direction: column; gap: 2px; }
+.c-name {
+  font-family: var(--font-head); font-weight: 600; font-size: 14.5px; line-height: 1.3;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.c-sub { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .05em; color: var(--text-soft); }
 
 .credits {
   font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .06em;
-  color: var(--text-soft); text-align: center; margin: 40px 0 0;
+  color: var(--text-soft); text-align: center; margin: 48px 0 0;
 }
 .credits a { color: var(--text-soft); }
 
-@media (max-width: 720px) {
-  .map-wrap, .map-note { display: none; }
-  .threads { margin-top: 8px; }
+@media (max-width: 480px) {
+  .cards { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 18px 14px; }
 }
 </style>
 </head>
@@ -296,7 +259,7 @@ a { color: var(--link); }
     <div class="glow" aria-hidden="true"></div>
     <p class="kicker">Standing on shoulders</p>
     <h1>Influences</h1>
-    <p class="lead">The people and books that shaped how I think and build — mapped as the constellations they form in my head.</p>
+    <p class="lead">The people and books that shaped how I think and build — shelved by theme, ordered by time.</p>
   </section>
 
   <!-- Tabs -->
@@ -304,34 +267,16 @@ a { color: var(--link); }
     <button class="tab" id="tab-people" role="tab" aria-selected="true" aria-controls="panel-people" type="button">People</button>
     <button class="tab" id="tab-books" role="tab" aria-selected="false" aria-controls="panel-books" tabindex="-1" type="button">Books</button>
   </div>
+  <p class="sort-note">Each row runs oldest → newest</p>
 
   <section class="content wrap" id="influences">
-
-    <!-- PEOPLE -->
-    <div id="panel-people" role="tabpanel" aria-labelledby="tab-people">
-      <p class="map-note">Hover or tap a face. The lines trace connections as I experienced them, not as history records them.</p>
-      <div class="map-wrap" aria-hidden="true">
-        <svg class="map-svg" id="peopleSvg" viewBox="0 0 1160 740" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>
-        <div class="map-card" id="peopleCard"></div>
-      </div>
-      <div class="threads" id="peopleList"></div>
-    </div>
-
-    <!-- BOOKS -->
-    <div id="panel-books" role="tabpanel" aria-labelledby="tab-books" hidden>
-      <p class="map-note">Eighty books, eleven shelves. Hover or tap a cover.</p>
-      <div class="map-wrap" aria-hidden="true">
-        <svg class="map-svg" id="booksSvg" viewBox="0 0 1160 930" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>
-        <div class="map-card" id="booksCard"></div>
-      </div>
-      <div class="threads" id="booksList"></div>
-    </div>
-
+    <div id="panel-people" role="tabpanel" aria-labelledby="tab-people"></div>
+    <div id="panel-books" role="tabpanel" aria-labelledby="tab-books" hidden></div>
     <p class="credits">Portraits via Wikimedia Commons · Covers via <a href="https://openlibrary.org">Open Library</a></p>
   </section>
 </main>
 
-<footer class="footer" style="margin-top:32px; border-top:1px solid var(--border);">
+<footer style="margin-top:32px; border-top:1px solid var(--border);">
   <div class="wrap" style="display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; padding-block:34px 40px;">
     <div>
       <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-soft); margin-bottom:14px;">Elsewhere</div>
@@ -368,410 +313,264 @@ a { color: var(--link); }
 
 <script>
 /* ============================================================
-   SHARED CONSTELLATION ENGINE
+   DATA — people and books, grouped by shelf,
+   already sorted oldest → newest within each shelf.
    ============================================================ */
-var NS = 'http://www.w3.org/2000/svg';
-var XLINK = 'http://www.w3.org/1999/xlink';
-function svgEl(tag, attrs) {
-  var e = document.createElementNS(NS, tag);
-  for (var k in attrs) e.setAttribute(k, attrs[k]);
-  return e;
-}
-function layoutClusters(threads, items) {
-  var byId = {};
-  threads.forEach(function (t) { t.members = []; });
-  items.forEach(function (p) {
-    byId[p.id] = p;
-    var t = threads.filter(function (x) { return x.id === p.t; })[0];
-    t.members.push(p); p.thread = t;
-  });
-  threads.forEach(function (t) {
-    var n = t.members.length;
-    t.members.forEach(function (p, i) {
-      var ang = (t.a0 + i * (360 / n)) * Math.PI / 180;
-      p.x = t.cx + t.r * Math.cos(ang);
-      p.y = t.cy + t.r * Math.sin(ang);
-    });
-  });
-  return byId;
-}
-function makeCardCtl(wrap, card, vw, vh) {
-  var pinned = null;
-  function show(p, html) {
-    card.innerHTML = html;
-    card.classList.add('is-open');
-    var rect = wrap.getBoundingClientRect();
-    var sx = rect.width / vw, sy = rect.height / vh;
-    var px = p.x * sx + 20, py = p.y * sy + 16;
-    var cw = card.offsetWidth, ch = card.offsetHeight;
-    if (px + cw > rect.width - 10) px = p.x * sx - cw - 20;
-    if (py + ch > rect.height - 10) py = p.y * sy - ch - 16;
-    card.style.left = Math.max(8, px) + 'px';
-    card.style.top = Math.max(8, py) + 'px';
-  }
-  return {
-    get pinned() { return pinned; },
-    set pinned(v) { pinned = v; },
-    show: show,
-    hide: function () { if (!pinned) card.classList.remove('is-open'); },
-    close: function () { pinned = null; card.classList.remove('is-open'); }
-  };
-}
-function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
-function cardHtml(thread, name, sub, line) {
-  return '<div class="mc-thread">' + esc(thread) + '</div>' +
-    '<div class="mc-name">' + esc(name) + '</div>' +
-    (sub ? '<div class="mc-years">' + esc(sub) + '</div>' : '') +
-    (line ? '<p class="mc-line">' + esc(line) + '</p>' : '');
-}
-function initials(name) {
-  var w = name.replace(/[^A-Za-z ]/g, '').split(' ').filter(Boolean);
-  return (w[0] ? w[0][0] : '') + (w.length > 1 ? w[w.length - 1][0] : '');
-}
-function drawEdges(svg, threads, bridges, byId) {
-  var delay = 0;
-  threads.forEach(function (t) {
-    for (var i = 0; i < t.members.length - 1; i++) {
-      var a = t.members[i], b = t.members[i + 1];
-      var e = svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, 'class': 'edge' });
-      e.style.animationDelay = (delay += 15) + 'ms';
-      svg.appendChild(e);
-    }
-  });
-  (bridges || []).forEach(function (pair) {
-    var a = byId[pair[0]], b = byId[pair[1]];
-    var e = svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, 'class': 'edge bridge' });
-    e.style.animationDelay = (delay += 15) + 'ms';
-    svg.appendChild(e);
-  });
-}
-function drawClusterLabels(svg, threads, pad) {
-  threads.forEach(function (t, ti) {
-    var lbl = svgEl('text', { x: t.cx, y: t.cy - t.r - pad, 'text-anchor': 'middle', 'class': 'cluster-label' });
-    lbl.textContent = t.name;
-    lbl.style.animationDelay = (150 + ti * 50) + 'ms';
-    svg.appendChild(lbl);
-  });
-}
-function bindNode(g, p, ctl, html) {
-  g.addEventListener('mouseenter', function () { if (!ctl.pinned) ctl.show(p, html); });
-  g.addEventListener('mouseleave', function () { ctl.hide(); });
-  g.addEventListener('focus', function () { if (!ctl.pinned) ctl.show(p, html); });
-  g.addEventListener('blur', function () { ctl.hide(); });
-  g.addEventListener('click', function (ev) {
-    ev.stopPropagation();
-    if (ctl.pinned === p) { ctl.close(); }
-    else { ctl.pinned = p; ctl.show(p, html); }
-  });
-  g.addEventListener('keydown', function (ev) {
-    if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); g.click(); }
-  });
-}
-function buildList(root, threads, rowFn) {
-  threads.forEach(function (t, i) {
-    var head = document.createElement('div');
-    head.className = 'thread-head';
-    head.innerHTML = '<span class="thread-num" aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span>' +
-      '<h2 class="thread-title">' + esc(t.name) + '</h2>' +
-      '<span class="thread-rule" aria-hidden="true"></span>';
-    root.appendChild(head);
-    t.members.forEach(function (p) { root.appendChild(rowFn(p)); });
-  });
-}
-
-/* ============================================================
-   PEOPLE — data (edit "line" fields freely: what each gave me)
-   ============================================================ */
-var P_THREADS = [
-  { id: 'cosmos',    name: 'Science & the cosmos',         cx: 205,  cy: 190, r: 92, a0: -105 },
-  { id: 'deeptime',  name: 'Deep time & the living world', cx: 500,  cy: 120, r: 70, a0: -30 },
-  { id: 'futures',   name: 'Imagined futures',             cx: 810,  cy: 150, r: 88, a0: -75 },
-  { id: 'builders',  name: 'Builders & craft',             cx: 1025, cy: 315, r: 70, a0: 10 },
-  { id: 'markets',   name: 'Markets & ideas',              cx: 940,  cy: 540, r: 88, a0: 35 },
-  { id: 'history',   name: 'History & civilization',       cx: 610,  cy: 560, r: 88, a0: 60 },
-  { id: 'explorers', name: 'Explorers',                    cx: 265,  cy: 545, r: 88, a0: -140 },
-  { id: 'film',      name: 'Performance & film',           cx: 545,  cy: 355, r: 68, a0: -20 }
-];
+var WIKI = 'https://upload.wikimedia.org/wikipedia/';
 var FACE = {
-  sagan: 'https://upload.wikimedia.org/wikipedia/commons/b/be/Carl_Sagan_Planetary_Society.JPG',
-  feynman: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/42/Richard_Feynman_Nobel.jpg/330px-Richard_Feynman_Nobel.jpg',
-  hawking: 'https://upload.wikimedia.org/wikipedia/commons/e/eb/Stephen_Hawking.StarChild.jpg',
-  hazen: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Dr._Robert_Hazen.jpg/330px-Dr._Robert_Hazen.jpg',
-  attenborough: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/David_Attenborough_in_2025.jpg/330px-David_Attenborough_in_2025.jpg',
-  christian: '',
-  corbett: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Jim_Corbett%2C_c._1907.png/330px-Jim_Corbett%2C_c._1907.png',
-  verne: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Jules_Verne_by_%C3%89tienne_Carjat.jpg/330px-Jules_Verne_by_%C3%89tienne_Carjat.jpg',
-  wells: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/H.G._Wells_by_Beresford.jpg/330px-H.G._Wells_by_Beresford.jpg',
-  clarke: 'https://upload.wikimedia.org/wikipedia/commons/b/be/Arthur_C._Clarke_1965_%28cropped%29.jpg',
-  kurzweil: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Ray_Kurzweil_%40_SXSW_2017_%2832594766664%29.jpg/330px-Ray_Kurzweil_%40_SXSW_2017_%2832594766664%29.jpg',
-  musk: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Elon_Musk_-_54820081119_%28cropped%29.jpg/330px-Elon_Musk_-_54820081119_%28cropped%29.jpg',
-  bezos: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/260202-D-PM193-2205_SECWAR_Arsenal_of_Freedom_Tour_-_Florida_%283x4_cropped_on_Bezos_and_rotated%29.jpg/330px-260202-D-PM193-2205_SECWAR_Arsenal_of_Freedom_Tour_-_Florida_%283x4_cropped_on_Bezos_and_rotated%29.jpg',
+  verne: WIKI + 'commons/thumb/4/4b/Jules_Verne_by_%C3%89tienne_Carjat.jpg/330px-Jules_Verne_by_%C3%89tienne_Carjat.jpg',
+  wells: WIKI + 'commons/thumb/4/4b/H.G._Wells_by_Beresford.jpg/330px-H.G._Wells_by_Beresford.jpg',
+  draper: WIKI + 'commons/thumb/9/92/Charles_Stark_Draper_c1965_Bachrach_portrait.png/330px-Charles_Stark_Draper_c1965_Bachrach_portrait.png',
+  vonbraun: WIKI + 'commons/thumb/5/5e/Wernher_von_Braun_crop.jpg/330px-Wernher_von_Braun_crop.jpg',
+  clarke: WIKI + 'commons/b/be/Arthur_C._Clarke_1965_%28cropped%29.jpg',
+  feynman: WIKI + 'en/thumb/4/42/Richard_Feynman_Nobel.jpg/330px-Richard_Feynman_Nobel.jpg',
+  faget: WIKI + 'commons/b/b0/Maxime_Faget.jpg',
+  sagan: WIKI + 'commons/b/be/Carl_Sagan_Planetary_Society.JPG',
+  hawking: WIKI + 'commons/e/eb/Stephen_Hawking.StarChild.jpg',
+  hazen: WIKI + 'commons/thumb/3/36/Dr._Robert_Hazen.jpg/330px-Dr._Robert_Hazen.jpg',
+  kurzweil: WIKI + 'commons/thumb/9/96/Ray_Kurzweil_%40_SXSW_2017_%2832594766664%29.jpg/330px-Ray_Kurzweil_%40_SXSW_2017_%2832594766664%29.jpg',
+  musk: WIKI + 'commons/thumb/5/5e/Elon_Musk_-_54820081119_%28cropped%29.jpg/330px-Elon_Musk_-_54820081119_%28cropped%29.jpg',
   sharon: '',
-  schumpeter: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Joseph_Schumpeter_1945_Bachrach_portrait.png/330px-Joseph_Schumpeter_1945_Bachrach_portrait.png',
-  hayek: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Friedrich_Hayek_portrait.jpg/330px-Friedrich_Hayek_portrait.jpg',
-  friedman: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Portrait_of_Milton_Friedman_%284x5_cropped%29.jpg/330px-Portrait_of_Milton_Friedman_%284x5_cropped%29.jpg',
-  taleb: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Taleb_mug.JPG/330px-Taleb_mug.JPG',
-  durant: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Will_Durant_1.jpg/330px-Will_Durant_1.jpg',
-  wood: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Michael_Wood_-_Ruins_of_Empire_%282013%29_%28cropped%29.jpg/330px-Michael_Wood_-_Ruins_of_Empire_%282013%29_%28cropped%29.jpg',
-  sleeman: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/William-Henry-Sleeman.jpg/330px-William-Henry-Sleeman.jpg',
-  nehru: 'https://upload.wikimedia.org/wikipedia/commons/9/97/Nehru_in_the_Netherlands%2C_1957.jpg',
-  hillary: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Edmund_Hillary%2C_c._1953%2C_autograph_removed.jpg/330px-Edmund_Hillary%2C_c._1953%2C_autograph_removed.jpg',
-  messner: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/2024-02-26-Reinhold_Messner-Hart_aber_fair-2539.jpg/330px-2024-02-26-Reinhold_Messner-Hart_aber_fair-2539.jpg',
-  shipton: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Himalaya_Expedition_1936_Hs_0494b-0039-Bl-135-001_%28cropped%29.jpg/330px-Himalaya_Expedition_1936_Hs_0494b-0039-Bl-135-001_%28cropped%29.jpg',
-  armstrong: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Neil_Armstrong_pose.jpg/330px-Neil_Armstrong_pose.jpg',
-  knopfler: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Mar-Knopfler-Pensa-Blue.jpg/330px-Mar-Knopfler-Pensa-Blue.jpg',
-  seinfeld: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Jerry_Seinfeld_2023.jpg/330px-Jerry_Seinfeld_2023.jpg',
-  kubrick: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Stanley_Kubrick_in_Dr._Strangelove_Trailer_%284%29_Cropped.jpg/330px-Stanley_Kubrick_in_Dr._Strangelove_Trailer_%284%29_Cropped.jpg'
+  hitchcock: WIKI + 'commons/thumb/9/94/Hitchcock%2C_Alfred_02.jpg/330px-Hitchcock%2C_Alfred_02.jpg',
+  hcb: WIKI + 'commons/thumb/5/58/Portrait_of_Henri_Cartier-Bresson_-_Paris_-_1954_-_Kimura_Ihei_%28cropped%29.png/330px-Portrait_of_Henri_Cartier-Bresson_-_Paris_-_1954_-_Kimura_Ihei_%28cropped%29.png',
+  aicher: WIKI + 'commons/thumb/2/2d/Otl_Aicher%2C_1959.tif/lossy-page1-330px-Otl_Aicher%2C_1959.tif.jpg',
+  kubrick: WIKI + 'commons/thumb/5/59/Stanley_Kubrick_in_Dr._Strangelove_Trailer_%284%29_Cropped.jpg/330px-Stanley_Kubrick_in_Dr._Strangelove_Trailer_%284%29_Cropped.jpg',
+  tufte: WIKI + 'commons/thumb/4/46/Edward_Tufte_-_cropped.jpg/330px-Edward_Tufte_-_cropped.jpg',
+  kare: WIKI + 'commons/thumb/8/88/SusanKare2019photo.jpg/330px-SusanKare2019photo.jpg',
+  hara: WIKI + 'commons/9/9d/Kenya_Hara_in_Sep_2015.jpg',
+  schumpeter: WIKI + 'commons/thumb/b/b1/Joseph_Schumpeter_1945_Bachrach_portrait.png/330px-Joseph_Schumpeter_1945_Bachrach_portrait.png',
+  hayek: WIKI + 'commons/thumb/7/7f/Friedrich_Hayek_portrait.jpg/330px-Friedrich_Hayek_portrait.jpg',
+  friedman: WIKI + 'commons/thumb/8/82/Portrait_of_Milton_Friedman_%284x5_cropped%29.jpg/330px-Portrait_of_Milton_Friedman_%284x5_cropped%29.jpg',
+  taleb: WIKI + 'commons/thumb/9/9b/Taleb_mug.JPG/330px-Taleb_mug.JPG',
+  sleeman: WIKI + 'commons/thumb/0/0c/William-Henry-Sleeman.jpg/330px-William-Henry-Sleeman.jpg',
+  durant: WIKI + 'commons/thumb/4/47/Will_Durant_1.jpg/330px-Will_Durant_1.jpg',
+  nehru: WIKI + 'commons/9/97/Nehru_in_the_Netherlands%2C_1957.jpg',
+  wood: WIKI + 'commons/thumb/d/d4/Michael_Wood_-_Ruins_of_Empire_%282013%29_%28cropped%29.jpg/330px-Michael_Wood_-_Ruins_of_Empire_%282013%29_%28cropped%29.jpg',
+  corbett: WIKI + 'commons/thumb/4/40/Jim_Corbett%2C_c._1907.png/330px-Jim_Corbett%2C_c._1907.png',
+  shipton: WIKI + 'commons/thumb/9/91/Himalaya_Expedition_1936_Hs_0494b-0039-Bl-135-001_%28cropped%29.jpg/330px-Himalaya_Expedition_1936_Hs_0494b-0039-Bl-135-001_%28cropped%29.jpg',
+  hillary: WIKI + 'commons/thumb/7/76/Edmund_Hillary%2C_c._1953%2C_autograph_removed.jpg/330px-Edmund_Hillary%2C_c._1953%2C_autograph_removed.jpg',
+  armstrong: WIKI + 'commons/thumb/0/0d/Neil_Armstrong_pose.jpg/330px-Neil_Armstrong_pose.jpg',
+  messner: WIKI + 'commons/thumb/2/2b/2024-02-26-Reinhold_Messner-Hart_aber_fair-2539.jpg/330px-2024-02-26-Reinhold_Messner-Hart_aber_fair-2539.jpg',
+  anker: WIKI + 'commons/thumb/7/7d/Conrad_Anker_-_2016.jpg/330px-Conrad_Anker_-_2016.jpg'
 };
-var PEOPLE = [
-  { id: 'sagan',       t: 'cosmos',    name: 'Carl Sagan',         years: '1934–1996', line: 'Made the cosmos feel personal — wonder practiced as a discipline.' },
-  { id: 'feynman',     t: 'cosmos',    name: 'Richard Feynman',    years: '1918–1988', line: 'Play as a method. What you cannot build, you do not understand.' },
-  { id: 'hawking',     t: 'cosmos',    name: 'Stephen Hawking',    years: '1942–2018', line: 'The biggest questions, asked from the smallest room.' },
-  { id: 'hazen',       t: 'cosmos',    name: 'Robert M. Hazen',    years: 'b. 1948',   line: 'Earth’s whole story told through its minerals — deep time made tangible.' },
-  { id: 'attenborough',t: 'deeptime',  name: 'David Attenborough', years: 'b. 1926',   line: 'Seventy years of making the living world impossible to ignore.' },
-  { id: 'christian',   t: 'deeptime',  name: 'David Christian',    years: 'b. 1946',   line: 'All 13.8 billion years as one continuous story.' },
-  { id: 'corbett',     t: 'deeptime',  name: 'Jim Corbett',        years: '1875–1955', line: 'Tracked man-eaters, then spent his life defending the tiger. Attention as respect.' },
-  { id: 'verne',       t: 'futures',   name: 'Jules Verne',        years: '1828–1905', line: 'Engineering as adventure, a century ahead of schedule.' },
-  { id: 'wells',       t: 'futures',   name: 'H.G. Wells',         years: '1866–1946', line: 'The future treated as a serious subject.' },
-  { id: 'clarke',      t: 'futures',   name: 'Arthur C. Clarke',   years: '1917–2008', line: 'Calm, precise imagination — and an unreasonable hit rate.' },
-  { id: 'kurzweil',    t: 'futures',   name: 'Ray Kurzweil',       years: 'b. 1948',   line: 'Exponential curves, taken literally.' },
-  { id: 'musk',        t: 'builders',  name: 'Elon Musk',          years: 'b. 1971',   line: 'First principles, taken all the way.' },
-  { id: 'bezos',       t: 'builders',  name: 'Jeff Bezos',         years: 'b. 1964',   line: 'Long-term thinking, turned into an operating system.' },
-  { id: 'sharon',      t: 'builders',  name: 'Tomer Sharon',       years: '',          line: 'It’s Our Research — evidence as a team sport, not a deliverable.' },
-  { id: 'schumpeter',  t: 'markets',   name: 'Joseph Schumpeter',  years: '1883–1950', line: 'Creative destruction — progress has a price and a pattern.' },
-  { id: 'hayek',       t: 'markets',   name: 'Friedrich Hayek',    years: '1899–1992', line: 'Knowledge is distributed. Stay humble about grand designs.' },
-  { id: 'friedman',    t: 'markets',   name: 'Milton Friedman',    years: '1912–2006', line: 'Clarity as an argument in itself.' },
-  { id: 'taleb',       t: 'markets',   name: 'Nassim Taleb',       years: 'b. 1960',   line: 'Build things that gain from disorder.' },
-  { id: 'durant',      t: 'history',   name: 'Will Durant',        years: '1885–1981', line: 'Civilization as one long conversation across centuries.' },
-  { id: 'wood',        t: 'history',   name: 'Michael Wood',       years: 'b. 1948',   line: 'History walked on foot and told with delight.' },
-  { id: 'sleeman',     t: 'history',   name: 'William H. Sleeman', years: '1788–1856', line: 'Rambles and Recollections — India observed with a surveyor’s patience.' },
-  { id: 'nehru',       t: 'history',   name: 'Jawaharlal Nehru',   years: '1889–1964', line: 'The Discovery of India, written from a prison cell — history as self-discovery.' },
-  { id: 'hillary',     t: 'explorers', name: 'Edmund Hillary',     years: '1919–2008', line: 'First up Everest — then a lifetime spent lifting others up.' },
-  { id: 'messner',     t: 'explorers', name: 'Reinhold Messner',   years: 'b. 1944',   line: 'Style over summit. How you climb matters more than that you climb.' },
-  { id: 'shipton',     t: 'explorers', name: 'Eric Shipton',       years: '1907–1977', line: 'Small, light expeditions — exploration as curiosity, not conquest.' },
-  { id: 'armstrong',   t: 'explorers', name: 'Neil Armstrong',     years: '1930–2012', line: 'The quietest man took the loudest step.' },
-  { id: 'knopfler',    t: 'film',      name: 'Mark Knopfler',      years: 'b. 1949',   line: 'Understatement as virtuosity.' },
-  { id: 'seinfeld',    t: 'film',      name: 'Jerry Seinfeld',     years: 'b. 1954',   line: 'Decades of craft applied to the ordinary.' },
-  { id: 'kubrick',     t: 'film',      name: 'Stanley Kubrick',    years: '1928–1999', line: 'Obsession as quality control.' }
-];
-var P_BRIDGES = [['clarke','kubrick'],['christian','hazen'],['sleeman','corbett'],['kurzweil','musk'],['verne','wells']];
 
-function buildPeople() {
-  var svg = document.getElementById('peopleSvg');
-  var wrap = svg.parentElement;
-  var card = document.getElementById('peopleCard');
-  var byId = layoutClusters(P_THREADS, PEOPLE);
-  var ctl = makeCardCtl(wrap, card, 1160, 740);
-  drawEdges(svg, P_THREADS, P_BRIDGES, byId);
-  drawClusterLabels(svg, P_THREADS, 42);
-  var R = 23;
-  PEOPLE.forEach(function (p, pi) {
-    var g = svgEl('g', { 'class': 'node', tabindex: 0, role: 'button' });
-    g.setAttribute('aria-label', p.name + ' — ' + p.line);
-    g.appendChild(svgEl('circle', { cx: p.x, cy: p.y, r: R + 2, 'class': 'ring' }));
-    if (FACE[p.id]) {
-      var clipId = 'clip-' + p.id;
-      var clip = svgEl('clipPath', { id: clipId });
-      clip.appendChild(svgEl('circle', { cx: p.x, cy: p.y, r: R }));
-      svg.appendChild(clip);
-      var img = svgEl('image', {
-        x: p.x - R, y: p.y - R, width: R * 2, height: R * 2,
-        'clip-path': 'url(#' + clipId + ')', preserveAspectRatio: 'xMidYMid slice'
-      });
-      img.setAttributeNS(XLINK, 'href', FACE[p.id]);
-      img.setAttribute('href', FACE[p.id]);
-      img.addEventListener('error', function () {
-        img.remove();
-        addInitials(g, p, R);
-      });
-      g.appendChild(img);
-    } else {
-      addInitials(g, p, R);
-    }
-    var label = svgEl('text', { x: p.x, y: p.y + R + 15, 'text-anchor': 'middle', 'class': 'nlabel' });
-    label.textContent = p.name;
-    g.appendChild(label);
-    g.style.animationDelay = (200 + pi * 30) + 'ms';
-    bindNode(g, p, ctl, cardHtml(p.thread.name, p.name, p.years, p.line));
-    svg.appendChild(g);
-  });
-  function addInitials(g, p, R) {
-    g.insertBefore(svgEl('circle', { cx: p.x, cy: p.y, r: R, 'class': 'ph' }), g.lastChild);
-    var t = svgEl('text', { x: p.x, y: p.y + 4.5, 'text-anchor': 'middle', 'class': 'initials' });
-    t.textContent = initials(p.name);
-    g.insertBefore(t, g.lastChild);
-  }
-  document.addEventListener('click', function () { ctl.close(); });
-  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') ctl.close(); });
-  buildList(document.getElementById('peopleList'), P_THREADS, function (p) {
-    var row = document.createElement('div');
-    row.className = 'person';
-    row.innerHTML = '<span class="p-name"></span>' +
-      (p.years ? '<span class="p-years">' + esc(p.years) + '</span>' : '') +
-      '<p class="p-line"></p>';
-    row.querySelector('.p-name').textContent = p.name;
-    row.querySelector('.p-line').textContent = p.line;
-    return row;
-  });
-}
+/* people: [id, name, years, one-liner] — shelved, oldest first */
+var PEOPLE_SHELVES = [
+  { name: 'Science & Technology', items: [
+    ['verne',    'Jules Verne',        '1828–1905', 'Engineering as adventure, a century ahead of schedule.'],
+    ['wells',    'H.G. Wells',         '1866–1946', 'The future treated as a serious subject.'],
+    ['draper',   'Charles S. Draper',  '1901–1987', 'Inertial navigation — knowing where you are with no outside reference.'],
+    ['vonbraun', 'Wernher von Braun',  '1912–1977', 'The Saturn V — ambition engineered at its outer limit.'],
+    ['clarke',   'Arthur C. Clarke',   '1917–2008', 'Calm, precise imagination — and an unreasonable hit rate.'],
+    ['feynman',  'Richard Feynman',    '1918–1988', 'Play as a method. What you cannot build, you do not understand.'],
+    ['faget',    'Maxime Faget',       '1921–2004', 'Shaped every American spacecraft from Mercury to the Shuttle.'],
+    ['sagan',    'Carl Sagan',         '1934–1996', 'Made the cosmos feel personal — wonder practiced as a discipline.'],
+    ['hawking',  'Stephen Hawking',    '1942–2018', 'The biggest questions, asked from the smallest room.'],
+    ['hazen',    'Robert M. Hazen',    'b. 1948',   'Earth’s whole story told through its minerals.'],
+    ['kurzweil', 'Ray Kurzweil',       'b. 1948',   'Exponential curves, taken literally.'],
+    ['musk',     'Elon Musk',          'b. 1971',   'First principles, taken all the way.'],
+    ['sharon',   'Tomer Sharon',       '',          'It’s Our Research — evidence as a team sport.']
+  ]},
+  { name: 'Craft', items: [
+    ['hitchcock','Alfred Hitchcock',   '1899–1980', 'Suspense as engineering — the audience’s mind was his instrument.'],
+    ['hcb',      'Henri Cartier-Bresson','1908–2004','The decisive moment — patience, then precision.'],
+    ['aicher',   'Otl Aicher',         '1922–1991', 'Munich ’72 — a universal language built from grids.'],
+    ['kubrick',  'Stanley Kubrick',    '1928–1999', 'Obsession as quality control.'],
+    ['tufte',    'Edward Tufte',       'b. 1942',   'Evidence, beautifully arranged — data as prose, not decoration.'],
+    ['kare',     'Susan Kare',         'b. 1954',   'The Mac’s smile — humanity drawn in 32 pixels.'],
+    ['hara',     'Kenya Hara',         'b. 1958',   'Emptiness as a design material.']
+  ]},
+  { name: 'Economics', items: [
+    ['schumpeter','Joseph Schumpeter', '1883–1950', 'Creative destruction — progress has a price and a pattern.'],
+    ['hayek',    'Friedrich Hayek',    '1899–1992', 'Knowledge is distributed. Stay humble about grand designs.'],
+    ['friedman', 'Milton Friedman',    '1912–2006', 'Clarity as an argument in itself.'],
+    ['taleb',    'Nassim Taleb',       'b. 1960',   'Build things that gain from disorder.']
+  ]},
+  { name: 'History', items: [
+    ['sleeman',  'William H. Sleeman', '1788–1856', 'Rambles and Recollections — India observed with a surveyor’s patience.'],
+    ['durant',   'Will Durant',        '1885–1981', 'Civilization as one long conversation across centuries.'],
+    ['nehru',    'Jawaharlal Nehru',   '1889–1964', 'The Discovery of India, written from a prison cell.'],
+    ['wood',     'Michael Wood',       'b. 1948',   'History walked on foot and told with delight.']
+  ]},
+  { name: 'Exploration & Nature', items: [
+    ['corbett',  'Jim Corbett',        '1875–1955', 'Tracked man-eaters, then spent his life defending the tiger.'],
+    ['shipton',  'Eric Shipton',       '1907–1977', 'Small, light expeditions — exploration as curiosity, not conquest.'],
+    ['hillary',  'Edmund Hillary',     '1919–2008', 'First up Everest — then a lifetime spent lifting others up.'],
+    ['armstrong','Neil Armstrong',     '1930–2012', 'The quietest man took the loudest step.'],
+    ['messner',  'Reinhold Messner',   'b. 1944',   'Style over summit.'],
+    ['anker',    'Conrad Anker',       'b. 1962',   'Found Mallory on Everest — craft and mentorship at altitude.']
+  ]}
+];
+
+/* books: [title, author, year label, sort year, coverId (0 = none)] — shelved, oldest first */
+var BOOK_SHELVES = [
+  { name: 'Science, Math & Technology', items: [
+    ['The Origin of Species','Charles Darwin','1859',7153600],
+    ['Conquest of the Moon','Braun, Ley & Ryan','1953',7385772],
+    ['Saturn V Flight Manual','NASA','1968',3035786],
+    ['The First Three Minutes','Steven Weinberg','1977',298540],
+    ['Cosmos','Carl Sagan','1980',8283901],
+    ['A Brief History of Time','Stephen Hawking','1988',10432365],
+    ['Skunk Works','Ben R. Rich','1994',7321776],
+    ['Guns, Germs and Steel','Jared Diamond','1997',7884018],
+    ['The Age of Spiritual Machines','Ray Kurzweil','1999',7343904],
+    ['Failure Is Not an Option','Gene Kranz','2000',6805997],
+    ['The Singularity Is Near','Ray Kurzweil','2005',400518],
+    ['The Box','Marc Levinson','2006',2549298],
+    ['Nudge','Thaler & Sunstein','2008',6402116],
+    ['The Grand Design','Stephen Hawking','2010',6565532],
+    ['Sapiens','Yuval Noah Harari','2011',8634250],
+    ['Thinking, Fast and Slow','Daniel Kahneman','2011',13290711],
+    ['The Story of Earth','Robert M. Hazen','2012',7983441],
+    ['A Most Improbable Journey','Walter Alvarez','2016',8876598],
+    ['Algorithms to Live By','Christian & Griffiths','2016',8042539],
+    ['On the Trail of Stardust','Jon Larsen','2017',8803275],
+    ['Why We Sleep','Matthew Walker','2017',8814155],
+    ['Dirty Genes','Ben Lynch','2018',9222139],
+    ['The Future of Humanity','Michio Kaku','2018',8807416],
+    ['The Rise and Fall of the Dinosaurs','Steve Brusatte','2018',14615391],
+    ['The Art of Statistics','David Spiegelhalter','2019',9500448],
+    ['Infinite Powers','Steven H. Strogatz','2019',8796821],
+    ['Symphony in C','Robert M. Hazen','2019',10143802],
+    ['The Rise and Reign of the Mammals','Steve Brusatte','2022',13548048],
+    ['The Singularity Is Nearer','Ray Kurzweil','2024',14861631]
+  ]},
+  { name: 'History', items: [
+    ['Rambles and Recollections','W.H. Sleeman','1844',1758341],
+    ['Kim','Rudyard Kipling','1901',1053011],
+    ['The Vedic Age','R.C. Majumdar','1951',10819742],
+    ['Ancient India','R.C. Majumdar','1952',0],
+    ['The Classical Age','R.C. Majumdar','1954',14931177],
+    ['The Lessons of History','Will & Ariel Durant','1968',7240225],
+    ['The Fall of the Roman Empire','Peter Heather','2005',126163],
+    ['The Anarchy','William Dalrymple','2019',9134924]
+  ]},
+  { name: 'War', items: [
+    ['The Art of War','Sun Tzu','c. 500 BC',4849549],
+    ['The Guns of August','Barbara W. Tuchman','1962',6616967],
+    ['Blood Red Snow','Günter K. Koschorrek','2002',903057],
+    ['The Second World War','Antony Beevor','2012',7239351],
+    ['The Billion Dollar Spy','David E. Hoffman','2015',12173972]
+  ]},
+  { name: 'Political Science & Diplomacy', items: [
+    ['The Law','Frédéric Bastiat','1850',8819903],
+    ['Brave New World','Aldous Huxley','1932',8231823],
+    ['1984','George Orwell','1949',8745958],
+    ['Diplomacy','Henry Kissinger','1994',3945662],
+    ['The India Way','S. Jaishankar','2020',10509332]
+  ]},
+  { name: 'Business & Economics', items: [
+    ['Ben & Jerry’s: The Inside Scoop','Fred Lager','1994',323420],
+    ['The Wisdom of Crowds','James Surowiecki','2004',213263],
+    ['The Black Swan','Nassim N. Taleb','2007',5721840],
+    ['Inspired','Marty Cagan','2008',9700654],
+    ['Shop Class as Soulcraft','Matthew B. Crawford','2009',6275823],
+    ['Just My Type','Simon Garfield','2010',6944207],
+    ['Antifragile','Nassim N. Taleb','2012',9180157],
+    ['The Everything Store','Brad Stone','2013',7264584],
+    ['How to Fail at Almost Everything','Scott Adams','2013',11981143],
+    ['Shoe Dog','Phil Knight','2016',8858487],
+    ['Sprint','Knapp, Zeratsky & Kowitz','2016',7431269],
+    ['Blitzscaling','Reid Hoffman','2018',8294642]
+  ]},
+  { name: 'Mountaineering', items: [
+    ['Nanda Devi','Eric Shipton','1936',6542928],
+    ['Everest 1951','Eric Shipton','1952',6614772],
+    ['High Adventure','Edmund Hillary','1955',1472400],
+    ['The Crystal Horizon','Reinhold Messner','1982',4069544],
+    ['Into Thin Air','Jon Krakauer','1997',241603],
+    ['The Last Great Mountain','Mick Conefrey','2020',0]
+  ]},
+  { name: 'Sports', items: [
+    ['The Greatest: My Own Story','Muhammad Ali','1975',6509306],
+    ['Winning Ugly','Brad Gilbert','1993',6817452],
+    ['Striking Thoughts','Bruce Lee','2000',578884],
+    ['Open','Andre Agassi','2009',6714053],
+    ['Rafa','Rafael Nadal','2011',10829047],
+    ['The Racket','Conor Niland','2024',0]
+  ]},
+  { name: 'Music', items: [
+    ['Chuck Berry: The Autobiography','Chuck Berry','1987',7058982],
+    ['Slash','Slash','2007',6410038],
+    ['Heaven and Hell','Don Felder','2008',13189413],
+    ['I Am Ozzy','Ozzy Osbourne','2009',6672892],
+    ['Iron Man','Tony Iommi','2011',10662505]
+  ]},
+  { name: 'Food', items: [
+    ['Feast and Fasts','Colleen Taylor Sen','2015',13951345],
+    ['Salt, Fat, Acid, Heat','Samin Nosrat','2017',8315567]
+  ]},
+  { name: 'Fiction', items: [
+    ['The Tartar Steppe','Dino Buzzati','1940',8137160],
+    ['The Woman in the Dunes','Kobo Abe','1962',10836985]
+  ]}
+];
 
 /* ============================================================
-   BOOKS — data extracted from my Airtable list (80 records)
-   Format: [title, author, shelf, openLibraryCoverId (0 = none)]
+   RENDER
    ============================================================ */
-var B_THREADS = [
-  { id: 'science',  name: 'Science',                 cx: 200,  cy: 210, r: 100, a0: -90 },
-  { id: 'tech',     name: 'Technology & space',      cx: 490,  cy: 165, r: 74,  a0: -70 },
-  { id: 'histwar',  name: 'History & war',           cx: 800,  cy: 195, r: 82,  a0: -100 },
-  { id: 'philpol',  name: 'Philosophy & statecraft', cx: 1045, cy: 400, r: 62,  a0: 0 },
-  { id: 'mind',     name: 'Mind & numbers',          cx: 190,  cy: 570, r: 82,  a0: -30 },
-  { id: 'mountain', name: 'Mountaineering',          cx: 480,  cy: 520, r: 56,  a0: 20 },
-  { id: 'music',    name: 'Music memoirs',           cx: 720,  cy: 500, r: 48,  a0: -55 },
-  { id: 'sport',    name: 'Sport memoirs',           cx: 935,  cy: 640, r: 48,  a0: 45 },
-  { id: 'fiction',  name: 'Fiction',                 cx: 265,  cy: 830, r: 48,  a0: 10 },
-  { id: 'bizdesign',name: 'Business & design',       cx: 590,  cy: 810, r: 62,  a0: -35 },
-  { id: 'anthfood', name: 'Civilization & food',     cx: 870,  cy: 845, r: 40,  a0: 20 }
-];
-var BOOKS_RAW = [
-  ['Guns, Germs and Steel','Jared Diamond','anthfood',7884018],
-  ['Sapiens: A Brief History of Humankind','Yuval Noah Harari','anthfood',8634250],
-  ['Heaven and Hell: My Life in the Eagles','Don Felder','music',13189413],
-  ['Iron Man: My Journey Through Heaven & Hell with Black Sabbath','Tony Iommi','music',10662505],
-  ['I Am Ozzy','Ozzy Osbourne','music',6672892],
-  ['Slash','Slash','music',6410038],
-  ['Chuck Berry: The Autobiography','Chuck Berry','music',7058982],
-  ['Open','Andre Agassi','sport',6714053],
-  ['Rafa','Rafael Nadal','sport',10829047],
-  ['The Greatest: My Own Story','Muhammad Ali','sport',6509306],
-  ['The Racket','Conor Niland','sport',0],
-  ['Winning Ugly','Brad Gilbert','sport',6817452],
-  ['Inspired','Marty Cagan','bizdesign',9700654],
-  ['Cosmos','Carl Sagan','science',8283901],
-  ['Symphony in C: Carbon and the Evolution of (Almost) Everything','Robert M. Hazen','science',10143802],
-  ['Saturn V Rocket – Flight Manual','NASA','tech',3035786],
-  ['Conquest of the Moon','','tech',7385772],
-  ['The Future of Humanity','Michio Kaku','tech',8807416],
-  ['Failure is not an Option','Gene Kranz','tech',6805997],
-  ['The Singularity Is Near','Ray Kurzweil','tech',400518],
-  ['The Singularity is Nearer','Ray Kurzweil','tech',14861631],
-  ['Skunk Works','Ben R. Rich','tech',7321776],
-  ['The Age of Spiritual Machines','Ray Kurzweil','tech',7343904],
-  ['The Box: How the Shipping Container Made the World Smaller and the World Economy Bigger','Marc Levinson','tech',2549298],
-  ['The Rise and Reign of the Mammals','Steve Brusatte','science',13548048],
-  ['Dirty Genes','Ben Lynch','science',9222139],
-  ['A Brief History of Time','Stephen Hawking','science',10432365],
-  ['The Grand Design','Stephen Hawking','science',6565532],
-  ['A Most Improbable Journey','Walter Alvarez','science',8876598],
-  ['The Origin of Species','Charles Darwin','science',7153600],
-  ['The First Three Minutes','Steven Weinberg','science',298540],
-  ['On the Trail of Stardust: The Guide to Finding Micrometeorites','Jon Larsen','science',8803275],
-  ['The Rise and Fall of the Dinosaurs','Steve Brusatte','science',14615391],
-  ['The Story of Earth','Robert M. Hazen','science',7983441],
-  ['Thinking Fast and Slow','Daniel Kahneman','mind',13290711],
-  ['The Law','Frédéric Bastiat','philpol',8819903],
-  ['The India Way: Strategies for an Uncertain World','S. Jaishankar','philpol',10509332],
-  ['Diplomacy','Henry Kissinger','philpol',3945662],
-  ['The Lessons of History','Will Durant','philpol',7240225],
-  ['The Art of War','Sun Tzu','philpol',4849549],
-  ['Shop Class as Soulcraft','Matthew B. Crawford','philpol',6275823],
-  ['Striking Thoughts','Bruce Lee','philpol',578884],
-  ['How to Fail at Almost Everything and Still Win Big','Scott Adams','mind',11981143],
-  ['Nudge','Richard Thaler & Cass Sunstein','mind',6402116],
-  ['Why We Sleep','Matthew Walker','mind',8814155],
-  ['The Last Great Mountain: The First Ascent of Kangchenjunga','Mick Conefrey','mountain',0],
-  ['Nanda Devi','Eric Shipton','mountain',6542928],
-  ['Everest 1951: The Mount Everest Reconnaissance Expedition','Eric Shipton','mountain',6614772],
-  ['Into Thin Air','Jon Krakauer','mountain',241603],
-  ['The Crystal Horizon: Everest – The First Solo Ascent','Reinhold Messner','mountain',4069544],
-  ['High Adventure','Edmund Hillary','mountain',1472400],
-  ['Infinite Powers: The Story of Calculus','Steven H. Strogatz','mind',8796821],
-  ['The Art of Statistics','David Spiegelhalter','mind',9500448],
-  ['Algorithms To Live By','Brian Christian & Tom Griffiths','mind',8042539],
-  ['The Second World War','Antony Beevor','histwar',7239351],
-  ['Blood Red Snow','Günter K. Koschorrek','histwar',903057],
-  ['The Guns of August','Barbara W. Tuchman','histwar',6616967],
-  ['Billion Dollar Spy','David E. Hoffman','histwar',12173972],
-  ['The Classical Age','R.C. Majumdar','histwar',14931177],
-  ['The Vedic Age','R.C. Majumdar','histwar',10819742],
-  ['Ancient India','R.C. Majumdar','histwar',0],
-  ['The Fall of the Roman Empire','Peter Heather','histwar',126163],
-  ['Rambles and Recollections of an Indian Official','William Henry Sleeman','histwar',1758341],
-  ['The Anarchy','William Dalrymple','histwar',9134924],
-  ['Feast and Fasts: A History of Food in India','Colleen Taylor Sen','anthfood',13951345],
-  ['Salt, Fat, Acid, Heat','Samin Nosrat','anthfood',8315567],
-  ['1984','George Orwell','fiction',8745958],
-  ['Brave New World','Aldous Huxley','fiction',8231823],
-  ['The Tartar Steppe','Dino Buzzati','fiction',8137160],
-  ['The Woman in the Dunes','Kobo Abe','fiction',10836985],
-  ['Kim','Rudyard Kipling','fiction',1053011],
-  ['The Wisdom of Crowds','James Surowiecki','mind',213263],
-  ['Antifragile','Nassim Nicholas Taleb','mind',9180157],
-  ['The Black Swan','Nassim Nicholas Taleb','mind',5721840],
-  ['Just My Type','Simon Garfield','bizdesign',6944207],
-  ['Blitzscaling','Reid Hoffman','bizdesign',8294642],
-  ['The Everything Store','Brad Stone','bizdesign',7264584],
-  ['Ben & Jerry’s: The Inside Scoop','Fred Lager','bizdesign',323420],
-  ['Shoe Dog','Phil Knight','bizdesign',8858487],
-  ['Sprint','Jake Knapp & John Zeratsky & Braden Kowitz','bizdesign',7431269]
-];
-var BOOKS = BOOKS_RAW.map(function (b, i) {
-  return { id: 'b' + i, name: b[0], author: b[1], t: b[2], cover: b[3] };
-});
-
-var booksBuilt = false;
-function buildBooks() {
-  if (booksBuilt) return;
-  booksBuilt = true;
-  var svg = document.getElementById('booksSvg');
-  var wrap = svg.parentElement;
-  var card = document.getElementById('booksCard');
-  var byId = layoutClusters(B_THREADS, BOOKS);
-  var ctl = makeCardCtl(wrap, card, 1160, 930);
-  drawEdges(svg, B_THREADS, [], byId);
-  drawClusterLabels(svg, B_THREADS, 46);
-  var W = 36, H = 53;
-  BOOKS.forEach(function (p, pi) {
-    var g = svgEl('g', { 'class': 'node', tabindex: 0, role: 'button' });
-    g.setAttribute('aria-label', p.name + (p.author ? ' — ' + p.author : ''));
-    g.appendChild(svgEl('rect', {
-      x: p.x - W / 2 - 2, y: p.y - H / 2 - 2, width: W + 4, height: H + 4,
-      rx: 3, 'class': 'cover-frame'
-    }));
-    if (p.cover) {
-      var img = svgEl('image', {
-        x: p.x - W / 2, y: p.y - H / 2, width: W, height: H,
-        preserveAspectRatio: 'xMidYMid slice'
-      });
-      var url = 'https://covers.openlibrary.org/b/id/' + p.cover + '-M.jpg';
-      img.setAttributeNS(XLINK, 'href', url);
-      img.setAttribute('href', url);
-      img.addEventListener('error', function () { img.remove(); addSpine(g, p, W, H); });
-      g.appendChild(img);
-    } else {
-      addSpine(g, p, W, H);
-    }
-    g.style.animationDelay = (150 + pi * 12) + 'ms';
-    var genreLine = p.thread.name;
-    bindNode(g, p, ctl, cardHtml(p.thread.name, p.name, p.author, ''));
-    svg.appendChild(g);
-  });
-  function addSpine(g, p, W, H) {
-    g.appendChild(svgEl('rect', { x: p.x - W / 2, y: p.y - H / 2, width: W, height: H, 'class': 'ph' }));
-    var t = svgEl('text', { x: p.x, y: p.y + 4, 'text-anchor': 'middle', 'class': 'initials' });
-    t.textContent = initials(p.name);
-    g.appendChild(t);
-  }
-  document.addEventListener('click', function () { ctl.close(); });
-  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') ctl.close(); });
-  buildList(document.getElementById('booksList'), B_THREADS, function (p) {
-    var row = document.createElement('div');
-    row.className = 'person';
-    row.innerHTML = '<span class="p-name"></span>' +
-      (p.author ? '<span class="p-years">' + esc(p.author) + '</span>' : '');
-    row.querySelector('.p-name').textContent = p.name;
-    return row;
-  });
+function initials(name) {
+  var w = name.replace(/[^A-Za-z0-9 ]/g, '').split(' ').filter(Boolean);
+  return ((w[0] ? w[0][0] : '') + (w.length > 1 ? w[w.length - 1][0] : '')).toUpperCase();
 }
+function shelfHead(i, name) {
+  var head = document.createElement('div');
+  head.className = 'shelf-head';
+  head.innerHTML = '<span class="shelf-num" aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span>' +
+    '<h2 class="shelf-title"></h2><span class="shelf-rule" aria-hidden="true"></span>';
+  head.querySelector('.shelf-title').textContent = name;
+  return head;
+}
+function card(kind, imgUrl, name, sub, tip) {
+  var fig = document.createElement('figure');
+  fig.className = 'card';
+  if (tip) fig.title = tip;
+  var frame = document.createElement('div');
+  frame.className = 'frame ' + (kind === 'book' ? 'f-book' : 'f-person');
+  function placeholder() {
+    var ph = document.createElement('div');
+    ph.className = 'ph';
+    ph.textContent = initials(name);
+    frame.appendChild(ph);
+  }
+  if (imgUrl) {
+    var img = document.createElement('img');
+    img.loading = 'lazy';
+    img.alt = name;
+    img.addEventListener('error', function () { img.remove(); placeholder(); });
+    img.src = imgUrl;
+    frame.appendChild(img);
+  } else {
+    placeholder();
+  }
+  var cap = document.createElement('figcaption');
+  var nm = document.createElement('span'); nm.className = 'c-name'; nm.textContent = name;
+  cap.appendChild(nm);
+  if (sub) { var sb = document.createElement('span'); sb.className = 'c-sub'; sb.textContent = sub; cap.appendChild(sb); }
+  fig.appendChild(frame); fig.appendChild(cap);
+  return fig;
+}
+(function render() {
+  var pRoot = document.getElementById('panel-people');
+  PEOPLE_SHELVES.forEach(function (shelf, i) {
+    pRoot.appendChild(shelfHead(i, shelf.name));
+    var grid = document.createElement('div'); grid.className = 'cards';
+    shelf.items.forEach(function (it) {
+      grid.appendChild(card('person', FACE[it[0]] || '', it[1], it[2], it[3]));
+    });
+    pRoot.appendChild(grid);
+  });
+  var bRoot = document.getElementById('panel-books');
+  BOOK_SHELVES.forEach(function (shelf, i) {
+    bRoot.appendChild(shelfHead(i, shelf.name));
+    var grid = document.createElement('div'); grid.className = 'cards';
+    shelf.items.forEach(function (it) {
+      var url = it[3] ? 'https://covers.openlibrary.org/b/id/' + it[3] + '-M.jpg' : '';
+      grid.appendChild(card('book', url, it[0], it[1] + ' · ' + it[2], it[0] + ' — ' + it[1] + ', ' + it[2]));
+    });
+    bRoot.appendChild(grid);
+  });
+})();
 
 /* ============================================================
    TABS
@@ -786,7 +585,6 @@ function buildBooks() {
       t.tabIndex = on ? 0 : -1;
       panels[t.id].hidden = !on;
     });
-    if (tab.id === 'tab-books') buildBooks();
     try { history.replaceState(null, '', tab.id === 'tab-books' ? '#books' : '#people'); } catch (e) {}
   }
   tabs.forEach(function (t) {
@@ -799,7 +597,6 @@ function buildBooks() {
       }
     });
   });
-  buildPeople();
   if (location.hash === '#books') activate(tabs[1]);
 })();
 </script>
