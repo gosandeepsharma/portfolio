@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Influences — Sandeep Sharma</title>
-<meta name="description" content="The people and books that shaped how Sandeep Sharma thinks and builds — 37 people and 90 books, shelved by theme." />
+<meta name="description" content="The people and books that shaped how Sandeep Sharma thinks and builds — 35 people and 89 books, shelved by theme." />
 
 <link rel="canonical" href="https://gosandeepsharma.com/influences" />
 <meta property="og:title" content="Influences — Sandeep Sharma" />
@@ -320,7 +320,7 @@ a { color: var(--link); }
    ============================================================ */
 /* All images are self-hosted in assets/. Most portraits are .jpg;
    the exceptions are listed here by extension. */
-var PEXT = { aicher: 'webp', hcb: 'webp', musk: 'webp', nehru: 'webp', bach: 'avif' };
+var PEXT = { aicher: 'webp', hcb: 'webp', musk: 'webp', nehru: 'webp', tufte: 'webp', bach: 'avif' };
 function face(id) { return 'assets/people/' + id + '.' + (PEXT[id] || 'jpg'); }
 
 /* people: [id, name, years, one-liner] — shelved, oldest first */
@@ -337,8 +337,7 @@ var PEOPLE_SHELVES = [
     ['hawking',  'Stephen Hawking',    'Physicist', 'The biggest questions, asked from the smallest room.'],
     ['hazen',    'Robert M. Hazen',    'Earth scientist',   'Earth’s whole story told through its minerals.'],
     ['kurzweil', 'Ray Kurzweil',       'Inventor & futurist',   'Exponential curves, taken literally.'],
-    ['musk',     'Elon Musk',          'Entrepreneur',   'First principles, taken all the way.'],
-    ['sharon',   'Tomer Sharon',       'UX researcher',          'It’s Our Research — evidence as a team sport.']
+    ['musk',     'Elon Musk',          'Entrepreneur',   'First principles, taken all the way.']
   ]},
   { name: 'Craft', items: [
     ['bach',     'Johann Sebastian Bach', 'Composer', 'Structure and soul in the same breath — mathematics you can feel.'],
@@ -347,10 +346,9 @@ var PEOPLE_SHELVES = [
     ['aicher',   'Otl Aicher',         'Graphic designer', 'Munich ’72 — a universal language built from grids.'],
     ['kubrick',  'Stanley Kubrick',    'Filmmaker', 'Obsession as quality control.'],
     ['tufte',    'Edward Tufte',       'Information designer',   'Evidence, beautifully arranged — data as prose, not decoration.'],
-    ['gilmour',  'David Gilmour',      'Guitarist',   'Tone over speed — one bent note over a hundred fast ones.'],
-    ['knopfler', 'Mark Knopfler',      'Guitarist',   'Understatement as virtuosity.'],
     ['kare',     'Susan Kare',         'Icon designer',   'The Mac’s smile — humanity drawn in 32 pixels.'],
-    ['hara',     'Kenya Hara',         'Designer',   'Emptiness as a design material.']
+    ['hara',     'Kenya Hara',         'Designer',   'Emptiness as a design material.'],
+    ['sharon',   'Tomer Sharon',       'UX researcher',   'It’s Our Research — evidence as a team sport.']
   ]},
   { name: 'Economics', items: [
     ['schumpeter','Joseph Schumpeter', 'Economist', 'Creative destruction — progress has a price and a pattern.'],
@@ -377,58 +375,57 @@ var PEOPLE_SHELVES = [
 /* books: [title, author, year label, sort year, coverId (0 = none)] — shelved, oldest first */
 var BOOK_SHELVES = [
   { name: 'Science, Math & Technology', items: [
-    ['A Most Improbable Journey','Walter Alvarez','2016',8876598,'improbable-journey'],
-    ['Conquest of the Moon','Braun, Ley & Ryan','1953',7385772,'conquest-of-the-moon'],
-    ['The Rise and Fall of the Dinosaurs','Steve Brusatte','2018',14615391,'rise-fall-dinosaurs'],
-    ['The Rise and Reign of the Mammals','Steve Brusatte','2022',13548048,'rise-reign-mammals'],
-    ['Algorithms to Live By','Christian & Griffiths','2016',8042539,'algorithms-to-live-by'],
-    ['The Origin of Species','Charles Darwin','1859',7153600,'origin-of-species'],
-    ['Guns, Germs and Steel','Jared Diamond','1997',7884018,'guns-germs-and-steel'],
-    ['Sapiens','Yuval Noah Harari','2011',8634250,'sapiens'],
     ['A Brief History of Time','Stephen Hawking','1988',10432365,'brief-history-of-time'],
     ['The Grand Design','Stephen Hawking','2010',6565532,'grand-design'],
-    ['The Story of Earth','Robert M. Hazen','2012',7983441,'story-of-earth'],
-    ['Symphony in C','Robert M. Hazen','2019',10143802,'symphony-in-c'],
-    ['Thinking, Fast and Slow','Daniel Kahneman','2011',13290711,'thinking-fast-and-slow'],
-    ['The Future of Humanity','Michio Kaku','2018',8807416,'future-of-humanity'],
-    ['Failure Is Not an Option','Gene Kranz','2000',6805997,'failure-is-not-an-option'],
+    ['Cosmos','Carl Sagan','1980',8283901,'cosmos'],
+    ['The First Three Minutes','Steven Weinberg','1977',298540,'first-three-minutes'],
+    ['Infinite Powers','Steven H. Strogatz','2019',8796821,'infinite-powers'],
+    ['Algorithms to Live By','Christian & Griffiths','2016',8042539,'algorithms-to-live-by'],
     ['The Age of Spiritual Machines','Ray Kurzweil','1999',7343904,'age-of-spiritual-machines'],
     ['The Singularity Is Near','Ray Kurzweil','2005',400518,'singularity-is-near'],
     ['The Singularity Is Nearer','Ray Kurzweil','2024',14861631,'singularity-is-nearer'],
-    ['On the Trail of Stardust','Jon Larsen','2017',8803275,'stardust'],
+    ['Conquest of the Moon','Braun, Ley & Ryan','1953',7385772,'conquest-of-the-moon'],
+    ['The Future of Humanity','Michio Kaku','2018',8807416,'future-of-humanity'],
+    ['Failure Is Not an Option','Gene Kranz','2000',6805997,'failure-is-not-an-option'],
     ['The Box','Marc Levinson','2006',2549298,'the-box'],
     ['Apollo 13','Lovell & Kluger','1994',406185,'apollo-13'],
-    ['Dirty Genes','Ben Lynch','2018',9222139,'dirty-genes'],
     ['Saturn V Flight Manual','NASA','1968',3035786,'saturn-v-flight-manual'],
     ['Skunk Works','Ben R. Rich','1994',7321776,'skunk-works'],
-    ['Cosmos','Carl Sagan','1980',8283901,'cosmos'],
-    ['The Art of Statistics','David Spiegelhalter','2019',9500448,'art-of-statistics'],
-    ['Infinite Powers','Steven H. Strogatz','2019',8796821,'infinite-powers'],
+    ['A Most Improbable Journey','Walter Alvarez','2016',8876598,'improbable-journey'],
+    ['The Rise and Fall of the Dinosaurs','Steve Brusatte','2018',14615391,'rise-fall-dinosaurs'],
+    ['The Rise and Reign of the Mammals','Steve Brusatte','2022',13548048,'rise-reign-mammals'],
+    ['The Origin of Species','Charles Darwin','1859',7153600,'origin-of-species'],
+    ['Guns, Germs and Steel','Jared Diamond','1997',7884018,'guns-germs-and-steel'],
+    ['Sapiens','Yuval Noah Harari','2011',8634250,'sapiens'],
+    ['The Story of Earth','Robert M. Hazen','2012',7983441,'story-of-earth'],
+    ['Symphony in C','Robert M. Hazen','2019',10143802,'symphony-in-c'],
+    ['Thinking, Fast and Slow','Daniel Kahneman','2011',13290711,'thinking-fast-and-slow'],
+    ['On the Trail of Stardust','Jon Larsen','2017',8803275,'stardust'],
+    ['Dirty Genes','Ben Lynch','2018',9222139,'dirty-genes'],
     ['Nudge','Thaler & Sunstein','2008',6402116,'nudge'],
-    ['Why We Sleep','Matthew Walker','2017',8814155,'why-we-sleep'],
-    ['The First Three Minutes','Steven Weinberg','1977',298540,'first-three-minutes']
+    ['Why We Sleep','Matthew Walker','2017',8814155,'why-we-sleep']
   ]},
   { name: 'History', items: [
-    ['Daily Life in the Roman City','Gregory Aldrete','2004',8634845,'roman-city'],
-    ['The Anarchy','William Dalrymple','2019',9134924,'anarchy'],
-    ['The Case for India','Will Durant','1930',12013906,'case-for-india'],
-    ['The Lessons of History','Will & Ariel Durant','1968',7240225,'lessons-of-history'],
-    ['The Fall of the Roman Empire','Peter Heather','2005',126163,'fall-of-roman-empire'],
-    ['Kim','Rudyard Kipling','1901',1053011,'kim'],
     ['The Vedic Age','R.C. Majumdar','1951',10819742,'vedic-age'],
     ['Ancient India','R.C. Majumdar','1952',0,'ancient-india'],
     ['The Classical Age','R.C. Majumdar','1954',14931177,'classical-age'],
+    ['Daily Life in the Roman City','Gregory Aldrete','2004',8634845,'roman-city'],
+    ['The Fall of the Roman Empire','Peter Heather','2005',126163,'fall-of-roman-empire'],
+    ['The Anarchy','William Dalrymple','2019',9134924,'anarchy'],
     ['Rambles and Recollections','W.H. Sleeman','1844',1758341,'rambles-recollections'],
-    ['A Journey Through the Kingdom of Oude','W.H. Sleeman','1858',10607335,'kingdom-of-oude']
+    ['A Journey Through the Kingdom of Oude','W.H. Sleeman','1858',10607335,'kingdom-of-oude'],
+    ['Kim','Rudyard Kipling','1901',1053011,'kim'],
+    ['The Case for India','Will Durant','1930',12013906,'case-for-india'],
+    ['The Lessons of History','Will & Ariel Durant','1968',7240225,'lessons-of-history']
   ]},
   { name: 'War', items: [
+    ['The Art of War','Sun Tzu','c. 500 BC',4849549,'art-of-war'],
+    ['The Guns of August','Barbara W. Tuchman','1962',6616967,'guns-of-august'],
     ['The Second World War','Antony Beevor','2012',7239351,'second-world-war'],
-    ['Military Power','Stephen Biddle','2004',443420,'military-power'],
-    ['The Billion Dollar Spy','David E. Hoffman','2015',12173972,'billion-dollar-spy'],
     ['Blood Red Snow','Günter K. Koschorrek','2002',903057,'blood-red-snow'],
     ['Aircraft Carriers','Norman Polmar','2006',0,'aircraft-carriers'],
-    ['The Art of War','Sun Tzu','c. 500 BC',4849549,'art-of-war'],
-    ['The Guns of August','Barbara W. Tuchman','1962',6616967,'guns-of-august']
+    ['The Billion Dollar Spy','David E. Hoffman','2015',12173972,'billion-dollar-spy'],
+    ['Military Power','Stephen Biddle','2004',443420,'military-power']
   ]},
   { name: 'Political Science & Diplomacy', items: [
     ['The Law','Frédéric Bastiat','1850',8819903,'the-law'],
@@ -438,6 +435,9 @@ var BOOK_SHELVES = [
     ['1984','George Orwell','1949',8745958,'1984']
   ]},
   { name: 'Business & Economics', items: [
+    ['The Wisdom of Crowds','James Surowiecki','2004',213263,'wisdom-of-crowds'],
+    ['The Black Swan','Nassim N. Taleb','2007',5721840,'black-swan'],
+    ['Antifragile','Nassim N. Taleb','2012',9180157,'antifragile'],
     ['How to Fail at Almost Everything','Scott Adams','2013',11981143,'how-to-fail'],
     ['Inspired','Marty Cagan','2008',9700654,'inspired'],
     ['Shop Class as Soulcraft','Matthew B. Crawford','2009',6275823,'shop-class-soulcraft'],
@@ -446,23 +446,20 @@ var BOOK_SHELVES = [
     ['Sprint','Knapp, Zeratsky & Kowitz','2016',7431269,'sprint'],
     ['Shoe Dog','Phil Knight','2016',8858487,'shoe-dog'],
     ['Ben & Jerry’s: The Inside Scoop','Fred Lager','1994',323420,'ben-and-jerrys'],
-    ['The Everything Store','Brad Stone','2013',7264584,'everything-store'],
-    ['The Wisdom of Crowds','James Surowiecki','2004',213263,'wisdom-of-crowds'],
-    ['The Black Swan','Nassim N. Taleb','2007',5721840,'black-swan'],
-    ['Antifragile','Nassim N. Taleb','2012',9180157,'antifragile']
+    ['The Everything Store','Brad Stone','2013',7264584,'everything-store']
   ]},
   { name: 'Exploration', items: [
-    ['The South Pole','Roald Amundsen','1912',8863562,'south-pole'],
     ['The Last Great Mountain','Mick Conefrey','2020',0,'last-great-mountain'],
     ['High Adventure','Edmund Hillary','1955',1472400,'high-adventure'],
+    ['Into Thin Air','Jon Krakauer','1997',241603,'into-thin-air'],
+    ['The Crystal Horizon','Reinhold Messner','1982',4069544,'crystal-horizon'],
+    ['Nanda Devi','Eric Shipton','1936',6542928,'nanda-devi'],
+    ['Everest 1951','Eric Shipton','1952',6614772,'everest-1951'],
+    ['The South Pole','Roald Amundsen','1912',8863562,'south-pole'],
     ['Bushcraft','Mors Kochanski','1988',769909,'bushcraft'],
     ['Into the Wild','Jon Krakauer','1996',1377482,'into-the-wild'],
-    ['Into Thin Air','Jon Krakauer','1997',241603,'into-thin-air'],
     ['Endurance','Alfred Lansing','1959',542833,'endurance'],
-    ['The Crystal Horizon','Reinhold Messner','1982',4069544,'crystal-horizon'],
-    ['Adventures in the Wilderness','W.H.H. Murray','1869',6063906,'adventures-wilderness'],
-    ['Nanda Devi','Eric Shipton','1936',6542928,'nanda-devi'],
-    ['Everest 1951','Eric Shipton','1952',6614772,'everest-1951']
+    ['Adventures in the Wilderness','W.H.H. Murray','1869',6063906,'adventures-wilderness']
   ]},
   { name: 'Sports', items: [
     ['Open','Andre Agassi','2009',6714053,'open'],
