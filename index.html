@@ -231,10 +231,15 @@ a.card:hover, a.card:focus-visible {
   transform: translateY(-2px);
 }
 .card-thumb {
+  position: relative;
   height: 152px; border-bottom: 1px solid var(--border);
   background-color: var(--surface);
   background-image: repeating-linear-gradient(45deg, var(--accent-soft) 0 9px, transparent 9px 18px);
   display: flex; align-items: flex-end; padding: 12px;
+}
+.card-thumb img {
+  position: absolute; inset: 0; z-index: 1;
+  width: 100%; height: 100%; object-fit: cover;
 }
 .card-thumb span {
   font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .1em;
@@ -342,22 +347,8 @@ a.card:hover, a.card:focus-visible {
     </div>
     <div class="work-grid">
 
-      <a class="card" href="https://one-pulse.app">
-        <div class="card-thumb"><span>Pulse — app preview</span></div>
-        <div class="card-body">
-          <h3 class="card-title">Pulse</h3>
-          <p class="card-desc">One question a day on what affects everyone — a data-based read on public opinion instead of the social-media shouting match.</p>
-          <div class="tag-row">
-            <span class="tag">Solo build</span>
-            <span class="tag">Consumer / civic</span>
-            <span class="tag">2025</span>
-          </div>
-          <span class="card-link">one-pulse.app →</span>
-        </div>
-      </a>
-
       <a class="card" href="https://laserchat.app">
-        <div class="card-thumb"><span>LaserChat — app preview</span></div>
+        <div class="card-thumb"><img src="assets/work/laserchat.png" alt="" loading="lazy" onerror="this.remove()" /><span>LaserChat — app preview</span></div>
         <div class="card-body">
           <h3 class="card-title">LaserChat</h3>
           <p class="card-desc">A council of AI agents that think differently, debate each other, and converge on answers with fewer blind spots.</p>
@@ -371,7 +362,7 @@ a.card:hover, a.card:focus-visible {
       </a>
 
       <a class="card" href="https://gosandeepsharma.com/alloftime/">
-        <div class="card-thumb"><span>Walk Through Time — preview</span></div>
+        <div class="card-thumb"><img src="assets/work/walk-through-time.png" alt="" loading="lazy" onerror="this.remove()" /><span>Walk Through Time — preview</span></div>
         <div class="card-body">
           <h3 class="card-title">A Walk Through Time</h3>
           <p class="card-desc">An interactive history of everything — six nested time-scales that zoom from the Big Bang to human civilization.</p>
