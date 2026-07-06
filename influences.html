@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Influences — Sandeep Sharma</title>
-<meta name="description" content="The people and books that shaped how Sandeep Sharma thinks and builds — 35 people and 89 books, shelved by theme." />
+<title>My Influences — Sandeep Sharma</title>
+<meta name="description" content="The people and books that have inspired Sandeep Sharma — 35 people and 90 books, shelved by theme." />
 
 <link rel="canonical" href="https://gosandeepsharma.com/influences" />
 <meta property="og:title" content="Influences — Sandeep Sharma" />
-<meta property="og:description" content="The people and books that shaped how I think and build — shelved by theme, ordered by time." />
+<meta property="og:description" content="The people and books that have inspired me, have shaped who I am and how I think & work." />
 <meta property="og:url" content="https://gosandeepsharma.com/influences" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Sandeep Sharma" />
@@ -170,7 +170,12 @@ a { color: var(--link); }
   margin: 0; max-width: 44rem;
 }
 
-.tabs { display: flex; gap: 10px; justify-content: center; padding: 6px 20px 8px; }
+.tabs {
+  display: flex; gap: 10px; justify-content: center; padding: 6px 20px 8px;
+  position: sticky; top: var(--topbar-h, 68px); z-index: 40;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(6px);
+}
 .tab {
   font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em;
   text-transform: uppercase; color: var(--text-soft);
@@ -257,9 +262,8 @@ a { color: var(--link); }
   <!-- Page header -->
   <section class="page-head">
     <div class="glow" aria-hidden="true"></div>
-    <p class="kicker">Standing on shoulders</p>
-    <h1>Influences</h1>
-    <p class="lead">The people and books that shaped how I think and build — shelved by theme, ordered by time.</p>
+    <h1>My Influences</h1>
+    <p class="lead">The people and books that have inspired me, have shaped who I am and how I think &amp; work.</p>
   </section>
 
   <!-- Tabs -->
@@ -272,7 +276,6 @@ a { color: var(--link); }
       <p class="sort-note">Each row runs oldest → newest</p>
     </div>
     <div id="panel-books" role="tabpanel" aria-labelledby="tab-books" hidden>
-      <p class="sort-note">Grouped by author within each shelf</p>
     </div>
     <p class="credits">Portraits via Wikimedia Commons · Covers via <a href="https://openlibrary.org">Open Library</a></p>
   </section>
@@ -454,6 +457,7 @@ var BOOK_SHELVES = [
     ['Into Thin Air','Jon Krakauer','1997',241603,'into-thin-air'],
     ['The Crystal Horizon','Reinhold Messner','1982',4069544,'crystal-horizon'],
     ['Nanda Devi','Eric Shipton','1936',6542928,'nanda-devi'],
+    ['Upon That Mountain','Eric Shipton','1943',0,'upon-that-mountain'],
     ['Everest 1951','Eric Shipton','1952',6614772,'everest-1951'],
     ['The South Pole','Roald Amundsen','1912',8863562,'south-pole'],
     ['Bushcraft','Mors Kochanski','1988',769909,'bushcraft'],
@@ -542,7 +546,8 @@ function card(kind, imgUrl, name, sub, tip) {
     bRoot.appendChild(shelfHead(i, shelf.name));
     var grid = document.createElement('div'); grid.className = 'cards';
     shelf.items.forEach(function (it) {
-      var url = 'assets/covers/' + it[4] + '.jpg';
+      var CEXT = { 'into-the-wild': 'webp' };
+      var url = 'assets/covers/' + it[4] + '.' + (CEXT[it[4]] || 'jpg');
       grid.appendChild(card('book', url, it[0], it[1], it[0] + ' — ' + it[1] + ', ' + it[2]));
     });
     bRoot.appendChild(grid);
@@ -575,6 +580,16 @@ function card(kind, imgUrl, name, sub, tip) {
     });
   });
   if (location.hash === '#books') activate(tabs[1]);
+})();
+
+/* Keep sticky tabs pinned right below the top bar, whatever its height */
+(function () {
+  var bar = document.querySelector('.topbar');
+  function setH() {
+    document.documentElement.style.setProperty('--topbar-h', bar.offsetHeight + 'px');
+  }
+  setH();
+  window.addEventListener('resize', setH);
 })();
 </script>
 </body>
