@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Influences — Sandeep Sharma</title>
-<meta name="description" content="The people and books that shaped how Sandeep Sharma thinks and builds — 36 people and 90 books, shelved by theme." />
+<meta name="description" content="The people and books that shaped how Sandeep Sharma thinks and builds — 37 people and 90 books, shelved by theme." />
 
 <link rel="canonical" href="https://gosandeepsharma.com/influences" />
 <meta property="og:title" content="Influences — Sandeep Sharma" />
@@ -318,45 +318,10 @@ a { color: var(--link); }
    DATA — people and books, grouped by shelf,
    already sorted oldest → newest within each shelf.
    ============================================================ */
-var WIKI = 'https://upload.wikimedia.org/wikipedia/';
-var FACE = {
-  verne: WIKI + 'commons/thumb/4/4b/Jules_Verne_by_%C3%89tienne_Carjat.jpg/330px-Jules_Verne_by_%C3%89tienne_Carjat.jpg',
-  wells: WIKI + 'commons/thumb/4/4b/H.G._Wells_by_Beresford.jpg/330px-H.G._Wells_by_Beresford.jpg',
-  draper: WIKI + 'commons/thumb/9/92/Charles_Stark_Draper_c1965_Bachrach_portrait.png/330px-Charles_Stark_Draper_c1965_Bachrach_portrait.png',
-  vonbraun: WIKI + 'commons/thumb/5/5e/Wernher_von_Braun_crop.jpg/330px-Wernher_von_Braun_crop.jpg',
-  clarke: WIKI + 'commons/b/be/Arthur_C._Clarke_1965_%28cropped%29.jpg',
-  feynman: WIKI + 'en/thumb/4/42/Richard_Feynman_Nobel.jpg/330px-Richard_Feynman_Nobel.jpg',
-  faget: WIKI + 'commons/b/b0/Maxime_Faget.jpg',
-  sagan: WIKI + 'commons/b/be/Carl_Sagan_Planetary_Society.JPG',
-  hawking: WIKI + 'commons/e/eb/Stephen_Hawking.StarChild.jpg',
-  hazen: WIKI + 'commons/thumb/3/36/Dr._Robert_Hazen.jpg/330px-Dr._Robert_Hazen.jpg',
-  kurzweil: WIKI + 'commons/thumb/9/96/Ray_Kurzweil_%40_SXSW_2017_%2832594766664%29.jpg/330px-Ray_Kurzweil_%40_SXSW_2017_%2832594766664%29.jpg',
-  musk: WIKI + 'commons/thumb/5/5e/Elon_Musk_-_54820081119_%28cropped%29.jpg/330px-Elon_Musk_-_54820081119_%28cropped%29.jpg',
-  sharon: '',
-  gilmour: WIKI + 'commons/thumb/5/53/DGilmourRAH111024_%2821_of_63%29_%28cropped%29.jpg/330px-DGilmourRAH111024_%2821_of_63%29_%28cropped%29.jpg',
-  knopfler: WIKI + 'commons/thumb/2/29/Mar-Knopfler-Pensa-Blue.jpg/330px-Mar-Knopfler-Pensa-Blue.jpg',
-  hitchcock: WIKI + 'commons/thumb/9/94/Hitchcock%2C_Alfred_02.jpg/330px-Hitchcock%2C_Alfred_02.jpg',
-  hcb: WIKI + 'commons/thumb/5/58/Portrait_of_Henri_Cartier-Bresson_-_Paris_-_1954_-_Kimura_Ihei_%28cropped%29.png/330px-Portrait_of_Henri_Cartier-Bresson_-_Paris_-_1954_-_Kimura_Ihei_%28cropped%29.png',
-  aicher: WIKI + 'commons/thumb/2/2d/Otl_Aicher%2C_1959.tif/lossy-page1-330px-Otl_Aicher%2C_1959.tif.jpg',
-  kubrick: WIKI + 'commons/thumb/5/59/Stanley_Kubrick_in_Dr._Strangelove_Trailer_%284%29_Cropped.jpg/330px-Stanley_Kubrick_in_Dr._Strangelove_Trailer_%284%29_Cropped.jpg',
-  tufte: WIKI + 'commons/thumb/4/46/Edward_Tufte_-_cropped.jpg/330px-Edward_Tufte_-_cropped.jpg',
-  kare: WIKI + 'commons/thumb/8/88/SusanKare2019photo.jpg/330px-SusanKare2019photo.jpg',
-  hara: WIKI + 'commons/9/9d/Kenya_Hara_in_Sep_2015.jpg',
-  schumpeter: WIKI + 'commons/thumb/b/b1/Joseph_Schumpeter_1945_Bachrach_portrait.png/330px-Joseph_Schumpeter_1945_Bachrach_portrait.png',
-  hayek: WIKI + 'commons/thumb/7/7f/Friedrich_Hayek_portrait.jpg/330px-Friedrich_Hayek_portrait.jpg',
-  friedman: WIKI + 'commons/thumb/8/82/Portrait_of_Milton_Friedman_%284x5_cropped%29.jpg/330px-Portrait_of_Milton_Friedman_%284x5_cropped%29.jpg',
-  taleb: WIKI + 'commons/thumb/9/9b/Taleb_mug.JPG/330px-Taleb_mug.JPG',
-  sleeman: WIKI + 'commons/thumb/0/0c/William-Henry-Sleeman.jpg/330px-William-Henry-Sleeman.jpg',
-  durant: WIKI + 'commons/thumb/4/47/Will_Durant_1.jpg/330px-Will_Durant_1.jpg',
-  nehru: WIKI + 'commons/9/97/Nehru_in_the_Netherlands%2C_1957.jpg',
-  wood: WIKI + 'commons/thumb/d/d4/Michael_Wood_-_Ruins_of_Empire_%282013%29_%28cropped%29.jpg/330px-Michael_Wood_-_Ruins_of_Empire_%282013%29_%28cropped%29.jpg',
-  corbett: WIKI + 'commons/thumb/4/40/Jim_Corbett%2C_c._1907.png/330px-Jim_Corbett%2C_c._1907.png',
-  shipton: WIKI + 'commons/thumb/9/91/Himalaya_Expedition_1936_Hs_0494b-0039-Bl-135-001_%28cropped%29.jpg/330px-Himalaya_Expedition_1936_Hs_0494b-0039-Bl-135-001_%28cropped%29.jpg',
-  hillary: WIKI + 'commons/thumb/7/76/Edmund_Hillary%2C_c._1953%2C_autograph_removed.jpg/330px-Edmund_Hillary%2C_c._1953%2C_autograph_removed.jpg',
-  armstrong: WIKI + 'commons/thumb/0/0d/Neil_Armstrong_pose.jpg/330px-Neil_Armstrong_pose.jpg',
-  messner: WIKI + 'commons/thumb/2/2b/2024-02-26-Reinhold_Messner-Hart_aber_fair-2539.jpg/330px-2024-02-26-Reinhold_Messner-Hart_aber_fair-2539.jpg',
-  anker: WIKI + 'commons/thumb/7/7d/Conrad_Anker_-_2016.jpg/330px-Conrad_Anker_-_2016.jpg'
-};
+/* All images are self-hosted in assets/. Most portraits are .jpg;
+   the exceptions are listed here by extension. */
+var PEXT = { aicher: 'webp', hcb: 'webp', musk: 'webp', nehru: 'webp', bach: 'avif' };
+function face(id) { return 'assets/people/' + id + '.' + (PEXT[id] || 'jpg'); }
 
 /* people: [id, name, years, one-liner] — shelved, oldest first */
 var PEOPLE_SHELVES = [
@@ -376,6 +341,7 @@ var PEOPLE_SHELVES = [
     ['sharon',   'Tomer Sharon',       'UX researcher',          'It’s Our Research — evidence as a team sport.']
   ]},
   { name: 'Craft', items: [
+    ['bach',     'Johann Sebastian Bach', 'Composer', 'Structure and soul in the same breath — mathematics you can feel.'],
     ['hitchcock','Alfred Hitchcock',   'Filmmaker', 'Suspense as engineering — the audience’s mind was his instrument.'],
     ['hcb',      'Henri Cartier-Bresson','Photographer','The decisive moment — patience, then precision.'],
     ['aicher',   'Otl Aicher',         'Graphic designer', 'Munich ’72 — a universal language built from grids.'],
@@ -570,7 +536,7 @@ function card(kind, imgUrl, name, sub, tip) {
     pRoot.appendChild(shelfHead(i, shelf.name));
     var grid = document.createElement('div'); grid.className = 'cards';
     shelf.items.forEach(function (it) {
-      grid.appendChild(card('person', FACE[it[0]] || '', it[1], it[2], it[3]));
+      grid.appendChild(card('person', face(it[0]), it[1], it[2], it[3]));
     });
     pRoot.appendChild(grid);
   });
@@ -579,7 +545,7 @@ function card(kind, imgUrl, name, sub, tip) {
     bRoot.appendChild(shelfHead(i, shelf.name));
     var grid = document.createElement('div'); grid.className = 'cards';
     shelf.items.forEach(function (it) {
-      var url = it[3] ? 'https://covers.openlibrary.org/b/id/' + it[3] + '-M.jpg' : '';
+      var url = 'assets/covers/' + it[4] + '.jpg';
       grid.appendChild(card('book', url, it[0], it[1], it[0] + ' — ' + it[1] + ', ' + it[2]));
     });
     bRoot.appendChild(grid);
