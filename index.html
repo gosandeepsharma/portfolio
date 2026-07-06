@@ -217,7 +217,7 @@ a { color: var(--link); }
 .section-rule { flex: 1; height: 1px; background: var(--border); }
 
 /* --- 01 Work: cards --- */
-.work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 430px)); gap: 20px; }
 .card {
   display: flex; flex-direction: column;
   background: var(--surface); border: 1px solid var(--border);
@@ -226,13 +226,13 @@ a { color: var(--link); }
   transition: box-shadow .2s ease, transform .18s var(--ease),
               background-color .3s ease, border-color .3s ease, color .3s ease;
 }
-a.card:hover, a.card:focus-visible {
+.card:hover {
   box-shadow: inset 3px 0 0 var(--accent);
   transform: translateY(-2px);
 }
 .card-thumb {
   position: relative;
-  height: 152px; border-bottom: 1px solid var(--border);
+  height: 180px; border-bottom: 1px solid var(--border);
   background-color: var(--surface);
   background-image: repeating-linear-gradient(45deg, var(--accent-soft) 0 9px, transparent 9px 18px);
   display: flex; align-items: flex-end; padding: 12px;
@@ -248,15 +248,16 @@ a.card:hover, a.card:focus-visible {
   border: 1px solid var(--border); border-radius: 5px;
 }
 .card-body { padding: 20px 20px 22px; }
-.card-title { font-family: var(--font-head); font-weight: 600; font-size: 19px; margin: 0 0 8px; }
-.card-desc { font-size: 14px; line-height: 1.55; color: var(--text-soft); margin: 0 0 16px; }
-.tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
-.tag {
-  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--text-soft);
-  border: 1px solid var(--border); border-radius: 999px; padding: 4px 9px;
+.card-desc { font-size: 15px; line-height: 1.6; color: var(--text); margin: 0 0 18px; }
+.card-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-head); font-weight: 600; font-size: 14px;
+  color: var(--bg); background: var(--link);
+  border-radius: 999px; padding: 10px 30px;
+  text-decoration: none;
+  transition: filter .15s ease, transform .15s ease;
 }
-.card-link { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; color: var(--link); }
+.card-btn:hover, .card-btn:focus-visible { filter: brightness(.92); transform: translateY(-1px); }
 
 /* --- 02 Writing: empty state --- */
 .empty-state { border: 1px dashed var(--border); border-radius: var(--radius); padding: 40px; text-align: center; }
@@ -338,42 +339,30 @@ a.card:hover, a.card:focus-visible {
     </figure>
   </section>
 
-  <!-- 01 Selected work -->
+  <!-- 01 Stuff I've built -->
   <section class="section wrap" id="work" aria-labelledby="work-title">
     <div class="section-head">
       <span class="section-num" aria-hidden="true">01</span>
-      <h2 class="section-title" id="work-title">Selected work</h2>
+      <h2 class="section-title" id="work-title">Stuff I&rsquo;ve built</h2>
       <span class="section-rule" aria-hidden="true"></span>
     </div>
     <div class="work-grid">
 
-      <a class="card" href="https://laserchat.app">
-        <div class="card-thumb"><img src="assets/work/laserchat.png" alt="" loading="lazy" onerror="this.remove()" /><span>LaserChat — app preview</span></div>
+      <div class="card">
+        <div class="card-thumb"><img src="assets/work/walk-through-time.png" alt="A Walk Through Time — title card" loading="lazy" onerror="this.remove()" /><span>Walk Through Time — preview</span></div>
         <div class="card-body">
-          <h3 class="card-title">LaserChat</h3>
-          <p class="card-desc">A council of AI agents that think differently, debate each other, and converge on answers with fewer blind spots.</p>
-          <div class="tag-row">
-            <span class="tag">Solo build</span>
-            <span class="tag">AI / tools</span>
-            <span class="tag">2025</span>
-          </div>
-          <span class="card-link">laserchat.app →</span>
+          <p class="card-desc">My attempt to grasp the scale of time, from the Big Bang to the current moment. Walking through it all in one place — deep history laid out beside recent events — yields surprising perspective.</p>
+          <a class="card-btn" href="https://gosandeepsharma.com/alloftime/" aria-label="Open A Walk Through Time">Open</a>
         </div>
-      </a>
+      </div>
 
-      <a class="card" href="https://gosandeepsharma.com/alloftime/">
-        <div class="card-thumb"><img src="assets/work/walk-through-time.png" alt="" loading="lazy" onerror="this.remove()" /><span>Walk Through Time — preview</span></div>
+      <div class="card">
+        <div class="card-thumb"><img src="assets/work/laserchat.png" alt="LaserChat — three partial views make a whole elephant" loading="lazy" onerror="this.remove()" /><span>LaserChat — app preview</span></div>
         <div class="card-body">
-          <h3 class="card-title">A Walk Through Time</h3>
-          <p class="card-desc">An interactive history of everything — six nested time-scales that zoom from the Big Bang to human civilization.</p>
-          <div class="tag-row">
-            <span class="tag">Solo build</span>
-            <span class="tag">Interactive / edu</span>
-            <span class="tag">2026</span>
-          </div>
-          <span class="card-link">gosandeepsharma.com/alloftime →</span>
+          <p class="card-desc">LaserChat is my answer to trusting any single AI: a small council of agents that think differently, debate each other, and converge on answers with fewer blind spots.</p>
+          <a class="card-btn" href="https://laserchat.app" aria-label="Open LaserChat">Open</a>
         </div>
-      </a>
+      </div>
 
     </div>
   </section>
