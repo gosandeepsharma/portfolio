@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Principles — Sandeep Sharma</title>
-<meta name="description" content="What I build by: eight principles that keep me honest — intellectual humility, systems over symptoms, ambition on stability, and the synthesis of machine precision with human judgment." />
+<title>About me — Sandeep Sharma</title>
+<meta name="description" content="Who Sandeep Sharma is, what he's doing now, and why he builds things." />
 
-<link rel="canonical" href="https://gosandeepsharma.com/principles" />
-<meta property="og:title" content="Principles — Sandeep Sharma" />
-<meta property="og:description" content="The working belief behind everything here: synthesize the precision and scale of machines with the vitality and judgment of humanity." />
-<meta property="og:url" content="https://gosandeepsharma.com/principles" />
-<meta property="og:type" content="website" />
+<link rel="canonical" href="https://gosandeepsharma.com/about" />
+<meta property="og:title" content="About me — Sandeep Sharma" />
+<meta property="og:description" content="Who I am, what I'm doing now, and why I build things." />
+<meta property="og:url" content="https://gosandeepsharma.com/about" />
+<meta property="og:type" content="profile" />
 <meta property="og:site_name" content="Sandeep Sharma" />
 <meta name="twitter:card" content="summary" />
 <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
@@ -20,14 +20,13 @@
 <!-- Set theme before paint to avoid flash -->
 <script>(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 
-<!-- Fonts: Archivo (DIN-style headings; DIN Next W1G used automatically if licensed) + IBM Plex Sans (body) + IBM Plex Mono (labels) -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
 <style>
 /* ============================================================
-   1. DESIGN TOKENS — from the Claude Design handover
+   1. DESIGN TOKENS
    ============================================================ */
 :root {
   --bg:          #FFFFFF;
@@ -153,86 +152,35 @@ a { color: var(--link); }
   opacity: .6; filter: blur(16px); pointer-events: none;
   animation: glowdrift 15s ease-in-out infinite;
 }
-.kicker {
-  position: relative;
-  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .2em;
-  text-transform: uppercase; color: var(--link); margin-bottom: 18px;
-}
 .page-head h1 {
   position: relative;
   font-family: var(--font-head); font-weight: 600;
   font-size: clamp(30px, 4.5vw, 40px); line-height: 1.08; letter-spacing: -.015em;
-  margin: 0 0 14px;
-}
-.page-head .lead {
-  position: relative;
-  font-size: 17px; line-height: 1.6; color: var(--text-soft);
-  margin: 0; max-width: 46rem;
+  margin: 0;
 }
 
 /* ============================================================
-   5. PRINCIPLES GRID
+   5. ABOUT COPY
    ============================================================ */
-.principles { padding-block: 8px; }
-.principles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.p-card {
-  border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 24px 24px 26px; background: var(--surface);
-  display: flex; flex-direction: column; gap: 10px;
-}
-.p-head { display: flex; align-items: baseline; gap: 12px; }
-.p-num { font-family: var(--font-mono); font-size: 13px; color: var(--link); }
-.p-title { font-family: var(--font-head); font-weight: 600; font-size: 19px; margin: 0; }
-.p-sub {
-  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--text-soft);
-}
-.p-card p { font-size: 15px; line-height: 1.6; color: var(--text-soft); margin: 2px 0 0; }
-
-.closing { padding: 44px 32px 8px; display: flex; justify-content: center; }
-.closing p {
-  font-style: italic; font-size: 17px; line-height: 1.5; color: var(--text);
-  text-align: center; max-width: 38rem; margin: 0;
-  padding-top: 22px; border-top: 1px solid var(--border);
-}
+.content { padding-block: 8px 32px; display: flex; justify-content: center; }
+.about-copy { max-width: 44rem; }
+.about-copy p { margin: 0 0 18px; font-size: 16.5px; line-height: 1.65; }
+.about-copy p:last-child { margin-bottom: 0; }
 
 /* ============================================================
-   6. FOOTER
-   ============================================================ */
-.footer { margin-top: 32px; border-top: 1px solid var(--border); }
-.footer-inner {
-  display: flex; align-items: flex-end; justify-content: space-between;
-  gap: 24px; flex-wrap: wrap; padding-block: 34px 40px;
-}
-.footer-label {
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em;
-  text-transform: uppercase; color: var(--text-soft); margin-bottom: 14px;
-}
-.footer-links { display: flex; gap: 22px; flex-wrap: wrap; }
-.footer-links a { font-size: 14px; color: var(--link); text-decoration: none; }
-.footer-links a:hover { text-decoration: underline; }
-.footer-copy {
-  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em;
-  color: var(--text-soft); text-align: right;
-}
-
-/* ============================================================
-   7. RESPONSIVE
+   6. RESPONSIVE
    ============================================================ */
 @media (max-width: 720px) {
   .topbar-inner { padding: 16px 20px; }
   .nav { gap: 16px; }
   .nav-divider { display: none; }
   .wrap { padding-inline: 20px; }
-  .page-head { padding: 52px 20px 36px; }
-  .principles-grid { grid-template-columns: 1fr; }
-  .footer-inner { flex-direction: column; align-items: flex-start; }
-  .footer-copy { text-align: left; }
+  .page-head { padding: 28px 20px 20px; }
 }
 </style>
 </head>
 <body>
-<a class="skip-link" href="#principles">Skip to content</a>
+<a class="skip-link" href="#about">Skip to content</a>
 
 <header class="topbar">
   <div class="topbar-inner">
@@ -240,9 +188,9 @@ a { color: var(--link); }
     <nav class="nav" aria-label="Main">
       <a href="/#work">Work</a>
       <a href="/writings">Writings</a>
-      <a href="/principles" aria-current="page">Principles</a>
+      <a href="/principles">Principles</a>
       <a href="/influences">Influences</a>
-      <a href="/about">About</a>
+      <a href="/about" aria-current="page">About</a>
       <span class="nav-divider" aria-hidden="true"></span>
       <button class="theme-toggle" id="themeToggle" type="button">Dark</button>
     </nav>
@@ -253,109 +201,31 @@ a { color: var(--link); }
   <!-- Page header -->
   <section class="page-head">
     <div class="glow" aria-hidden="true"></div>
-    <p class="kicker">What I build by</p>
-    <h1>Principles</h1>
-    <p class="lead">The working belief behind everything here: the future belongs to those who can synthesize the precision and scale of machines with the vitality and judgment of humanity. Eight principles keep me honest.</p>
+    <h1>About me</h1>
   </section>
 
-  <!-- Principles grid -->
-  <section class="principles wrap" id="principles" aria-label="Eight principles">
-    <div class="principles-grid">
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">01</span>
-          <h2 class="p-title">Intellectual humility</h2>
-        </div>
-        <span class="p-sub">Check yourself</span>
-        <p>Confidence is quiet; insecurity is loud. "I don't know" is the beginning of wisdom.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">02</span>
-          <h2 class="p-title">Disagreement is good</h2>
-        </div>
-        <span class="p-sub">Truth over harmony</span>
-        <p>Harmony is not the goal; truth is. If everyone agrees, someone isn't thinking.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">03</span>
-          <h2 class="p-title">Structure is liberation</h2>
-        </div>
-        <span class="p-sub">Clarity = speed</span>
-        <p>Ambiguity is the enemy of speed. We move fast because our maps are clear.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">04</span>
-          <h2 class="p-title">Systems over symptoms</h2>
-        </div>
-        <span class="p-sub">Root, not leak</span>
-        <p>Don't just fix the leak; fix the root cause. Redesign the piping if you have to.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">05</span>
-          <h2 class="p-title">Universality</h2>
-        </div>
-        <span class="p-sub">Western systems + Eastern soul</span>
-        <p>Best of both worlds — as reliable as a Swiss watch, as warm and adaptable as a Mumbai market.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">06</span>
-          <h2 class="p-title">Ambition on stability</h2>
-        </div>
-        <span class="p-sub">Secure the downside</span>
-        <p>You cannot fire a cannon from a canoe. Secure the downside, then attack the upside.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">07</span>
-          <h2 class="p-title">Automate &amp; elevate</h2>
-        </div>
-        <span class="p-sub">Judgment, not repetition</span>
-        <p>Robots are for repetition; humans are for judgment.</p>
-      </article>
-
-      <article class="p-card">
-        <div class="p-head">
-          <span class="p-num" aria-hidden="true">08</span>
-          <h2 class="p-title">North star is CX</h2>
-        </div>
-        <span class="p-sub">User perception is reality</span>
-        <p>Internal metrics are vanity; user perception is reality.</p>
-      </article>
-
+  <!-- About copy -->
+  <section class="content wrap" id="about" aria-label="About Sandeep">
+    <div class="about-copy">
+      <p>I'm a product builder who never really picked one field. I follow curiosity across science, history, art, design, and philosophy, and I get the most satisfaction when an idea from one collides usefully with another.</p>
+      <p>Most of what I make starts as a small question I couldn't stop thinking about. I build to find the answer — because the fastest way I know to understand something is to try to make it myself.</p>
     </div>
   </section>
-
-  <!-- Closing line -->
-  <div class="closing">
-    <p>Clean systems, human warmth, and the humility to keep checking my own work.</p>
-  </div>
 </main>
 
-<footer class="footer">
-  <div class="wrap footer-inner">
+<footer class="footer" style="margin-top:32px; border-top:1px solid var(--border);">
+  <div class="wrap" style="display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; padding-block:34px 40px;">
     <div>
-      <div class="footer-label">Elsewhere</div>
-      <div class="footer-links">
-        <a href="mailto:gosandeepsharma@gmail.com">Email</a>
+      <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-soft); margin-bottom:14px;">Elsewhere</div>
+      <div style="display:flex; gap:22px; flex-wrap:wrap;">
+        <a href="mailto:gosandeepsharma@gmail.com" style="font-size:14px; text-decoration:none;">Email</a>
         <!-- TODO: replace # with real profile URLs -->
-        <a href="#">LinkedIn</a>
-        <a href="#">GitHub</a>
-        <a href="#">X</a>
+        <a href="#" style="font-size:14px; text-decoration:none;">LinkedIn</a>
+        <a href="#" style="font-size:14px; text-decoration:none;">GitHub</a>
+        <a href="#" style="font-size:14px; text-decoration:none;">X</a>
       </div>
     </div>
-    <div class="footer-copy">© 2026 Sandeep Sharma<br />gosandeepsharma.com</div>
+    <div style="font-family:var(--font-mono); font-size:11.5px; letter-spacing:.04em; color:var(--text-soft); text-align:right;">© 2026 Sandeep Sharma<br />gosandeepsharma.com</div>
   </div>
 </footer>
 
