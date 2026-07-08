@@ -1188,6 +1188,64 @@ class Component extends DCLogic {
 
     this.tickNodes.forEach(t => t.remove()); this.tickNodes = [];
     stage.scrollLeft = 0;
+    this.enableDragPan(stage);
+    this.addPanHint(stage);
+  }
+
+  /* ---------- drag-to-pan (horizontal scrollers) ---------- */
+  panScrollable(el) { return el.scrollWidth > el.clientWidth + 4; }
+  enableDragPan(el) {
+    if (el._panWired) { this.syncPanCursor(el); return; }
+    el._panWired = true;
+    let dragging = false, moved = 0, sx = 0, sl = 0;
+    el.addEventListener("mousedown", (e) => {
+      if (e.button !== 0 || this.adjust || !this.panScrollable(el)) return;
+      dragging = true; moved = 0; sx = e.clientX; sl = el.scrollLeft;
+      el.style.cursor = "grabbing";
+      e.preventDefault(); // avoid text selection while panning
+    });
+    window.addEventListener("mousemove", (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - sx;
+      if (Math.abs(dx) > moved) moved = Math.abs(dx);
+      el.scrollLeft = sl - dx;
+    });
+    window.addEventListener("mouseup", () => {
+      if (!dragging) return;
+      dragging = false;
+      this.syncPanCursor(el);
+      if (moved > 5) {
+        el._suppressClick = true; // a real pan — swallow the click it would fire
+        setTimeout(() => { el._suppressClick = false; }, 0);
+        this.dismissPanHints();
+      }
+    });
+    el.addEventListener("click", (e) => {
+      if (el._suppressClick) { e.stopPropagation(); e.preventDefault(); }
+    }, true);
+    el.addEventListener("scroll", () => { // wheel / trackpad sideways also proves discovery
+      if (!dragging && Math.abs(el.scrollLeft) > 40) this.dismissPanHints();
+    });
+    this.syncPanCursor(el);
+  }
+  syncPanCursor(el) { el.style.cursor = this.panScrollable(el) ? "grab" : ""; }
+  addPanHint(el) {
+    const old = el.querySelector(".tl-panhint"); if (old) old.remove();
+    if (this._panHintDone || !this.panScrollable(el)) return;
+    const chip = this.mk("div", "position:absolute;top:14px;z-index:6;pointer-events:none;font:11px 'Space Mono',monospace;letter-spacing:1.5px;color:#ffd166;background:rgba(10,12,20,.88);border:1px solid rgba(255,209,102,.42);border-radius:999px;padding:7px 15px;box-shadow:0 6px 24px -10px rgba(0,0,0,.8);transition:opacity .45s;white-space:nowrap;", "&#10231;&nbsp; DRAG SIDEWAYS TO EXPLORE");
+    chip.className = "tl-panhint";
+    el.appendChild(chip);
+    const place = () => { chip.style.left = (el.scrollLeft + el.clientWidth - chip.offsetWidth - 18) + "px"; };
+    place();
+    el.addEventListener("scroll", place);
+  }
+  dismissPanHints() {
+    if (this._panHintDone) return;
+    this._panHintDone = true;
+    document.querySelectorAll(".tl-panhint").forEach(c => {
+      c.style.opacity = "0";
+      setTimeout(() => c.remove(), 500);
+    });
   }
 
   buildTicks(PAD, innerW, bandCenter) {
@@ -1379,6 +1437,8 @@ class Component extends DCLogic {
       });
     });
     host.scrollLeft = 0;
+    this.enableDragPan(host);
+    this.addPanHint(host);
     this.applyStackFilter();
   }
   applyStackFilter() {
