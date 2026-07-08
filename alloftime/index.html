@@ -9,6 +9,11 @@
 <meta property="og:description" content="An instrument to appreciate the staggering scale of time — from the Big Bang to today, across six nested scales.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://gosandeepsharma.com/alloftime/">
+<meta property="og:image" content="https://gosandeepsharma.com/assets/work/walk-through-time.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A Walk Through Time">
+<meta name="twitter:description" content="An instrument to appreciate the staggering scale of time &mdash; from the Big Bang to today, across six nested scales.">
+<meta name="twitter:image" content="https://gosandeepsharma.com/assets/work/walk-through-time.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Archivo:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -606,6 +611,15 @@ class Component extends DCLogic {
     this.rafId = null; this.skyRaf = null;
     this.imgCache = new Map(); this.modalToken = 0;
     this.reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Deep link: #/<scale>/<in|out>[/<event-slug>], e.g. #/geologic/in/moon-forms or #/all/out
+    const dl = this.parseHash();
+    if (dl) {
+      this.state.screen = "timeline";
+      this.state.view = dl.view;
+      this.state.currentIndex = dl.index;
+      this.detail = dl.detail;
+      this._pendingEventSlug = dl.slug;
+    }
   }
 
   /* ---------- lifecycle ---------- */
@@ -621,6 +635,14 @@ class Component extends DCLogic {
     window.addEventListener("resize", this.onResize);
     this.onKey = (e) => { if (e.key === "Escape") this.closeModal(); };
     document.addEventListener("keydown", this.onKey);
+    if (this.state.screen === "timeline" && !this.built) {
+      this.buildTimeline();
+      if (this._pendingEventSlug) {
+        const ev = this.findBySlug(this._pendingEventSlug);
+        this._pendingEventSlug = null;
+        if (ev) setTimeout(() => this.openModal(ev), 450);
+      }
+    }
   }
   componentWillUnmount() {
     cancelAnimationFrame(this.skyRaf); cancelAnimationFrame(this.rafId);
@@ -643,6 +665,7 @@ class Component extends DCLogic {
       this.applyType();
       if (this.built && this.state.view === "explore") { this.buildScale(this.state.currentIndex); this.applyDomain(this.animatedStart); }
     }
+    this.updateHash();
   }
 
   applyType() { const r = this.rootRef.current; if (r) r.style.fontFamily = this.face; }
@@ -915,6 +938,38 @@ class Component extends DCLogic {
     this.buildSubfilters(this.state.currentIndex);
     if (this.state.view === "explore") { this.buildScale(this.state.currentIndex); this.applyDomain(this.animatedStart); }
     else this.buildStacked();
+    this.updateHash();
+  }
+
+  /* ---------- deep links (#/<scale>/<in|out>[/<event-slug>]) ---------- */
+  HASHKEY = { universe: "cosmic" };
+  hashKeyFor(s) { return this.HASHKEY[s.id] || s.id; }
+  slugify(t) { return String(t).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
+  parseHash() {
+    const h = (location.hash || "").replace(/^#\/?/, "");
+    if (!h) return null;
+    const p = h.split("/").map(x => { try { return decodeURIComponent(x); } catch (e) { return x; } });
+    const detail = p[1] === "in" ? "zoomed" : "full";
+    const slug = p[2] || null;
+    if (p[0] === "all") return { view: "stacked", index: 0, detail, slug };
+    const idx = this.SCALES.findIndex(s => this.hashKeyFor(s) === p[0]);
+    return idx < 0 ? null : { view: "explore", index: idx, detail, slug };
+  }
+  updateHash(ev) {
+    if (!window.history || !history.replaceState) return;
+    if (this.state.screen !== "timeline") {
+      if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+      return;
+    }
+    const key = this.state.view === "stacked" ? "all" : this.hashKeyFor(this.SCALES[this.state.currentIndex]);
+    let h = "#/" + key + "/" + (this.detail === "zoomed" ? "in" : "out");
+    if (ev) h += "/" + this.slugify(ev.title);
+    history.replaceState(null, "", h);
+  }
+  findBySlug(slug) {
+    const pool = this.state.view === "stacked" ? this.SCALES.filter(s => !s.timeAxis) : [this.SCALES[this.state.currentIndex]];
+    for (const s of pool) for (const ev of s.events) if (this.slugify(ev.title) === slug) return ev;
+    return null;
   }
 
   subGroupsFor(scale) {
@@ -1489,6 +1544,7 @@ class Component extends DCLogic {
   }
   openModal(ev) {
     const color = this.CATC[ev.category] || "#9fb0ff";
+    this.updateHash(ev);
     this.modalEl.scrollTop = 0;
     this.mVisual.style.color = color;
     this.mVisual.innerHTML = this.iconBanner(ev, color);
@@ -1538,6 +1594,7 @@ class Component extends DCLogic {
     if (!this.backdrop) return;
     this.backdrop.style.opacity = "0"; this.backdrop.style.visibility = "hidden";
     this.modalEl.style.transform = "translateY(12px) scale(.98)";
+    this.updateHash();
   }
 
   renderVals() {
