@@ -165,15 +165,24 @@ a { color: var(--link); }
 }
 
 /* ============================================================
-   5. EMPTY STATE
+   5. POST LIST
    ============================================================ */
 .content { padding-block: 8px 32px; }
-.empty-state { border: 1px dashed var(--border); border-radius: var(--radius); padding: 36px; text-align: center; background: var(--surface); }
-.empty-label {
-  font-family: var(--font-mono); font-size: 12px; letter-spacing: .16em;
-  text-transform: uppercase; color: var(--link); margin-bottom: 12px;
+.post-list { max-width: 44rem; margin-inline: auto; display: flex; flex-direction: column; gap: 16px; }
+.post {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface); padding: 20px 22px;
+  transition: transform .18s var(--ease);
 }
-.empty-state p { margin: 0 auto; max-width: 40rem; color: var(--text-soft); font-size: 15px; }
+.post:hover { transform: translateY(-2px); }
+.post-date {
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-soft);
+}
+.post-title { font-family: var(--font-head); font-weight: 600; font-size: 19px; margin: 6px 0 6px; color: var(--text); }
+.post:hover .post-title { color: var(--link); }
+.post-desc { margin: 0; font-size: 14.5px; color: var(--text-soft); }
 
 /* ============================================================
    6. FOOTER
@@ -235,11 +244,14 @@ a { color: var(--link); }
     <p class="lead">Essays, notes, and the occasional talk.</p>
   </section>
 
-  <!-- Empty state -->
+  <!-- Posts -->
   <section class="content wrap" id="writings" aria-label="Writings">
-    <div class="empty-state">
-      <div class="empty-label">Nothing published yet</div>
-      <p>Pieces will land here as they're ready. I'd rather publish something worth your time than something on schedule.</p>
+    <div class="post-list">
+      <a class="post" href="/writings/confidently-wrong">
+        <span class="post-date">12 Oct 2025</span>
+        <h2 class="post-title">Confidently Wrong</h2>
+        <p class="post-desc">My thoughts on opinions, unknowns and confidence.</p>
+      </a>
     </div>
   </section>
 </main>
