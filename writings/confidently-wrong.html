@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Confidently Wrong — Sandeep Sharma</title>
+<meta name="description" content="My thoughts on opinions, unknowns and confidence — why our observations mislead us, why confidence is a poor proxy for competence, and how to operate anyway." />
+
+<link rel="canonical" href="https://gosandeep.com/writings/confidently-wrong" />
+<meta property="og:title" content="Confidently Wrong — Sandeep Sharma" />
+<meta property="og:description" content="My thoughts on opinions, unknowns and confidence." />
+<meta property="og:url" content="https://gosandeep.com/writings/confidently-wrong" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-12" />
+<meta property="og:site_name" content="Sandeep Sharma" />
+<meta name="twitter:card" content="summary" />
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0B1413" media="(prefers-color-scheme: dark)" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- Set theme before paint to avoid flash -->
+<script>(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   1. DESIGN TOKENS
+   ============================================================ */
+:root {
+  --bg:          #FFFFFF;
+  --surface:     #FFFFFF;
+  --text:        #12211F;
+  --text-soft:   #64726F;
+  --border:      #E4E9E7;
+  --accent:      #0E9E92;
+  --link:        #08726A;
+  --accent-soft: #D6F2EE;
+  --on-accent:   #FFFFFF;
+  --dot:         rgba(14,158,146,.20);
+
+  --font-body: "IBM Plex Sans", Arial, sans-serif;
+  --font-head: "DIN Next W1G", "DIN Next", "Archivo", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+  --radius: 10px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+:root[data-theme="dark"] {
+  --bg:          #0B1413;
+  --surface:     #10201E;
+  --text:        #E8F1EF;
+  --text-soft:   #8AA09B;
+  --border:      #1E322F;
+  --accent:      #2DD4BF;
+  --link:        #2DD4BF;
+  --accent-soft: #133330;
+  --on-accent:   #0B1413;
+  --dot:         rgba(45,212,191,.12);
+}
+
+/* ============================================================
+   2. BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot) 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body * {
+  transition: background-color .3s ease, border-color .3s ease,
+              color .3s ease, box-shadow .2s ease;
+}
+a { color: var(--link); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--surface); color: var(--link);
+  padding: 10px 16px; border: 1px solid var(--border); border-radius: 8px;
+  font-family: var(--font-mono); font-size: 13px; z-index: 100;
+}
+.skip-link:focus { left: 12px; top: 12px; }
+
+.wrap { max-width: 1128px; margin-inline: auto; padding-inline: 32px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  body * { transition: none !important; }
+}
+
+/* ============================================================
+   3. TOP BAR
+   ============================================================ */
+.topbar { border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--bg) 88%, transparent); position: sticky; top: 0; z-index: 50; backdrop-filter: blur(6px); }
+.topbar-inner {
+  max-width: 1192px; margin-inline: auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  padding: 20px 32px;
+}
+.wordmark {
+  font-family: var(--font-head); font-weight: 600; font-size: 20px;
+  letter-spacing: .02em; color: var(--text); text-decoration: none;
+}
+.nav { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.nav a {
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--text-soft); text-decoration: none;
+}
+.nav a:hover { color: var(--link); }
+.nav a[aria-current="page"] {
+  color: var(--link);
+  border-bottom: 1.5px solid var(--accent); padding-bottom: 2px;
+}
+.nav-divider { width: 1px; height: 18px; background: var(--border); }
+.theme-toggle {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text);
+  background: transparent; border: 1px solid var(--border); border-radius: 8px;
+  padding: 7px 13px; cursor: pointer;
+}
+.theme-toggle:hover { border-color: var(--link); color: var(--link); }
+
+/* ============================================================
+   4. ARTICLE
+   ============================================================ */
+.article-head {
+  max-width: 44rem; margin-inline: auto;
+  padding: 40px 32px 8px;
+}
+.back-link {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em;
+  text-transform: uppercase; text-decoration: none;
+}
+.back-link:hover { text-decoration: underline; }
+.article-head h1 {
+  font-family: var(--font-head); font-weight: 600;
+  font-size: clamp(30px, 4.5vw, 40px); line-height: 1.08; letter-spacing: -.015em;
+  margin: 18px 0 10px;
+}
+.article-sub { font-size: 17px; color: var(--text-soft); margin: 0 0 14px; }
+.article-meta {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--text-soft);
+}
+
+.article {
+  max-width: 44rem; margin-inline: auto;
+  padding: 20px 32px 48px;
+}
+.article p { margin: 0 0 18px; }
+.article h2 {
+  font-family: var(--font-head); font-weight: 600; font-size: 22px;
+  margin: 34px 0 14px;
+}
+.article h3 { font-family: var(--font-head); font-weight: 600; font-size: 17px; margin: 24px 0 10px; }
+.article em { font-style: italic; }
+.article .risk { margin: 0 0 18px; }
+.article .risk > p:first-child { margin-bottom: 10px; }
+.article figure { margin: 26px 0; text-align: center; }
+.article figure img {
+  max-width: 100%; height: auto; border-radius: 8px;
+  border: 1px solid var(--border); background: #fff;
+}
+.article figcaption {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-soft);
+  margin-top: 10px; line-height: 1.5;
+}
+.article ul { margin: 0 0 18px; padding-left: 1.3em; }
+.article ul li { margin-bottom: 8px; }
+.postscript {
+  margin-top: 36px; padding: 20px 22px;
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  border-radius: var(--radius); background: var(--surface);
+}
+.postscript p { margin: 0; font-size: 15.5px; line-height: 1.6; }
+.ps-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--link); display: block; margin-bottom: 8px;
+}
+
+/* ============================================================
+   5. FOOTER
+   ============================================================ */
+.footer { margin-top: 32px; border-top: 1px solid var(--border); }
+.footer-inner {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap; padding-block: 34px 40px;
+}
+.footer-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--text-soft); margin-bottom: 14px;
+}
+.footer-links { display: flex; gap: 22px; flex-wrap: wrap; }
+.footer-links a { font-size: 14px; color: var(--link); text-decoration: none; }
+.footer-links a:hover { text-decoration: underline; }
+.footer-copy {
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em;
+  color: var(--text-soft); text-align: right;
+}
+
+/* ============================================================
+   6. RESPONSIVE
+   ============================================================ */
+@media (max-width: 720px) {
+  .topbar-inner { padding: 16px 20px; }
+  .nav { gap: 16px; }
+  .nav-divider { display: none; }
+  .wrap { padding-inline: 20px; }
+  .article-head { padding: 28px 20px 4px; }
+  .article { padding: 16px 20px 40px; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .footer-copy { text-align: left; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#post">Skip to content</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="wordmark" href="/">Sandeep Sharma</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#work">Work</a>
+      <a href="/writings" aria-current="page">Writings</a>
+      <a href="/principles">Principles</a>
+      <a href="/influences">Influences</a>
+      <a href="/about">About</a>
+      <span class="nav-divider" aria-hidden="true"></span>
+      <button class="theme-toggle" id="themeToggle" type="button">Dark</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <header class="article-head">
+    <a class="back-link" href="/writings">&larr; Writings</a>
+    <h1>Confidently Wrong</h1>
+    <p class="article-sub">My thoughts on opinions, unknowns and confidence.</p>
+    <div class="article-meta">12 October 2025</div>
+  </header>
+
+  <article class="article" id="post">
+    <p>Five years ago, I was witness to an unpleasant digital exchange between two parties that had begun as a disagreement, degraded into outrage and eventually ended with insults. As a neutral observer, I could see some truth on both sides of the argument, but the individuals seemed too emotionally committed to their own opinions and version of truth to see the truth of the other, much less appreciate that the complexity of the subject was far greater than their limited opinions. This is hardly a unique experience — free expression of ideas combined with the anonymity afforded by social media is fertile ground for such exchanges — but this one instance sickened me enough to want to introspect on the nature of perspectives and opinions. I articulated two broad ideas, and filed them away in a corner of my brain. Revisiting those thoughts after five years, they seem to have aged well enough and become even more relevant today as we start thinking more about human and machine cognition.</p>
+
+    <h2>1. Have opinions, but be eager to disprove or improve them</h2>
+
+    <p>We develop opinions or mental models of reality based on sensory observation, apply reasoning on it and arrive at our own conclusions. There are three potential risks involved in this:</p>
+
+    <div class="risk">
+      <p><strong>a) Incorrect observation, incorrect conclusions:</strong> Our senses and memory are not the most reliable instruments, and observation is prone to error. We may see a part of what is in front of us and our brains fill in the rest, and every act of remembering quietly rewrites the memory itself. Eyewitness testimony is a sobering example: mistaken identifications contributed to roughly <a href="https://innocenceproject.org/dna-exonerations-in-the-united-states/" target="_blank" rel="noopener">70% of wrongful convictions in the US</a> that were later overturned by DNA evidence. It's not that witnesses in such cases lie — they merely confidently report a flawed observation. No amount of good reasoning can salvage a reliable conclusion from flawed observation.</p>
+    </div>
+
+    <div class="risk">
+      <p><strong>b) Correct observation, incorrect conclusions:</strong> Conclusions based on System 1 thinking can easily be incorrect in complex scenarios, as is demonstrated by the figure below (known as Adelson's illusion). Looking at the upper image alone, one may confidently conclude that box A is a darker shade than B. The problem is intuitive reasoning (System 1) is good for surviving on the savanna, but ill-suited for modern, complex environments. We trust our intuitive reasoning far more than we should.</p>
+    </div>
+
+    <figure>
+      <img src="/assets/writings/adelson.jpeg" alt="Adelson's checker-shadow illusion: in the upper image square A appears darker than square B; in the lower image, grey bars connecting the two squares reveal they are the same shade." width="424" height="660" loading="lazy" />
+      <figcaption>Adelson's checker-shadow illusion. The grey bars in the lower image reveal that A and B are the same shade. Image: Edward H. Adelson.</figcaption>
+    </figure>
+
+    <div class="risk">
+      <p><strong>c) Insufficient observation, incorrect conclusions:</strong> This is epistemological deficit, and by far the most common scenario in my experience. What we observe is usually a small part of something larger and more complex than is possible to understand without significant effort or study. Much like the proverbial blind people feeling a part of an elephant, we may make real but insufficient observations, to be fully able to explain the whole. The problem arises when we start to take the observations too seriously.</p>
+      <p>Consider a cylinder casting different shadows on two perpendicular walls: someone observing the square shadow may hastily and incorrectly conclude the actual object to be cuboidal. Similarly, someone else may conclude a sphere, looking at the circular shadow. <em>Both are right about what they see, but wrong about a reality that's far more complex than they imagine.</em></p>
+    </div>
+
+    <figure>
+      <img src="/assets/writings/cylinder-shadows.png" alt="A cylinder casting a square shadow on one wall and a circular shadow on another; two observers argue over whether the object is a cube or a sphere, while the label points to the cylinder as the complex reality." width="726" height="679" loading="lazy" />
+    </figure>
+
+    <p>I love how Donald Rumsfeld <a href="https://www.youtube.com/watch?v=REWeBzGuzCc" target="_blank" rel="noopener">articulated</a> this in 2002 with his known knowns, known unknowns and unknown unknowns. Unfairly ridiculed at the time by some, he gave us a memorable articulation of how to look at uncertainty and epistemological deficit. We build opinions about how something works through the lens of <em>what we know, or have experienced</em>. The average human experience however is extremely small relative to all that can be experienced. When faced with a question, our brains quickly build convincing explanations based on what little we know (known knowns), lending our opinions the garb of rationality. But the optimal answer often lies in information we know exists but can't access, or more often, in information we don't even know exists.</p>
+
+    <figure>
+      <img src="/assets/writings/knowns.png" alt="Diagram of three nested circles: a tiny dot of known knowns, a small circle of known unknowns, and a vast circle of unknown unknowns." width="483" height="306" loading="lazy" />
+    </figure>
+
+    <p>Take another example — Winston Churchill is viewed by much of western society as the greatest of the good, but starts to look a lot less benign in light of the 1943 Bengal famine that saw the deaths of nearly 4 million Indians, as a result of his callous wartime decisions.</p>
+
+    <p>Philosophically, this echoes Friedrich Nietzsche's <a href="https://en.wikipedia.org/wiki/Perspectivism" target="_blank" rel="noopener">perspectivism</a>, developed in his 1886 work <a href="https://en.wikipedia.org/wiki/Beyond_Good_and_Evil" target="_blank" rel="noopener">Beyond Good and Evil</a>: there is no view from nowhere — all knowing happens from some vantage point, partial and incomplete. Every observer is standing in front of one wall, describing one shadow.</p>
+
+    <p>What it does not explain sufficiently to me however, is <em>why</em> we get emotionally attached to our opinions, and why it is so uncomfortable for us to consider the possibility that we are wrong. It may have something to do with us merging our identities with our opinions — a threat to our existing view may be subconsciously perceived as a threat to our identity. The entanglement between opinion and identity may become especially severe in case of subjects like morality.</p>
+
+    <h2>2. Confidence vs competence</h2>
+
+    <p>Confidence is much celebrated and valued as a quality in society. We are drawn to leaders who project confidence and conviction, and are conditioned to dismiss those who sound unsure. Psychologically, this may be because our brains use confidence as a shortcut to gauge competence. The problem is that displaying confidence is easy, but gaining competence is hard.</p>
+
+    <p>Justin Kruger &amp; David Dunning, in their <a href="https://sites.lsa.umich.edu/sasi/wp-content/uploads/sites/275/2015/11/krugerdunning99.pdf" target="_blank" rel="noopener">often-cited paper</a> from 1999, somewhat controversially proposed that people with limited knowledge or competence tend to greatly overestimate their own abilities, to the point of confidence, while those with greater competence tend to underestimate themselves. In a similar vein, Nassim Taleb in his book <a href="https://www.goodreads.com/en/book/show/36064445-skin-in-the-game" target="_blank" rel="noopener">Skin in the Game</a> critiques modern elites, academics, bureaucrats and consultants who confidently propagate solutions, theories and policies from a distance without having significant actual operating experience in the subject, and as a result don't bear the real-world consequences of their ideas — sometimes causing widespread, unintended harm. Contrary to this archetype are researchers, entrepreneurs or craftspeople with years of chasing an idea, failure under their belts, applied expertise and honing of skills.</p>
+
+    <h2>Operating anyway</h2>
+
+    <p>None of this is an argument for not having opinions. Decisions still have to be made, mostly on incomplete information, and "it's complicated" is not a strategy. The lessons for me are to:</p>
+
+    <ul>
+      <li>Remain humble about one's opinions, and treat them as working drafts</li>
+      <li>Acknowledge that one could be wrong or be missing information</li>
+      <li>Welcome disagreement — it is free information</li>
+      <li>Be on the lookout for new evidence that can improve one's understanding</li>
+      <li>Not mistake confidence for competence — either in oneself or others. Experience is a better proxy.</li>
+    </ul>
+
+    <div class="postscript">
+      <span class="ps-label">Postscript · July 2026</span>
+      <p>I wrote this essay in October 2025. Since then, I've noticed that LLMs fail in strikingly human ways: they too construct confident, fluent explanations, and they don't know what they don't know. No single mind — human or machine — completely escapes the burden of its perspective. Thus, in 2026, I built <a href="https://laserchat.app" target="_blank" rel="noopener">LaserChat</a>, which provides a council of AI agents with distinct thinking styles that challenge each other before converging on an answer.</p>
+    </div>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-label">Elsewhere</div>
+      <div class="footer-links">
+        <a href="mailto:email@gosandeep.com">Email</a>
+        <a href="https://www.linkedin.com/in/gosandeepsharma/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/gosandeepsharma" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-copy">© 2026 Sandeep Sharma<br />gosandeep.com</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var btn = document.getElementById('themeToggle');
+  function apply(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    btn.textContent = theme === 'dark' ? 'Light' : 'Dark';
+    btn.setAttribute('aria-label', 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' theme');
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+  }
+  btn.addEventListener('click', function () {
+    var current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    apply(current === 'dark' ? 'light' : 'dark');
+  });
+  var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  btn.textContent = t === 'dark' ? 'Light' : 'Dark';
+  btn.setAttribute('aria-label', 'Switch to ' + (t === 'dark' ? 'light' : 'dark') + ' theme');
+})();
+</script>
+</body>
+</html>
