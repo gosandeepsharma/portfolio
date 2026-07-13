@@ -177,17 +177,18 @@ a { color: var(--link); }
   font-family: var(--font-mono); font-size: 12px; color: var(--text-soft);
   margin-top: 10px; line-height: 1.5;
 }
+.fig-row { display: flex; gap: 12px; justify-content: center; align-items: flex-start; }
+.fig-row img { width: calc(50% - 6px); max-width: 340px; }
+.fig-small img { max-width: 80%; }
+@media (max-width: 560px) {
+  .fig-row { flex-direction: column; align-items: center; }
+  .fig-row img { width: 100%; max-width: 340px; }
+}
 .article ul { margin: 0 0 18px; padding-left: 1.3em; }
 .article ul li { margin-bottom: 8px; }
-.postscript {
-  margin-top: 36px; padding: 20px 22px;
-  border: 1px solid var(--border); border-left: 3px solid var(--accent);
-  border-radius: var(--radius); background: var(--surface);
-}
-.postscript p { margin: 0; font-size: 15.5px; line-height: 1.6; }
-.ps-label {
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--link); display: block; margin-bottom: 8px;
+.article hr {
+  border: none; border-top: 1px solid var(--border);
+  margin: 36px 0 24px;
 }
 
 /* ============================================================
@@ -252,7 +253,7 @@ a { color: var(--link); }
   </header>
 
   <article class="article" id="post">
-    <p>Five years ago, I was witness to an unpleasant digital exchange between two parties that had begun as a disagreement, degraded into outrage and eventually ended with insults. As a neutral observer, I could see some truth on both sides of the argument, but the individuals seemed too emotionally committed to their own opinions and version of truth to see the truth of the other, much less appreciate that the complexity of the subject was far greater than their limited opinions. This is hardly a unique experience — free expression of ideas combined with the anonymity afforded by social media is fertile ground for such exchanges — but this one instance sickened me enough to want to introspect on the nature of perspectives and opinions. I articulated two broad ideas, and filed them away in a corner of my brain. Revisiting those thoughts after five years, they seem to have aged well enough and become even more relevant today as we start thinking more about human and machine cognition.</p>
+    <p>Five years ago, I witnessed an unpleasant digital exchange between two parties that had begun as a disagreement, degraded into outrage and eventually ended with insults. As a neutral observer, I could see some truth on both sides of the argument, but neither side seemed able to recognize the limits of its own perspective, let alone appreciate the larger complexity of the subject. This is hardly a unique experience — free expression of ideas combined with anonymity afforded by social media is fertile ground for such exchanges — but this one instance sickened me enough to introspect on the nature of perspectives and opinions. Opinions are necessary to operate in the world, and confidence is a useful tool. But both become dangerous when they outrun observation, competence, and intellectual humility. Revisiting those thoughts five years later, they feel even more relevant in a world where humans and machines alike can be confidently wrong.</p>
 
     <h2>1. Have opinions, but be eager to disprove or improve them</h2>
 
@@ -263,40 +264,41 @@ a { color: var(--link); }
     </div>
 
     <div class="risk">
-      <p><strong>b) Correct observation, incorrect conclusions:</strong> Conclusions based on System 1 thinking can easily be incorrect in complex scenarios, as is demonstrated by the figure below (known as Adelson's illusion). Looking at the upper image alone, one may confidently conclude that box A is a darker shade than B. The problem is intuitive reasoning (System 1) is good for surviving on the savanna, but ill-suited for modern, complex environments. We trust our intuitive reasoning far more than we should.</p>
+      <p><strong>b) Correct observation, incorrect conclusions:</strong> Conclusions based on <a href="https://thedecisionlab.com/reference-guide/philosophy/system-1-and-system-2-thinking" target="_blank" rel="noopener">System-1 thinking</a> can easily be incorrect in complex scenarios, as is demonstrated by the figure below (known as <a href="https://www.illusionsindex.org/i/adelson-s-checker-shadow-illusion" target="_blank" rel="noopener">Adelson's illusion</a>). Looking at the left image alone, one may confidently conclude that box A is a darker shade than B. The problem is casual reasoning (System 1) is good for surviving in the savanna, but ill-suited for modern, complex environments. We trust this far more than we should.</p>
     </div>
 
     <figure>
-      <img src="/assets/writings/adelson.jpeg" alt="Adelson's checker-shadow illusion: in the upper image square A appears darker than square B; in the lower image, grey bars connecting the two squares reveal they are the same shade." width="424" height="660" loading="lazy" />
-      <figcaption>Adelson's checker-shadow illusion. The grey bars in the lower image reveal that A and B are the same shade. Image: Edward H. Adelson.</figcaption>
+      <div class="fig-row">
+        <img src="/assets/writings/adelson-1.jpg" alt="Adelson's checker-shadow illusion: square A appears darker than square B." width="416" height="328" loading="lazy" />
+        <img src="/assets/writings/adelson-2.jpg" alt="The same image with grey bars connecting squares A and B, revealing they are the same shade." width="416" height="325" loading="lazy" />
+      </div>
+      <figcaption>Adelson's checker-shadow illusion. The grey bars in the right image reveal that A and B are the same shade. Image: Edward H. Adelson.</figcaption>
     </figure>
 
     <div class="risk">
-      <p><strong>c) Insufficient observation, incorrect conclusions:</strong> This is epistemological deficit, and by far the most common scenario in my experience. What we observe is usually a small part of something larger and more complex than is possible to understand without significant effort or study. Much like the proverbial blind people feeling a part of an elephant, we may make real but insufficient observations, to be fully able to explain the whole. The problem arises when we start to take the observations too seriously.</p>
+      <p><strong>c) Insufficient observation, incorrect conclusions:</strong> This is by far the most common scenario in my experience. What we observe is usually a small part of something larger and more complex than is possible to understand without significant effort or study. Much like the proverbial blind people feeling a part of an elephant, we may make real but insufficient observations to explain the whole. The problem arises when we start to take the observations too seriously.</p>
       <p>Consider a cylinder casting different shadows on two perpendicular walls: someone observing the square shadow may hastily and incorrectly conclude the actual object to be cuboidal. Similarly, someone else may conclude a sphere, looking at the circular shadow. <em>Both are right about what they see, but wrong about a reality that's far more complex than they imagine.</em></p>
     </div>
 
-    <figure>
+    <figure class="fig-small">
       <img src="/assets/writings/cylinder-shadows.png" alt="A cylinder casting a square shadow on one wall and a circular shadow on another; two observers argue over whether the object is a cube or a sphere, while the label points to the cylinder as the complex reality." width="726" height="679" loading="lazy" />
     </figure>
 
-    <p>I love how Donald Rumsfeld <a href="https://www.youtube.com/watch?v=REWeBzGuzCc" target="_blank" rel="noopener">articulated</a> this in 2002 with his known knowns, known unknowns and unknown unknowns. Unfairly ridiculed at the time by some, he gave us a memorable articulation of how to look at uncertainty and epistemological deficit. We build opinions about how something works through the lens of <em>what we know, or have experienced</em>. The average human experience however is extremely small relative to all that can be experienced. When faced with a question, our brains quickly build convincing explanations based on what little we know (known knowns), lending our opinions the garb of rationality. But the optimal answer often lies in information we know exists but can't access, or more often, in information we don't even know exists.</p>
+    <p>I love how Donald Rumsfeld <a href="https://www.youtube.com/watch?v=REWeBzGuzCc" target="_blank" rel="noopener">articulated</a> this in 2002 with his known knowns, known unknowns and unknown unknowns. Unfairly ridiculed at the time by some, he gave us a memorable articulation of how to look at uncertainty and epistemic deficit. We build opinions about how something works, through the lens of <em>what we know, or have experienced</em>. The average human experience however is extremely small relative to all that can be experienced. When faced with a question, our brains quickly build convincing explanations based on what little we know (known knowns), lending our opinions the garb of rationality. But the optimal answer often lies in information we know exists but can't access, or more often, in information we don't even know exists.</p>
 
     <figure>
       <img src="/assets/writings/knowns.png" alt="Diagram of three nested circles: a tiny dot of known knowns, a small circle of known unknowns, and a vast circle of unknown unknowns." width="483" height="306" loading="lazy" />
     </figure>
 
-    <p>Take another example — Winston Churchill is viewed by much of western society as the greatest of the good, but starts to look a lot less benign in light of the 1943 Bengal famine that saw the deaths of nearly 4 million Indians, as a result of his callous wartime decisions.</p>
-
-    <p>Philosophically, this echoes Friedrich Nietzsche's <a href="https://en.wikipedia.org/wiki/Perspectivism" target="_blank" rel="noopener">perspectivism</a>, developed in his 1886 work <a href="https://en.wikipedia.org/wiki/Beyond_Good_and_Evil" target="_blank" rel="noopener">Beyond Good and Evil</a>: there is no view from nowhere — all knowing happens from some vantage point, partial and incomplete. Every observer is standing in front of one wall, describing one shadow.</p>
+    <p>Take another example — western society remembers Winston Churchill as a hero. That's one perspective. His reputation tends to take a very different color in India, where <a href="https://www.goodreads.com/book/show/8890989-churchill-s-secret-war" target="_blank" rel="noopener">his role in the 1943 Bengal famine</a> — diverting Indian resources to the imperial war effort and post-war stockpiles over famine relief — led to the deaths of roughly 3 million Indians. Genghis Khan is another historical figure with extremely different interpretations: a symbol of conquest and slaughter to some, nation-builder to others. The same person can occupy very different moral positions depending on which history one inherits. Philosophically, this echoes Friedrich Nietzsche's <a href="https://en.wikipedia.org/wiki/Perspectivism" target="_blank" rel="noopener">perspectivism</a>: the idea that what we call 'truth' is often shaped by standpoint, interest, history, and interpretation. A single view rarely exhausts reality.</p>
 
     <p>What it does not explain sufficiently to me however, is <em>why</em> we get emotionally attached to our opinions, and why it is so uncomfortable for us to consider the possibility that we are wrong. It may have something to do with us merging our identities with our opinions — a threat to our existing view may be subconsciously perceived as a threat to our identity. The entanglement between opinion and identity may become especially severe in case of subjects like morality.</p>
 
     <h2>2. Confidence vs competence</h2>
 
-    <p>Confidence is much celebrated and valued as a quality in society. We are drawn to leaders who project confidence and conviction, and are conditioned to dismiss those who sound unsure. Psychologically, this may be because our brains use confidence as a shortcut to gauge competence. The problem is that displaying confidence is easy, but gaining competence is hard.</p>
+    <p>Confidence is much celebrated and valued as a quality in society. We are drawn to those who project confidence and conviction, and are conditioned to dismiss those who sound unsure. Psychologically, this may be because our brains use confidence as a shortcut to gauge competence. The problem is that displaying confidence is easy, but gaining competence is hard.</p>
 
-    <p>Justin Kruger &amp; David Dunning, in their <a href="https://sites.lsa.umich.edu/sasi/wp-content/uploads/sites/275/2015/11/krugerdunning99.pdf" target="_blank" rel="noopener">often-cited paper</a> from 1999, somewhat controversially proposed that people with limited knowledge or competence tend to greatly overestimate their own abilities, to the point of confidence, while those with greater competence tend to underestimate themselves. In a similar vein, Nassim Taleb in his book <a href="https://www.goodreads.com/en/book/show/36064445-skin-in-the-game" target="_blank" rel="noopener">Skin in the Game</a> critiques modern elites, academics, bureaucrats and consultants who confidently propagate solutions, theories and policies from a distance without having significant actual operating experience in the subject, and as a result don't bear the real-world consequences of their ideas — sometimes causing widespread, unintended harm. Contrary to this archetype are researchers, entrepreneurs or craftspeople with years of chasing an idea, failure under their belts, applied expertise and honing of skills.</p>
+    <p>Justin Kruger &amp; David Dunning in their <a href="https://sites.lsa.umich.edu/sasi/wp-content/uploads/sites/275/2015/11/krugerdunning99.pdf" target="_blank" rel="noopener">often-cited paper</a> from 1999, somewhat controversially proposed that people with limited knowledge or competence tend to greatly overestimate their own abilities, to the point of confidence, while those with greater competence tend to underestimate themselves. Nassim Taleb in his book <a href="https://www.goodreads.com/en/book/show/36064445-skin-in-the-game" target="_blank" rel="noopener">Skin in the Game</a> further critiques experts, bureaucrats and consultants who confidently propagate solutions, theories and policies from a distance without having significant actual operating experience in the subject and as a result don't bear the real-world consequences of their ideas, sometimes causing widespread, unintended harm. Contrary to this archetype are researchers, entrepreneurs or craftspeople with years of chasing an idea, failure, applied expertise and honing of skills.</p>
 
     <h2>Operating anyway</h2>
 
@@ -307,13 +309,12 @@ a { color: var(--link); }
       <li>Acknowledge that one could be wrong or be missing information</li>
       <li>Welcome disagreement — it is free information</li>
       <li>Be on the lookout for new evidence that can improve one's understanding</li>
-      <li>Not mistake confidence for competence — either in oneself or others. Experience is a better proxy.</li>
+      <li>Not mistake confidence for competence — either in oneself or others. Demonstrated experience, skin in the game, and a track record of learning from reality are better proxies.</li>
     </ul>
 
-    <div class="postscript">
-      <span class="ps-label">Postscript · July 2026</span>
-      <p>I wrote this essay in October 2025. Since then, I've noticed that LLMs fail in strikingly human ways: they too construct confident, fluent explanations, and they don't know what they don't know. No single mind — human or machine — completely escapes the burden of its perspective. Thus, in 2026, I built <a href="https://laserchat.app" target="_blank" rel="noopener">LaserChat</a>, which provides a council of AI agents with distinct thinking styles that challenge each other before converging on an answer.</p>
-    </div>
+    <hr />
+
+    <p><strong>Postscript, July 2026</strong> — I wrote this essay in October 2025. Since then, I've noticed that LLMs fail in strikingly human ways: they too construct confident, fluent explanations, and they don't know what they don't know. No single mind — human or machine — completely escapes the burden of its perspective. These thoughts led me to build <a href="https://laserchat.app" target="_blank" rel="noopener">LaserChat</a> in 2026, a tool that gives users a council of LLMs with distinct thinking styles that challenge each other to provide higher quality responses compared to a single LLM. This is my attempt to make disagreement and perspective-taking integral to AI supported decision-making.</p>
   </article>
 </main>
 
