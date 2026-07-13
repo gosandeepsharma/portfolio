@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>About me — Sandeep Sharma</title>
-<meta name="description" content="Who Sandeep Sharma is, what he's doing now, and why he builds things." />
+<meta name="description" content="Sandeep Sharma — product leader and systems builder. Fourteen-plus years across engineering, renewable energy, international business and technology; now building Alfred." />
 
 <link rel="canonical" href="https://gosandeep.com/about" />
 <meta property="og:title" content="About me — Sandeep Sharma" />
@@ -160,12 +160,35 @@ a { color: var(--link); }
 }
 
 /* ============================================================
-   5. ABOUT COPY
+   5. ABOUT COPY + TIMELINE
    ============================================================ */
 .content { padding-block: 8px 32px; display: flex; justify-content: center; }
 .about-copy { max-width: 44rem; }
 .about-copy p { margin: 0 0 18px; font-size: 16.5px; line-height: 1.65; }
-.about-copy p:last-child { margin-bottom: 0; }
+.about-copy h2 {
+  font-family: var(--font-head); font-weight: 600; font-size: 22px;
+  margin: 34px 0 18px;
+}
+
+.timeline { list-style: none; margin: 0 0 8px; padding: 0 0 0 22px; border-left: 1px solid var(--border); }
+.timeline li { position: relative; padding-bottom: 26px; }
+.timeline li:last-child { padding-bottom: 4px; }
+.timeline li::before {
+  content: ""; position: absolute; left: -26.5px; top: 7px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent); border: 1.5px solid var(--bg);
+}
+.tl-period {
+  display: block; font-family: var(--font-mono); font-size: 11.5px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--text-soft);
+  margin-bottom: 3px;
+}
+.tl-org {
+  font-family: var(--font-head); font-weight: 600; font-size: 17.5px;
+  margin: 0 0 2px; color: var(--text);
+}
+.tl-role { margin: 0 0 8px; font-size: 14px; color: var(--text-soft); }
+.timeline li > p:last-child { margin: 0; font-size: 15px; line-height: 1.6; }
 
 /* ============================================================
    6. RESPONSIVE
@@ -207,8 +230,46 @@ a { color: var(--link); }
   <!-- About copy -->
   <section class="content wrap" id="about" aria-label="About Sandeep">
     <div class="about-copy">
-      <p>I'm a product builder who never really picked one field. I follow curiosity across science, history, art, design, and philosophy, and I get the most satisfaction when an idea from one collides usefully with another.</p>
-      <p>Most of what I make starts as a small question I couldn't stop thinking about. I build to find the answer — because the fastest way I know to understand something is to try to make it myself.</p>
+      <p>I'm a product leader and systems builder with more than fourteen years of experience across engineering, renewable energy, international business and technology. I began my career designing industrial equipment at Forbes Marshall, then worked across Asia-Pacific building partnerships and new markets for renewable-energy company UGE. At Amazon, I have led product initiatives across Prime Video and Cross-Border Retail Tech, working on platform products, customer-experience measurement and complex systems that operate across teams, businesses and geographies. At Prime Video, I spent four and a half years developing ways to make streaming friction observable, measurable and systematically improvable — an experience that deeply shaped how I think about products. I'm now building Alfred, a user-owned identity and context layer for AI. Across these otherwise different chapters, the recurring theme has been the same: taking an ambiguous human or business problem, finding the underlying structure, and turning it into something useful, scalable and thoughtfully made.</p>
+
+      <h2>Career</h2>
+
+      <ol class="timeline" aria-label="Career timeline">
+        <li>
+          <span class="tl-period">Current</span>
+          <h3 class="tl-org">Amazon — Cross-Border Retail Tech</h3>
+          <p class="tl-role">Senior Product Manager, Technical · Bengaluru</p>
+          <p>Leading product strategy for technology platforms that enable selection and commerce across Amazon marketplaces. My work spans ordering systems, seller and marketplace integrations, and reusable capabilities that must serve different businesses, countries and operating models.</p>
+        </li>
+        <li>
+          <span class="tl-period">4.5 years</span>
+          <h3 class="tl-org">Amazon — Prime Video</h3>
+          <p class="tl-role">Senior Product Manager, Technical · Bengaluru</p>
+          <p>Led customer-experience measurement and quality products for global streaming. Developed an instrumentation framework that translated subjective playback and content friction into measurable defects, operational signals and product priorities, helping teams identify root causes and systematically improve the customer experience.</p>
+        </li>
+        <li>
+          <span class="tl-period">2012–2015</span>
+          <h3 class="tl-org">UGE</h3>
+          <p class="tl-role">Asia-Pacific Business Development and Partnerships</p>
+          <p>Helped expand a renewable-energy company across Asia-Pacific, working across market entry, partnerships, channel development and distributed solar projects. Built and managed relationships in markets including the Philippines, Sri Lanka and the Pacific, gaining an early education in entrepreneurship, incentives and the realities of operating across cultures.</p>
+        </li>
+        <li>
+          <span class="tl-period">2010–2012</span>
+          <h3 class="tl-org">Thunderbird School of Global Management</h3>
+          <p class="tl-role">MBA</p>
+          <p>Studied international business and management with a focus on operating across markets, cultures and institutional environments.</p>
+        </li>
+        <li>
+          <span class="tl-period">2007–2009</span>
+          <h3 class="tl-org">Forbes Marshall</h3>
+          <p class="tl-role">Mechanical Design Engineer</p>
+          <p>Designed and improved industrial products and manufacturing systems across flow measurement and control-valve businesses. The work established my engineering foundations: understand the physical system, identify its constraints and solve the problem at its source.</p>
+        </li>
+      </ol>
+
+      <h2>Outside the career spine</h2>
+
+      <p>My interests range across science, history, philosophy, design, technology and sport. They are less separate than they appear: I am interested in how complex systems develop, how people form models of the world, and how an idea can be made both rigorous and useful. Most of my independent projects begin with a question I cannot leave alone. I build because making something is often the fastest way to understand it.</p>
     </div>
   </section>
 </main>
