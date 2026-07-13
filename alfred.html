@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alfred — Sandeep Sharma</title>
+<meta name="description" content="Alfred — a user-owned identity and context layer for AI. It builds a structured, inspectable model of the user to power agentic applications across the internet." />
+
+<link rel="canonical" href="https://gosandeep.com/alfred" />
+<meta property="og:title" content="Alfred — Sandeep Sharma" />
+<meta property="og:description" content="A user-owned identity and context layer for the agent-first internet." />
+<meta property="og:url" content="https://gosandeep.com/alfred" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Sandeep Sharma" />
+<meta name="twitter:card" content="summary" />
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0B1413" media="(prefers-color-scheme: dark)" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- Set theme before paint to avoid flash -->
+<script>(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   1. DESIGN TOKENS
+   ============================================================ */
+:root {
+  --bg:          #FFFFFF;
+  --surface:     #FFFFFF;
+  --text:        #12211F;
+  --text-soft:   #64726F;
+  --border:      #E4E9E7;
+  --accent:      #0E9E92;
+  --link:        #08726A;
+  --accent-soft: #D6F2EE;
+  --on-accent:   #FFFFFF;
+  --dot:         rgba(14,158,146,.20);
+
+  --font-body: "IBM Plex Sans", Arial, sans-serif;
+  --font-head: "DIN Next W1G", "DIN Next", "Archivo", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+  --radius: 10px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+:root[data-theme="dark"] {
+  --bg:          #0B1413;
+  --surface:     #10201E;
+  --text:        #E8F1EF;
+  --text-soft:   #8AA09B;
+  --border:      #1E322F;
+  --accent:      #2DD4BF;
+  --link:        #2DD4BF;
+  --accent-soft: #133330;
+  --on-accent:   #0B1413;
+  --dot:         rgba(45,212,191,.12);
+}
+
+/* ============================================================
+   2. BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot) 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body * {
+  transition: background-color .3s ease, border-color .3s ease,
+              color .3s ease, box-shadow .2s ease;
+}
+a { color: var(--link); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--surface); color: var(--link);
+  padding: 10px 16px; border: 1px solid var(--border); border-radius: 8px;
+  font-family: var(--font-mono); font-size: 13px; z-index: 100;
+}
+.skip-link:focus { left: 12px; top: 12px; }
+
+.wrap { max-width: 1128px; margin-inline: auto; padding-inline: 32px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  body * { transition: none !important; }
+}
+
+/* ============================================================
+   3. TOP BAR
+   ============================================================ */
+.topbar { border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--bg) 88%, transparent); position: sticky; top: 0; z-index: 50; backdrop-filter: blur(6px); }
+.topbar-inner {
+  max-width: 1192px; margin-inline: auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  padding: 20px 32px;
+}
+.wordmark {
+  font-family: var(--font-head); font-weight: 600; font-size: 20px;
+  letter-spacing: .02em; color: var(--text); text-decoration: none;
+}
+.nav { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.nav a {
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--text-soft); text-decoration: none;
+}
+.nav a:hover { color: var(--link); }
+.nav a[aria-current="page"] {
+  color: var(--link);
+  border-bottom: 1.5px solid var(--accent); padding-bottom: 2px;
+}
+.nav-divider { width: 1px; height: 18px; background: var(--border); }
+.theme-toggle {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text);
+  background: transparent; border: 1px solid var(--border); border-radius: 8px;
+  padding: 7px 13px; cursor: pointer;
+}
+.theme-toggle:hover { border-color: var(--link); color: var(--link); }
+
+/* ============================================================
+   4. ARTICLE
+   ============================================================ */
+.article-head {
+  max-width: 44rem; margin-inline: auto;
+  padding: 40px 32px 8px;
+}
+.back-link {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em;
+  text-transform: uppercase; text-decoration: none;
+}
+.back-link:hover { text-decoration: underline; }
+.article-head h1 {
+  font-family: var(--font-head); font-weight: 600;
+  font-size: clamp(30px, 4.5vw, 40px); line-height: 1.08; letter-spacing: -.015em;
+  margin: 18px 0 10px;
+}
+.article-sub { font-size: 17px; color: var(--text-soft); margin: 0 0 20px; }
+
+.fact-grid {
+  display: flex; gap: 36px; flex-wrap: wrap;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+}
+.fact-label {
+  display: block; font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--text-soft);
+  margin-bottom: 3px;
+}
+.fact-value { font-size: 14.5px; }
+
+.article {
+  max-width: 44rem; margin-inline: auto;
+  padding: 20px 32px 48px;
+}
+.article p { margin: 0 0 18px; }
+.article h2 {
+  font-family: var(--font-head); font-weight: 600; font-size: 22px;
+  margin: 34px 0 14px;
+}
+.article h3 { font-family: var(--font-head); font-weight: 600; font-size: 17.5px; margin: 26px 0 10px; }
+.article em { font-style: italic; }
+.article ul { margin: 0 0 18px; padding-left: 1.3em; }
+.article ul li { margin-bottom: 8px; }
+.article figure { margin: 26px 0; text-align: center; }
+.article figure img {
+  max-width: 100%; height: auto; border-radius: 8px;
+  border: 1px solid var(--border); background: #fff;
+}
+.article figcaption {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-soft);
+  margin-top: 10px; line-height: 1.5;
+}
+.fig-row { display: flex; gap: 12px; justify-content: center; align-items: flex-start; }
+.fig-row img { width: calc(50% - 6px); max-width: 260px; }
+@media (max-width: 560px) {
+  .fig-row { flex-direction: column; align-items: center; }
+  .fig-row img { width: 100%; max-width: 260px; }
+}
+.fig-phone img { max-width: 260px; }
+
+/* ============================================================
+   5. FOOTER
+   ============================================================ */
+.footer { margin-top: 32px; border-top: 1px solid var(--border); }
+.footer-inner {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap; padding-block: 34px 40px;
+}
+.footer-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--text-soft); margin-bottom: 14px;
+}
+.footer-links { display: flex; gap: 22px; flex-wrap: wrap; }
+.footer-links a { font-size: 14px; color: var(--link); text-decoration: none; }
+.footer-links a:hover { text-decoration: underline; }
+.footer-copy {
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em;
+  color: var(--text-soft); text-align: right;
+}
+
+/* ============================================================
+   6. RESPONSIVE
+   ============================================================ */
+@media (max-width: 720px) {
+  .topbar-inner { padding: 16px 20px; }
+  .nav { gap: 16px; }
+  .nav-divider { display: none; }
+  .wrap { padding-inline: 20px; }
+  .article-head { padding: 28px 20px 4px; }
+  .article { padding: 16px 20px 40px; }
+  .fact-grid { gap: 20px; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .footer-copy { text-align: left; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#post">Skip to content</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="wordmark" href="/">Sandeep Sharma</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#work" aria-current="page">Work</a>
+      <a href="/writings">Writings</a>
+      <a href="/principles">Principles</a>
+      <a href="/influences">Influences</a>
+      <a href="/about">About</a>
+      <span class="nav-divider" aria-hidden="true"></span>
+      <button class="theme-toggle" id="themeToggle" type="button">Dark</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <header class="article-head">
+    <a class="back-link" href="/#work">&larr; Work</a>
+    <h1>Alfred</h1>
+    <p class="article-sub">A user-owned identity and context layer for AI.</p>
+    <div class="fact-grid">
+      <div><span class="fact-label">Role</span><span class="fact-value">Product strategy, research, interaction design, system architecture and full-stack prototyping</span></div>
+      <div><span class="fact-label">Status</span><span class="fact-value">Working prototype</span></div>
+      <div><span class="fact-label">Started</span><span class="fact-value">2023</span></div>
+      <div><span class="fact-label">Also read</span><span class="fact-value"><a href="/writings/agent-first-internet">The Missing Layer of the Agent-First Internet</a></span></div>
+    </div>
+  </header>
+
+  <article class="article" id="post">
+    <p>Most AI systems today maintain context within their systems, and platform agents understand what you do inside their platform. But neither necessarily understands the person as a whole.</p>
+
+    <p>Alfred is my attempt to build the missing layer for the agent-first internet: a user-owned agent grounded in a structured, evidence-backed model of the individual.</p>
+
+    <h2>Thesis</h2>
+
+    <p>The agent-first internet is forming. Alexa for Shopping, Walmart Sparky, Gemini Spark and Slackbot are examples of platform owned agents that can act on behalf of their users. In this world, users will increasingly abstract away from operating and navigating websites/apps/tools, towards specifying intent (decide, research, write, plan, buy, coordinate, organize), while agents assemble relevant user context, reason across options and execute delegated tasks. The ideal control plane will look less like a web navigational interface, and more like one centered on capturing and dispensing user understanding, intent specification, and agent training/delegation/approval.</p>
+
+    <h2>The problem</h2>
+
+    <p>Platform owned agents are trained on platform-data, accumulate platform-specific user insight, and optimize platform outcomes. This creates a structural problem &mdash; each agent knows a different aspect of you, but none understands you holistically. For example, a travel website's agent may understand your hotel or flight booking patterns, but not that you are into swimming or cooking. A streaming service's agent might build your taste profile based on search/browse behavior within its platform, but have no awareness about movies you watched in the theater or books you have read. As a result, every delegation involves friction in the form of detailed specification. The missing layer is a user owned agent that understands you deeply and broadly, and knows your subtle, underlying quirks/preferences &mdash; the way your mom or best friend does.</p>
+
+    <p>Frontier labs do offer memory and data connectors that attempt to source horizontal context, but these are lossy and unstructured by design: they store raw text and retrieve chunks via vector similarity (RAG), then summarize and compact older text as the context window fills. Through these repeated compression cycles, nuance gets lost. For example, "4.0 level club tennis player using a Wilson Blade racquet with single-handed backhand and aggressive baseline play" gets reduced to simply "plays tennis." These LLMs also do not actively model the user's personality, behavior, aspirations, motivations, morals, needs, fears, values, constraints, decision style, communication patterns and tastes.</p>
+
+    <h2>The product</h2>
+
+    <p>Alfred is designed around four connected components.</p>
+
+    <h3>1. Your Data</h3>
+
+    <p>The user connects selected parts of their digital life that already contain evidence about them. The current product supports sources including Google account data, LLM memory and r&eacute;sum&eacute; documents. The broader architecture is designed to incorporate sources such as email, calendars, contacts, professional profiles, notes, photos, health records and social activity.</p>
+
+    <p>The purpose is not to assemble a permanent archive for an AI to search indiscriminately. The source data provides evidence from which a more useful model can be constructed.</p>
+
+    <h3>2. Your Identity</h3>
+
+    <p>Alfred converts source evidence into atomic claims and then synthesises those claims into a structured identity model. The model covers attributes across areas such as behaviour, cognition, goals, taste and preferences. Important inferences retain their provenance, confidence, timestamps and links to relevant people or entities. The user can inspect what Alfred believes, understand why it believes it and correct it when it is wrong &mdash; through chat or specific user fine-tuning UX. This makes the identity model different from both a hidden advertising profile and an unstructured collection of chat history. It is designed to be legible to the user as well as useful to a machine.</p>
+
+    <figure>
+      <div class="fig-row">
+        <img src="/assets/work/alfred-model-1.png" alt="Alfred app screen showing the user cognitive model being developed from raw user data" width="475" height="787" loading="lazy" />
+        <img src="/assets/work/alfred-model-2.png" alt="Alfred app screen showing inferred identity attributes with evidence" width="475" height="776" loading="lazy" />
+      </div>
+      <figcaption>Fig 1: Development of the user cognitive model, inferred from raw user data.</figcaption>
+    </figure>
+
+    <figure class="fig-phone">
+      <img src="/assets/work/alfred-finetune.png" alt="Alfred card-based interface for confirming or correcting inferred attributes" width="484" height="749" loading="lazy" />
+      <figcaption>Fig 2: Simple card-based UX that makes fine-tuning of the cognitive model quick, low-friction and engaging.</figcaption>
+    </figure>
+
+    <h3>3. Your Agent</h3>
+
+    <p>The user creates and configures the agent that will use this understanding. Over time, this layer is intended to hold the operating relationship between the person and their agent: its name, expectations, permissions, boundaries and level of delegated authority. The agent is not the owner of the identity model, but a permitted user of it.</p>
+
+    <h3>4. Actions</h3>
+
+    <p>The user expresses intent and engages the agent through decisions, research and writing. For more consequential questions, Alfred can invoke multiple frontier models with different reasoning roles and synthesise their arguments into a single response. The intention is not to produce more text, but to reduce blind spots and improve the quality of reasoning applied to the user's actual situation. The longer-term direction is bounded execution across areas such as shopping, travel, learning, finance, work and personal administration &mdash; and eventually becoming the infrastructure for downstream agents to leverage, for sourcing user context.</p>
+
+    <h2>What I have built</h2>
+
+    <p>The current prototype establishes the foundations of this system:</p>
+
+    <ul>
+      <li>Ingestion from multiple personal-data sources</li>
+      <li>An evidence layer composed of atomic claims</li>
+      <li>A structured multi-domain identity model</li>
+      <li>Provenance, confidence, recency and entity linkage</li>
+      <li>Interfaces for inspecting and refining the system's understanding</li>
+      <li>Context assembly for personalized reasoning</li>
+      <li>An agent experience for decisions, research and writing</li>
+      <li>Multi-model reasoning for higher-stakes questions</li>
+    </ul>
+
+    <p>The public product begins with a deliberately simple promise: connect the parts of your digital life that already know you, and use them to create an editable and portable digital persona.</p>
+
+    <p>The deeper work lies behind that promise: deciding how evidence should be interpreted, how identity should be represented, how contradictions should be reconciled, what should be shown to the user and which context should be supplied for a particular intent.</p>
+
+    <h2>What's next</h2>
+
+    <p>The current version focuses on proving that personal data can be transformed into a structured identity model and that this model can improve AI-assisted decisions, writing and research.</p>
+
+    <p>The next stage is to make the agent relationship persistent and useful enough for repeated consumer use:</p>
+
+    <ul>
+      <li>Faster onboarding from a small amount of selected context</li>
+      <li>Stronger identity synthesis and correction</li>
+      <li>Improved task-specific context assembly</li>
+      <li>Clearer controls over data access and agent permissions</li>
+      <li>Bounded actions requiring explicit approval</li>
+      <li>Context grants that allow external agents to request selected user insight</li>
+    </ul>
+
+    <p>The longer-term aim is an agent that can represent the user across the agent-first internet: carrying their preferences and constraints between services, coordinating with specialized downstream services (say Amazon or Netflix) and <em>their agents</em>, and acting with increasing authority while remaining inspectable and answerable to the person.</p>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-label">Elsewhere</div>
+      <div class="footer-links">
+        <a href="mailto:email@gosandeep.com">Email</a>
+        <a href="https://www.linkedin.com/in/gosandeepsharma/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/gosandeepsharma" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-copy">© 2026 Sandeep Sharma<br />gosandeep.com</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var btn = document.getElementById('themeToggle');
+  function apply(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    btn.textContent = theme === 'dark' ? 'Light' : 'Dark';
+    btn.setAttribute('aria-label', 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' theme');
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+  }
+  btn.addEventListener('click', function () {
+    var current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    apply(current === 'dark' ? 'light' : 'dark');
+  });
+  var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  btn.textContent = t === 'dark' ? 'Light' : 'Dark';
+  btn.setAttribute('aria-label', 'Switch to ' + (t === 'dark' ? 'light' : 'dark') + ' theme');
+})();
+</script>
+</body>
+</html>
