@@ -172,11 +172,12 @@ a { color: var(--link); }
 .post-title { font-family: var(--font-head); font-weight: 600; font-size: 20px; margin: 0 0 4px; }
 .post-title a { color: var(--text); text-decoration: none; }
 .post-title a:hover { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
-.post-meta { margin: 0; font-size: 14.5px; color: var(--text-soft); }
 .post-date {
+  display: block; margin: 0 0 3px;
   font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em;
-  text-transform: uppercase;
+  text-transform: uppercase; color: var(--text-soft);
 }
+.post-desc { margin: 0; font-size: 14.5px; color: var(--text-soft); }
 
 /* ============================================================
    6. FOOTER
@@ -243,7 +244,8 @@ a { color: var(--link); }
     <div class="post-list">
       <article class="post">
         <h2 class="post-title"><a href="/writings/confidently-wrong">Confidently Wrong</a></h2>
-        <p class="post-meta"><span class="post-date">12 Oct 2025</span> &middot; My thoughts on opinions, unknowns and confidence.</p>
+        <span class="post-date">12 Oct 2025</span>
+        <p class="post-desc">My thoughts on opinions, unknowns and confidence.</p>
       </article>
     </div>
   </section>
