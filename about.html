@@ -158,6 +158,13 @@ a { color: var(--link); }
   font-size: clamp(30px, 4.5vw, 40px); line-height: 1.08; letter-spacing: -.015em;
   margin: 0;
 }
+.about-photo {
+  position: relative;
+  width: 148px; height: 148px; border-radius: 50%;
+  object-fit: cover; margin-top: 22px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+}
 
 /* ============================================================
    5. ABOUT COPY + TIMELINE
@@ -225,6 +232,7 @@ a { color: var(--link); }
   <section class="page-head">
     <div class="glow" aria-hidden="true"></div>
     <h1>About me</h1>
+    <img class="about-photo" src="assets/about-photo.jpg" alt="Portrait of Sandeep Sharma" width="148" height="148" onerror="this.remove()" />
   </section>
 
   <!-- About copy -->
