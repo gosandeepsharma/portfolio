@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Missing Layer of the Agent-First Internet — Sandeep Sharma</title>
+<meta name="description" content="Why the next internet needs an agent that belongs to you — user understanding, human-to-agent control planes, and the architecture of trust." />
+
+<link rel="canonical" href="https://gosandeep.com/writings/agent-first-internet" />
+<meta property="og:title" content="The Missing Layer of the Agent-First Internet — Sandeep Sharma" />
+<meta property="og:description" content="Why the next internet needs an agent that belongs to you." />
+<meta property="og:url" content="https://gosandeep.com/writings/agent-first-internet" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-06-07" />
+<meta property="og:site_name" content="Sandeep Sharma" />
+<meta name="twitter:card" content="summary" />
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0B1413" media="(prefers-color-scheme: dark)" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- Set theme before paint to avoid flash -->
+<script>(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   1. DESIGN TOKENS
+   ============================================================ */
+:root {
+  --bg:          #FFFFFF;
+  --surface:     #FFFFFF;
+  --text:        #12211F;
+  --text-soft:   #64726F;
+  --border:      #E4E9E7;
+  --accent:      #0E9E92;
+  --link:        #08726A;
+  --accent-soft: #D6F2EE;
+  --on-accent:   #FFFFFF;
+  --dot:         rgba(14,158,146,.20);
+
+  --font-body: "IBM Plex Sans", Arial, sans-serif;
+  --font-head: "DIN Next W1G", "DIN Next", "Archivo", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+  --radius: 10px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+:root[data-theme="dark"] {
+  --bg:          #0B1413;
+  --surface:     #10201E;
+  --text:        #E8F1EF;
+  --text-soft:   #8AA09B;
+  --border:      #1E322F;
+  --accent:      #2DD4BF;
+  --link:        #2DD4BF;
+  --accent-soft: #133330;
+  --on-accent:   #0B1413;
+  --dot:         rgba(45,212,191,.12);
+}
+
+/* ============================================================
+   2. BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot) 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body * {
+  transition: background-color .3s ease, border-color .3s ease,
+              color .3s ease, box-shadow .2s ease;
+}
+a { color: var(--link); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--surface); color: var(--link);
+  padding: 10px 16px; border: 1px solid var(--border); border-radius: 8px;
+  font-family: var(--font-mono); font-size: 13px; z-index: 100;
+}
+.skip-link:focus { left: 12px; top: 12px; }
+
+.wrap { max-width: 1128px; margin-inline: auto; padding-inline: 32px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  body * { transition: none !important; }
+}
+
+/* ============================================================
+   3. TOP BAR
+   ============================================================ */
+.topbar { border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--bg) 88%, transparent); position: sticky; top: 0; z-index: 50; backdrop-filter: blur(6px); }
+.topbar-inner {
+  max-width: 1192px; margin-inline: auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  padding: 20px 32px;
+}
+.wordmark {
+  font-family: var(--font-head); font-weight: 600; font-size: 20px;
+  letter-spacing: .02em; color: var(--text); text-decoration: none;
+}
+.nav { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.nav a {
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--text-soft); text-decoration: none;
+}
+.nav a:hover { color: var(--link); }
+.nav a[aria-current="page"] {
+  color: var(--link);
+  border-bottom: 1.5px solid var(--accent); padding-bottom: 2px;
+}
+.nav-divider { width: 1px; height: 18px; background: var(--border); }
+.theme-toggle {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text);
+  background: transparent; border: 1px solid var(--border); border-radius: 8px;
+  padding: 7px 13px; cursor: pointer;
+}
+.theme-toggle:hover { border-color: var(--link); color: var(--link); }
+
+/* ============================================================
+   4. ARTICLE
+   ============================================================ */
+.article-head {
+  max-width: 44rem; margin-inline: auto;
+  padding: 40px 32px 8px;
+}
+.back-link {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em;
+  text-transform: uppercase; text-decoration: none;
+}
+.back-link:hover { text-decoration: underline; }
+.article-head h1 {
+  font-family: var(--font-head); font-weight: 600;
+  font-size: clamp(30px, 4.5vw, 40px); line-height: 1.08; letter-spacing: -.015em;
+  margin: 18px 0 10px;
+}
+.article-sub { font-size: 17px; color: var(--text-soft); margin: 0 0 14px; }
+.article-meta {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--text-soft);
+}
+
+.article {
+  max-width: 44rem; margin-inline: auto;
+  padding: 20px 32px 48px;
+}
+.article p { margin: 0 0 18px; }
+.article h2 {
+  font-family: var(--font-head); font-weight: 600; font-size: 22px;
+  margin: 34px 0 14px;
+}
+.article em { font-style: italic; }
+.article ul, .article ol { margin: 0 0 18px; padding-left: 1.3em; }
+.article ul li, .article ol li { margin-bottom: 8px; }
+.article hr {
+  border: none; border-top: 1px solid var(--border);
+  margin: 36px 0 24px;
+}
+
+/* ============================================================
+   5. FOOTER
+   ============================================================ */
+.footer { margin-top: 32px; border-top: 1px solid var(--border); }
+.footer-inner {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap; padding-block: 34px 40px;
+}
+.footer-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--text-soft); margin-bottom: 14px;
+}
+.footer-links { display: flex; gap: 22px; flex-wrap: wrap; }
+.footer-links a { font-size: 14px; color: var(--link); text-decoration: none; }
+.footer-links a:hover { text-decoration: underline; }
+.footer-copy {
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em;
+  color: var(--text-soft); text-align: right;
+}
+
+/* ============================================================
+   6. RESPONSIVE
+   ============================================================ */
+@media (max-width: 720px) {
+  .topbar-inner { padding: 16px 20px; }
+  .nav { gap: 16px; }
+  .nav-divider { display: none; }
+  .wrap { padding-inline: 20px; }
+  .article-head { padding: 28px 20px 4px; }
+  .article { padding: 16px 20px 40px; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .footer-copy { text-align: left; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#post">Skip to content</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="wordmark" href="/">Sandeep Sharma</a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#work">Work</a>
+      <a href="/writings" aria-current="page">Writings</a>
+      <a href="/principles">Principles</a>
+      <a href="/influences">Influences</a>
+      <a href="/about">About</a>
+      <span class="nav-divider" aria-hidden="true"></span>
+      <button class="theme-toggle" id="themeToggle" type="button">Dark</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <header class="article-head">
+    <a class="back-link" href="/writings">&larr; Writings</a>
+    <h1>The Missing Layer of the Agent-First Internet</h1>
+    <p class="article-sub">Why the next internet needs an agent that belongs to you.</p>
+    <div class="article-meta">7 June 2026</div>
+  </header>
+
+  <article class="article" id="post">
+    <p>For all of its thirty-year history, the internet has been designed around the condition that you as a human user are sitting in front of a screen, operating visually: you open a browser, search or navigate to a site, click buttons and links, enter some text, click more buttons and links, open new tabs or windows and so on. This implied that all services on the internet are structurally passive — Amazon does not buy what you need, it waits for you to search. Your bank does not restructure your finances, it gives you a dashboard. A travel website does not plan a trip around your actual preferences, family situation and constraints, it presents filters and lets you assemble the answer.</p>
+
+    <p>AI agents have the potential to change this relationship. They can abstract us away from operating and navigating websites/apps/tools, towards specifying intent (decide, research, write, plan, buy, coordinate, organize), while the agents operate software for us by assembling relevant user context, reasoning across options and executing on user specified intent.</p>
+
+    <p>As of writing this in June 2026, I can see the shift happening from the click to the intent. Alexa for Shopping, Walmart Sparky, Gemini Spark, Slackbot are recent examples of platform owned agents that can recommend, research, summarize and increasingly act within their respective environments. Meanwhile, general-purpose AI systems are learning to browse websites, operate software and complete multi-step tasks.</p>
+
+    <h2>What this internet will look like</h2>
+
+    <p>The most visible change may be the decline of navigation as the default way to get things done. Today, websites and apps require us to translate our intent into the language of the user interface that involves windows, search, menus, filters, text fields, etc. In the agentic world, the ideal control plane may look less like the traditional UI and more like one that is centered on capturing and dispensing user understanding, intent specification, agent training/delegation/oversight/correction/approval and exception handling.</p>
+
+    <p>Instead of opening six websites and completing twenty steps, a user might simply state: "Find a direct flight to Boston that works around my scheduled meetings. Use my preferred airline where sensible, and do not set up a pre-9am departure. Show me the two best options and book the one I approve". The agent may then consult their calendar, understand travel preferences, search multiple providers, evaluate trade-offs, apply loyalty benefits and complete the transaction after receiving approval. Interactions like these improve not just how fast you act, but how well you decide.</p>
+
+    <p>Services will also begin to compete for agents as well as human attention: the internet today rewards companies that rank highly in search results, attract clicks and optimize conversion funnels. In an agent-mediated market, a service may instead be evaluated on the quality of its structured data, the reliability of its APIs, the transparency of its pricing and policies, its reputation and its ability to complete transactions predictably. Search engine optimization may evolve into agent optimization: making a product, service or body of knowledge understandable, trustworthy and actionable to machines.</p>
+
+    <p>In this world, the internet essentially splits into two: a machine-readable execution layer, and a human-readable interface layer.</p>
+
+    <h2>The missing pieces</h2>
+
+    <p>I think such an internet requires a few specific capabilities:</p>
+
+    <ol>
+      <li><strong>User understanding:</strong> the ability for machines to understand a human the way humans understand other humans. This specifically will involve machine readable user cognitive models, user fine-tuning, and understanding gateways to source/dispense user insight on demand.</li>
+      <li>Human-to-agent interaction systems that go beyond just chat/voice</li>
+      <li>Protocols for agent-to-tool, agent-to-database and agent-to-agent interaction</li>
+      <li>Payment systems for agents transacting under delegated authority</li>
+      <li>Dynamic interfaces that are generated on demand as opposed to static pages</li>
+    </ol>
+
+    <p>My goal with Alfred is to create a product that can achieve 1 &amp; 2.</p>
+
+    <h2>User understanding</h2>
+
+    <p>Platform owned agents are trained on platform-data, accumulate platform-specific user insight, and optimize platform outcomes. This creates a structural problem — each agent or service knows a different aspect of you, but none understands you holistically the way other humans do. For example, a travel website's agent may understand your hotel or flight booking patterns, but not that you are into swimming or cooking. A streaming service's agent might build your taste profile based on search/browse behavior within its platform, but have no awareness about movies you watched in the theater or books you have read. As a result, every delegation involves friction in the form of detailed specification. The missing layer is a user owned agent that understands you deeply and broadly, and knows your subtle, underlying quirks/preferences — the way your mom or best friend does.</p>
+
+    <p>Frontier labs increasingly offer memory and data connectors, but most current systems are lossy, and remain primarily text-centric. They recall saved raw data and facts, retrieve relevant information from past interactions or compress longer histories into summaries. These methods work, but they do not necessarily produce an explicit, durable model of the person — and repeated retrieval and summarization can lose nuance. For example, "4.0 level club tennis player using a Wilson Blade racquet with single-handed backhand and aggressive baseline play" gets reduced to simply "plays tennis." Storing large quantities of text does not, by itself, create an explicit and persistent model of the user's personality, behavior, aspirations, motivations, morals, needs, fears, values, constraints, decision style, communication patterns and tastes. This gap will compound as user data and agent engagement scale.</p>
+
+    <h2>Human-to-agent interaction systems</h2>
+
+    <p>Chat is the obvious first interface to an agent, and it will remain part of the answer. But chat alone is inadequate in my view. Chat leaves a lot to the user's imagination and carries cognitive effort. The ideal agentic control plane requires a visual system: a place to express intent in your own words; a place to inspect what the agent believes about you and correct it; a place to grant/scope/revoke its access to your data and accounts; approval queues and exception handling for the actions it wants to take; and receipts for everything it has done and why. Chat is just one input into this system. The control plane is where the relationship between a person and their agent actually gets built and executed.</p>
+
+    <h2>Alfred</h2>
+
+    <p>I began working on Alfred in 2023 with the idea of building a better personal assistant. Gradually, it became clear to me that the assistant itself was not the most important layer. Models will continue to improve, and the frontier labs will continue to dominate here. Agents too will emerge, especially platform ones — as each service launches their own agentic capabilities.</p>
+
+    <p>I have since been building 2 specific capabilities for Alfred to solve the 2 problems I described above: the ability to translate user data to a structured cognitive user model, and a control plane where users can create and manage their own agent, connect selected personal data, inspect the agent's understanding of them, express intent and supervise its actions.</p>
+
+    <p>The product has four core components.</p>
+
+    <ol>
+      <li><strong>Your Data</strong> is where you connect selected sources such as email, calendars, documents, LLM history, professional profiles, social media, photos, health data, notes and code repositories.</li>
+      <li><strong>Your Identity</strong> is the machine-readable user model inferred from all evidence. I developed a proprietary model that uses a large number of attributes covering user behavior, cognition and preferences. Inferred value against each attribute is evidence-backed, inspectable, measurable and correctable.</li>
+      <li><strong>Your Agent</strong> is the agent you configure, name and gradually entrust with greater responsibility.</li>
+      <li><strong>Actions</strong> is where the user expresses intent and engages the agent. Initially, this means personalized reasoning, writing and research. For higher-stakes questions, Alfred can use multiple frontier models in a structured debate before producing a synthesized response. Over time, the same layer can expand into bounded execution across shopping, travel, finance, learning, work and personal administration.</li>
+    </ol>
+
+    <p>I kept the initial experience deliberately simpler than the long-term vision: a user connects a small amount of context, sees an identity model they recognize and can refine, and then uses their agent for a real decision, piece of writing or research question. The output should feel materially more grounded in the person than generic chat.</p>
+
+    <p>The north star for me is to give users an agent that understands them like a human in their life does, and can act with greater authority, with less repeated instruction across the broader internet, and can engage with downstream platform agents on behalf of the user.</p>
+
+    <h2>Why now</h2>
+
+    <p>Two developments make this moment particularly important.</p>
+
+    <p>First, the agent-first internet is no longer theoretical. Major platforms are already deploying simple agents, while technically sophisticated users are beginning to assemble persistent personal agents of their own. Second, as multiple frontier models become sufficiently capable for many everyday tasks, differentiation increasingly shifts from raw model performance to the context available to the model.</p>
+
+    <p>The next major advantage may not come from having access to a marginally smarter model. It may come from giving a capable model a substantially better understanding of the person it represents.</p>
+
+    <p>This creates a narrow window to build the missing layer before personal context becomes permanently fragmented across platform-owned agents.</p>
+
+    <h2>The real test is trust</h2>
+
+    <p>I think the agent-first internet will not arrive when agents become capable of performing tasks, but when people become comfortable allowing them to do so. Trust will likely be earned gradually: the first agents will research and recommend. Then they will start to prepare actions for approval. Later, they will complete routine and reversible tasks within clear limits. Only after demonstrating reliability will they receive authority and autonomy over more consequential decisions.</p>
+
+    <p>A good agent might act freely below a threshold, ask when uncertain, explain consequential decisions, escalate unfamiliar situations and preserve a complete record of what it did. Autonomy should expand through earned trust rather than through a one-time permission screen.</p>
+
+    <p>Built poorly, agents could become another layer of platform control: opaque systems making decisions from profiles we cannot inspect, optimizing for commercial objectives we did not choose.</p>
+
+    <p>Built correctly, they could give individuals substantially more leverage over complex digital systems. They could reduce the administrative work that consumes attention but contributes little meaning. They could represent our interests consistently across companies whose systems are designed to represent their own.</p>
+
+    <p>The decisive layer of the agent-first internet will not be the agent. It will be the architecture that ensures the agent belongs to the user, and remains answerable to them.</p>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-label">Elsewhere</div>
+      <div class="footer-links">
+        <a href="mailto:email@gosandeep.com">Email</a>
+        <a href="https://www.linkedin.com/in/gosandeepsharma/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/gosandeepsharma" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-copy">© 2026 Sandeep Sharma<br />gosandeep.com</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var btn = document.getElementById('themeToggle');
+  function apply(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    btn.textContent = theme === 'dark' ? 'Light' : 'Dark';
+    btn.setAttribute('aria-label', 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' theme');
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+  }
+  btn.addEventListener('click', function () {
+    var current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    apply(current === 'dark' ? 'light' : 'dark');
+  });
+  var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  btn.textContent = t === 'dark' ? 'Light' : 'Dark';
+  btn.setAttribute('aria-label', 'Switch to ' + (t === 'dark' ? 'light' : 'dark') + ' theme');
+})();
+</script>
+</body>
+</html>
