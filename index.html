@@ -204,7 +204,7 @@ a { color: var(--link); }
 .section-rule { flex: 1; height: 1px; background: var(--border); }
 
 /* --- 01 Work: cards --- */
-.work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 350px)); gap: 18px; }
+.work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; max-width: 1064px; }
 .card {
   display: flex; flex-direction: column;
   background: var(--surface); border: 1px solid var(--border);
@@ -235,7 +235,7 @@ a { color: var(--link); }
 }
 .card-body { display: flex; flex-direction: column; flex: 1; padding: 16px 18px 18px; }
 .card-title { font-family: var(--font-head); font-weight: 600; font-size: 17px; margin: 0 0 6px; }
-.card-desc { font-size: 14px; line-height: 1.55; color: var(--text-soft); margin: 0 0 16px; }
+.card-desc { font-size: 13.5px; line-height: 1.55; color: var(--text-soft); margin: 0 0 16px; }
 .card-btn {
   display: inline-flex; align-items: center; justify-content: center;
   align-self: flex-start; margin-top: auto;
