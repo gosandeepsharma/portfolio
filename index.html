@@ -234,7 +234,13 @@ a { color: var(--link); }
   border: 1px solid var(--border); border-radius: 5px;
 }
 .card-body { display: flex; flex-direction: column; flex: 1; padding: 16px 18px 18px; }
-.card-title { font-family: var(--font-head); font-weight: 600; font-size: 17px; margin: 0 0 6px; }
+.card-title { font-family: var(--font-head); font-weight: 600; font-size: 17px; margin: 0 0 8px; }
+.card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 10px; }
+.card-tag {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .06em;
+  color: var(--link); border: 1px solid var(--accent); border-radius: 999px;
+  padding: 3px 10px; white-space: nowrap;
+}
 .card-desc { font-size: 13.5px; line-height: 1.55; color: var(--text-soft); margin: 0 0 16px; }
 .card-btn {
   display: inline-flex; align-items: center; justify-content: center;
@@ -335,17 +341,9 @@ a { color: var(--link); }
         <div class="card-thumb"><img src="assets/work/alfred.png" alt="Alfred — user-owned identity and context layer" loading="lazy" onerror="this.remove()" /><span>Alfred — preview</span></div>
         <div class="card-body">
           <h3 class="card-title">Alfred</h3>
+          <div class="card-tags"><span class="card-tag">Agents</span><span class="card-tag">Consumer AI</span></div>
           <p class="card-desc">Alfred is the control plane for the agent-first internet. It develops a structured, inspectable model of the user, then uses that to enable agentic applications across the internet.</p>
           <a class="card-btn" href="/alfred" aria-label="Learn more about Alfred">Learn More</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-thumb"><img src="assets/work/walk-through-time.png" alt="A Walk Through Time — title card" loading="lazy" onerror="this.remove()" /><span>Walk Through Time — preview</span></div>
-        <div class="card-body">
-          <h3 class="card-title">A Walk Through Time</h3>
-          <p class="card-desc">My attempt to grasp the scale of time, from the Big Bang to the current moment. Walking through it all in one place — deep history laid out beside recent events — yields surprising perspective.</p>
-          <a class="card-btn" href="https://gosandeep.com/alloftime/" aria-label="Open A Walk Through Time">Open</a>
         </div>
       </div>
 
@@ -353,8 +351,19 @@ a { color: var(--link); }
         <div class="card-thumb"><img src="assets/work/laserchat.png" alt="LaserChat — three partial views make a whole elephant" loading="lazy" onerror="this.remove()" /><span>LaserChat — app preview</span></div>
         <div class="card-body">
           <h3 class="card-title">LaserChat</h3>
+          <div class="card-tags"><span class="card-tag">AI chatbot</span><span class="card-tag">Machine Cognition</span></div>
           <p class="card-desc">A customizable council of agents with distinct thinking styles, that engage to produce better results (fewer blindspots, more complete responses) than a single AI.</p>
           <a class="card-btn" href="https://laserchat.app" aria-label="Open LaserChat">Open</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-thumb"><img src="assets/work/walk-through-time.png" alt="A Walk Through Time — title card" loading="lazy" onerror="this.remove()" /><span>Walk Through Time — preview</span></div>
+        <div class="card-body">
+          <h3 class="card-title">A Walk Through Time</h3>
+          <div class="card-tags"><span class="card-tag">Big History</span></div>
+          <p class="card-desc">My attempt to grasp the scale of time, from the Big Bang to the current moment. Walking through it all in one place — deep history laid out beside recent events — yields surprising perspective.</p>
+          <a class="card-btn" href="https://gosandeep.com/alloftime/" aria-label="Open A Walk Through Time">Open</a>
         </div>
       </div>
 
