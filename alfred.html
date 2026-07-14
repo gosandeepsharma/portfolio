@@ -124,12 +124,13 @@ a { color: var(--link); }
 }
 .nav-divider { width: 1px; height: 18px; background: var(--border); }
 .theme-toggle {
-  font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--text);
-  background: transparent; border: 1px solid var(--border); border-radius: 8px;
-  padding: 7px 13px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; padding: 0;
+  color: var(--text); background: transparent;
+  border: none; border-radius: 50%; cursor: pointer;
 }
-.theme-toggle:hover { border-color: var(--link); color: var(--link); }
+.theme-toggle:hover { color: var(--link); background: var(--accent-soft); }
+.theme-toggle svg { width: 18px; height: 18px; display: block; }
 
 /* ============================================================
    4. ARTICLE
@@ -236,12 +237,12 @@ a { color: var(--link); }
     <a class="wordmark" href="/">Sandeep Sharma</a>
     <nav class="nav" aria-label="Main">
       <a href="/#work" aria-current="page">Work</a>
-      <a href="/writings">Writings</a>
-      <a href="/principles">Principles</a>
+      <a href="/writings">Blog</a>
       <a href="/influences">Influences</a>
+      <a href="/principles">Principles</a>
       <a href="/about">About</a>
       <span class="nav-divider" aria-hidden="true"></span>
-      <button class="theme-toggle" id="themeToggle" type="button">Dark</button>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme"></button>
     </nav>
   </div>
 </header>
@@ -364,19 +365,22 @@ a { color: var(--link); }
 <script>
 (function () {
   var btn = document.getElementById('themeToggle');
+  var SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+  var MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  function icon(theme) {
+    btn.innerHTML = theme === 'dark' ? SUN : MOON;
+    btn.setAttribute('aria-label', 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' theme');
+  }
   function apply(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    btn.textContent = theme === 'dark' ? 'Light' : 'Dark';
-    btn.setAttribute('aria-label', 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' theme');
+    icon(theme);
     try { localStorage.setItem('theme', theme); } catch (e) {}
   }
   btn.addEventListener('click', function () {
     var current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
     apply(current === 'dark' ? 'light' : 'dark');
   });
-  var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-  btn.textContent = t === 'dark' ? 'Light' : 'Dark';
-  btn.setAttribute('aria-label', 'Switch to ' + (t === 'dark' ? 'light' : 'dark') + ' theme');
+  icon(document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
 })();
 </script>
 </body>
