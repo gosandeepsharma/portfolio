@@ -99,7 +99,8 @@
   .brieftab { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #8b9096; background: #121417; border: 1px solid #33373d; border-bottom: none; border-radius: 4px 4px 0 0; padding: 9px 20px; cursor: pointer; }
   .brieftab.sel { color: var(--amber); background: #15130d; border-color: #6b5322; }
   .tabbody { border: 1px solid #33373d; border-radius: 0 4px 4px 4px; background: #0d0f12; }
-  .tabhtml { width: 1010px; height: 560px; box-sizing: border-box; padding: 26px 34px; text-align: left; color: #a7abb1; font-size: 13.5px; line-height: 1.55; overflow: hidden; }
+  .tabbody svg { display: block; }
+  .tabhtml { width: 1012px; height: 562px; box-sizing: border-box; padding: 26px 34px; text-align: left; color: #a7abb1; font-size: 13.5px; line-height: 1.55; overflow: hidden; }
   .tabhead { font-weight: 600; font-size: 12px; letter-spacing: 3px; color: var(--amber); margin-bottom: 6px; }
   .tabsub { font-size: 12.5px; color: #8b9096; margin-bottom: 16px; max-width: 900px; }
   .kbgrid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; row-gap: 2px; }
@@ -4035,7 +4036,7 @@ void main() {
 
   <!-- ===== MISSION BRIEFING (LEARN) ===== -->
   <div id="screen-briefing" class="overlay" hidden style="background: rgba(5,6,8,0.97); gap: 14px;">
-    <div class="mono" style="font-size: 12px; letter-spacing: 4px; color: var(--amber);">MISSION BRIEFING</div>
+    <div class="mono" style="font-size: 12px; letter-spacing: 4px; color: var(--amber); margin-bottom: 16px;">MISSION BRIEFING</div>
     <div style="display: flex; flex-direction: column;">
       <div style="display: flex; gap: 6px;">
         <div id="tab-btn-window" class="brieftab sel">PILOT WINDOW</div>
@@ -4133,9 +4134,9 @@ void main() {
             <text x="153" y="177" text-anchor="middle" font-family="Share Tech Mono, monospace" font-size="11" fill="#eceae4">445</text>
             <rect x="190" y="40" width="46" height="120" fill="#101113" stroke="#2b2e33" stroke-width="2"></rect>
             <text x="213" y="52" text-anchor="middle" font-family="Jost, sans-serif" font-size="7" fill="#8b9096">ALT RATE</text>
-            <g stroke="#cfd3d8" stroke-width="1"><line x1="196" y1="70" x2="204" y2="70"></line><line x1="196" y1="100" x2="204" y2="100"></line><line x1="196" y1="130" x2="204" y2="130"></line></g>
-            <g font-family="Jost, sans-serif" font-size="9" fill="#e8e6e0"><text x="208" y="73">&#8722;5</text><text x="208" y="103">&#8722;10</text><text x="208" y="133">&#8722;15</text></g>
-            <polygon points="192,89 201,94 192,99" fill="#e8a33d"></polygon>
+            <g stroke="#cfd3d8" stroke-width="1"><line x1="196" y1="75" x2="204" y2="75"></line><line x1="196" y1="105" x2="204" y2="105"></line><line x1="196" y1="135" x2="204" y2="135"></line></g>
+            <g font-family="Jost, sans-serif" font-size="9" fill="#e8e6e0"><text x="208" y="78">&#8722;5</text><text x="208" y="108">&#8722;10</text><text x="208" y="138">&#8722;15</text></g>
+            <polygon points="192,94 201,99 192,104" fill="#e8a33d"></polygon>
             <rect x="190" y="164" width="46" height="17" fill="#0c0d0f" stroke="#2a2c30"></rect>
             <text x="213" y="177" text-anchor="middle" font-family="Share Tech Mono, monospace" font-size="11" fill="#eceae4">&#8722;9.0</text>
             <text x="213" y="194" text-anchor="middle" font-family="Share Tech Mono, monospace" font-size="8.5" fill="#e8a33d">ROD SET &#8722;9</text>
