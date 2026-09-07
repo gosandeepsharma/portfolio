@@ -192,6 +192,7 @@
     border: 1px solid var(--amber); color: var(--amber); font-size: 11px; display: flex;
     align-items: center; justify-content: center; box-sizing: border-box; margin-top: 1px; }
   .lkey { color: var(--amber); }
+  .tabdesc { font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.35; color: #c9ccd0; }
   .lentry a { color: var(--amber); text-decoration: underline; text-decoration-color: #6b5322; text-underline-offset: 2px; }
   .dk { display: flex; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.3; color: #c9ccd0; margin-bottom: 5px; }
   .dkcode { flex-shrink: 0; width: 44px; font-family: 'Share Tech Mono', monospace; font-size: 15px; line-height: 1.1; color: #a8e06a; padding-top: 1px; }
@@ -4164,6 +4165,9 @@ void main() {
               <span class="nbadge" style="left: 131px; top: 174px;">2</span>
               <span class="nbadge" style="left: 307px; top: 234px;">3</span>
             </div>
+            <div class="tabdesc" style="margin-top: 10px;">
+              The LM featured two small, triangular forward windows for the crew. Installed obliquely, the windows gave a downward view of about 65 degrees and an outboard view of 80 degrees. The commander&rsquo;s window featured etched grid markings (the Landing Point Designator or LPD) that let them align their descent trajectory with pre-planned targets on the lunar surface.
+            </div>
           </div>
           <div style="flex: 1; display: flex; flex-direction: column;">
             <div style="max-width: 560px;">
@@ -4197,6 +4201,11 @@ void main() {
             </div>
           </div>
           <div style="flex: 1; max-width: 700px; height: 100%; overflow-y: auto; padding-right: 4px; box-sizing: border-box;">
+            <div class="tabdesc" style="margin-bottom: 10px;">
+              The real panel was a wall of switches, gauges and circuit breakers split between the two crew stations. Everything needed to fly the descent sat in front of the commander, where it could be read in the second or two he could spare from the window.
+              <div style="height: 2px;"></div>
+              This column carries those flight instruments at cockpit scale. Switch banks, circuit breakers and the second crew station are not modelled. The time to dry under the fuel gauge is an addition, because on the real flights Houston worked that number out from the propellant gauges and called it up.
+            </div>
             <div class="lentry"><span class="lnum">1</span><div><span class="lkey">MASTER ALARM</span> &mdash; the master warning light. It lights on fuel exhaustion, on a tilt beyond 30&deg; in P66, and on a program alarm. Press the lamp or ENTER to clear it. In PILOT mode a program alarm clears itself, as Houston&rsquo;s &ldquo;go&rdquo; call did.</div></div>
             <div class="lentry"><span class="lnum">2</span><div><span class="lkey">LUNAR CONTACT</span> &mdash; lights blue when the 5.6 ft probes below the footpads touch the surface. Count one second, then stop the engine (X). Cut at the instant of the light and the craft drops onto the pads.</div></div>
             <div class="lentry"><span class="lnum">3</span><div><span class="lkey">FUEL LOW</span> &mdash; lights amber when less than 5.6% of descent propellant remains.</div></div>
@@ -4219,7 +4228,7 @@ void main() {
             <div id="dsky-demo-wrap" style="width: 484px; height: 146px; position: relative;">
               <div id="dsky-demo" style="width: 274px; transform: scale(0.72); transform-origin: top left;"></div>
             </div>
-            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.35; color: #c9ccd0; margin: 8px 0 10px;">
+            <div class="tabdesc" style="margin: 8px 0 10px;">
               The DSKY (Display and Keyboard) was the primary interface for the Apollo Guidance Computer, allowing astronauts to communicate with the onboard navigation systems. It featured a physical numerical keypad alongside rows of status indicator lights and glowing digital display registers. Operation relied on entering two-digit <span class="lkey">VERB</span> (action) and <span class="lkey">NOUN</span> (data) codes to execute tasks like calculation requests or engine burns.
               <div style="height: 2px;"></div>
               Here the three registers show the numbers, <span class="lkey">PROG</span> is the running program and <span class="lkey">COMP ACTY</span> flickers while the computer works. A program alarm lights MASTER ALARM and the display jumps to V05 N09. The display follows the real unit with the four legends gathered into one row, the warning-lamp block and keypad are not modelled, and ENTER stands in for PRO.
