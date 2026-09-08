@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mission Control — Eagle's Descent</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --amber: #e8a33d; --ink: #e8e6e0; --dim: #8b9096; --card: #101215; --sep: #23262b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: #0b0c0e; color: var(--ink);
+    font-family: 'Jost', 'DIN Alternate', 'Trebuchet MS', sans-serif; display: flex;
+    align-items: center; justify-content: center; padding: 40px 20px; }
+  .wrap { width: 100%; max-width: 560px; }
+  .kicker { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 4px; color: var(--amber); }
+  h1 { font-weight: 700; font-size: 30px; letter-spacing: 5px; margin: 10px 0 6px; }
+  .sub { font-size: 14px; line-height: 1.6; color: var(--dim); margin-bottom: 26px; }
+  a.card { display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+    background: var(--card); border: 1px solid var(--sep); border-radius: 4px; padding: 14px 18px;
+    margin-bottom: 10px; text-decoration: none; color: var(--ink); transition: border-color 0.15s, background 0.15s; }
+  a.card:hover { border-color: #6b5322; background: #15130d; }
+  a.card.primary { border: 1.5px solid var(--amber); background: #15130d; }
+  .name { font-weight: 500; font-size: 15px; letter-spacing: 1px; }
+  .what { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--dim); text-align: right; }
+  .note { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; line-height: 1.6; color: var(--dim);
+    border-top: 1px solid var(--sep); margin-top: 22px; padding-top: 16px; }
+  .note b { color: #c9ccd0; font-weight: 500; }
+  .foot { display: flex; justify-content: space-between; gap: 12px; margin-top: 18px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6c7178; }
+  .foot a { color: #6c7178; text-decoration: none; border-bottom: 1px solid #2a2d31; }
+  .foot a:hover { color: var(--amber); border-color: #6b5322; }
+  #timer { color: var(--amber); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="kicker">EAGLE&rsquo;S DESCENT</div>
+    <h1>MISSION CONTROL</h1>
+    <div class="sub">
+      Flight and traffic numbers live in PostHog, which asks for a sign in, so this page holds
+      no data of its own and gives none away. Opening web analytics in <span id="timer">5</span> seconds.
+      <a href="#" id="stay" style="color: var(--amber); text-decoration: none; border-bottom: 1px solid #6b5322;">Stay here</a>.
+    </div>
+
+    <a class="card primary" href="https://us.posthog.com/project/599518/web">
+      <span class="name">WEB ANALYTICS</span>
+      <span class="what">visits, uniques, countries, referrers</span>
+    </a>
+    <a class="card" href="https://us.posthog.com/project/599518/insights">
+      <span class="name">INSIGHTS</span>
+      <span class="what">attempts, outcomes, funnels</span>
+    </a>
+    <a class="card" href="https://us.posthog.com/project/599518/activity/explore">
+      <span class="name">ACTIVITY</span>
+      <span class="what">raw events as they arrive</span>
+    </a>
+    <a class="card" href="https://us.posthog.com/project/599518/dashboard">
+      <span class="name">DASHBOARDS</span>
+      <span class="what">saved tiles</span>
+    </a>
+
+    <div class="note">
+      <b>What maps to what.</b> A flight begun is <b>sim_started</b>, and its share of page views is the
+      number that matters, because the sim needs a keyboard and phone traffic bounces. Outcomes split into
+      <b>sim_landed</b> and <b>sim_crashed</b> by grade, with speeds, fuel and duration on each. The briefing
+      is <b>learn_opened</b>, and <b>learn_seen</b> on a flight tells you whether that pilot read it first.
+      The guided tutorial reports <b>guide_step</b> one through five.
+      <br><br>
+      <b>Checking the pipe.</b> Open the sim with <b>?analytics=debug</b> and watch the browser console.
+      That flag also overrides Do Not Track, which your own browser sends, so ordinary visits from you
+      are never counted.
+    </div>
+
+    <div class="foot">
+      <a href="https://gosandeep.com/eagles-descent/">Open the simulator</a>
+      <a href="https://gosandeep.com/eagles-descent/?analytics=debug">Simulator in debug mode</a>
+    </div>
+  </div>
+
+<script>
+  var left = 5, t = document.getElementById('timer'), stayed = false;
+  var tick = setInterval(function () {
+    if (stayed) return;
+    left -= 1;
+    t.textContent = left;
+    if (left <= 0) { clearInterval(tick); window.location.href = 'https://us.posthog.com/project/599518/web'; }
+  }, 1000);
+  document.getElementById('stay').addEventListener('click', function (e) {
+    e.preventDefault(); stayed = true; clearInterval(tick);
+    document.querySelector('.sub').innerHTML =
+      'Flight and traffic numbers live in PostHog, which asks for a sign in, so this page holds no data of its own and gives none away.';
+  });
+</script>
+</body>
+</html>
