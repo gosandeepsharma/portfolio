@@ -230,7 +230,7 @@
   .abouthead { font-family: var(--font-head); font-weight: 700; font-size: 11.5px; letter-spacing: 3px; color: var(--amber); margin-bottom: 12px; }
   .aboutlede { font-size: 15px; line-height: 1.6; color: #a7abb1; max-width: 760px; }
   .refgrid { column-count: 2; column-gap: 60px; }
-  .refgroup { break-inside: avoid; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .refgroup { break-inside: avoid; display: flex; flex-direction: column; gap: 15px; margin-bottom: 24px; }
   .ref { font-size: 13.5px; line-height: 1.4; }
   .ref a { color: #e8e6e0; text-decoration: none; border-bottom: 1px solid #3a3d42; }
   .ref a:hover { color: var(--amber); border-bottom-color: #6b5322; }
@@ -4151,9 +4151,9 @@ void main() {
     </div>
     <div id="touch-note" hidden class="mono" style="font-size: 12px; letter-spacing: 1px; color: var(--amber); border: 1px solid #6b5322; padding: 8px 14px; border-radius: 3px; margin-top: 4px;">THIS SIMULATOR NEEDS A PHYSICAL KEYBOARD &mdash; OPEN IT ON A LAPTOP OR DESKTOP</div>
     <div style="display: flex; gap: 20px; margin-top: 8px;">
-      <div id="btn-about" role="button" tabindex="0" class="dskykey sm" style="color: #e8e6e0;">ABOUT</div>
       <div id="btn-learn" role="button" tabindex="0" class="dskykey sm" style="color: #e8e6e0;">LEARN</div>
       <div id="btn-home-begin" role="button" tabindex="0" class="dskykey sm">FLY</div>
+      <div id="btn-about" role="button" tabindex="0" class="dskykey sm" style="color: #e8e6e0;">ABOUT</div>
     </div>
   </div>
 
@@ -4170,48 +4170,44 @@ void main() {
       </div>
 
       <div class="aboutlede">
-        This is a hand-written simulator, not an emulator. The flight model follows NASA&rsquo;s Apollo Lunar Module documentation, particular numbers and display formats are read from the guidance computer&rsquo;s own source code, and the ground is real elevation data measured from lunar orbit. Each reference below says exactly how much of it the simulator uses. Where it simplifies something, the mission briefing says so.
+        This is a simulator, not an emulator. The flight model is based on NASA&rsquo;s Apollo Lunar Module documentation.
       </div>
 
       <div>
         <div class="abouthead">REFERENCES</div>
         <div class="refgrid">
-
+          <!-- Grouped only so the column break cannot split an entry from its note. -->
           <div class="refgroup">
-            <div class="mono" style="font-size: 10.5px; letter-spacing: 2px; color: #6c7178;">GUIDANCE COMPUTER</div>
-            <div class="ref"><a href="https://github.com/chrislgarry/Apollo-11" target="_blank" rel="noopener">Apollo 11 guidance computer source &nearr;</a><span class="refnote">Luminary 099, the flight software the Lunar Module actually carried. It is read as a reference here and never executed &mdash; this simulator contains no AGC emulator. What comes from it: the LPD look angle (LOOKANGL, in the landing guidance equations), the half-degree and two-degree redesignation steps (REDESMON), and the register formats behind Nouns 60, 63 and 64. The descent guidance itself is a simplified stand-in, not Luminary&rsquo;s.</span></div>
-            <div class="ref"><a href="https://www.ibiblio.org/apollo/" target="_blank" rel="noopener">Virtual AGC &nearr;</a><span class="refnote">Emulators for the guidance computer and over a thousand scanned Apollo documents.</span></div>
+            <div class="ref"><a href="https://github.com/chrislgarry/Apollo-11" target="_blank" rel="noopener">Apollo 11 guidance computer source &nearr;</a><span class="refnote">Luminary 099, the flight software the Lunar Module actually carried. Used as reference for the LPD look angle (LOOKANGL, in the landing guidance equations), the half-degree and two-degree redesignation steps (REDESMON), and the register formats behind Nouns 60, 63 and 64. The descent guidance itself is a simplified stand-in, not Luminary&rsquo;s own.</span></div>
+            <div class="ref"><a href="https://www.ibiblio.org/apollo/" target="_blank" rel="noopener">Virtual AGC &nearr;</a></div>
           </div>
 
           <div class="refgroup">
-            <div class="mono" style="font-size: 10.5px; letter-spacing: 2px; color: #6c7178;">TERRAIN AND IMAGERY</div>
-            <div class="ref"><a href="https://data.lroc.im-ldi.com/lroc/view_rdr_product/NAC_DTM_APOLLO11" target="_blank" rel="noopener">LROC NAC digital terrain models &nearr;</a><span class="refnote">NASA / GSFC / Arizona State University. <b style="color:#b9bcc0;font-weight:500">Elevation</b>, not photographs &mdash; heights measured from stereo pairs shot in lunar orbit. The 1.5 km square you fly over is this data around the mission&rsquo;s real touchdown point, resampled to 3 m spacing. The source products are 2 m per pixel, 5 m at Taurus&ndash;Littrow.</span></div>
+            <div class="ref"><a href="https://data.lroc.im-ldi.com/lroc/view_rdr_product/NAC_DTM_APOLLO11" target="_blank" rel="noopener">Lunar Reconnaissance Orbiter Camera (LROC) NAC digital terrain models &nearr;</a><span class="refnote">NASA / GSFC / Arizona State University. I have used elevations with heights measured from stereo pairs shot in lunar orbit. The approx 1.5 km square you fly over is this data around the mission&rsquo;s real touchdown point, resampled to 3 m spacing.</span></div>
             <div class="ref"><a href="https://lroc.im-ldi.com/images" target="_blank" rel="noopener">LROC NAC imagery &nearr;</a><span class="refnote">The orbital photographs of each site on the pre-flight screen. The ground you actually fly over is not made from these.</span></div>
-            <div class="refplain"><b>Procedural, not measured:</b> the surface texture, every boulder (the terrain models are too coarse to resolve them), and the horizon past the 1.5 km square.</div>
+            <div class="refplain"><b>Procedural, not measured:</b> the surface texture, every boulder and the horizon past the square.</div>
           </div>
 
           <div class="refgroup">
-            <div class="mono" style="font-size: 10.5px; letter-spacing: 2px; color: #6c7178;">SPACECRAFT DOCUMENTATION</div>
-            <div class="ref"><a href="https://ntrs.nasa.gov/citations/19710071423" target="_blank" rel="noopener">Apollo Operations Handbook, Lunar Module &nearr;</a><span class="refnote">LMA790-3-LM-11, 1971. Engine performance, the descent programs and the crew procedures.</span></div>
+            <div class="ref"><a href="https://ntrs.nasa.gov/citations/19710071423" target="_blank" rel="noopener">Apollo Operations Handbook, Lunar Module &nearr;</a><span class="refnote">LMA790-3-LM-11, 1971. Reference material for the engine performance, descent programs and the crew procedures.</span></div>
             <div class="ref"><a href="https://www.lpi.usra.edu/lunar/documents/apolloSpacecraftWindows.pdf" target="_blank" rel="noopener">Apollo Experience Report: Spacecraft Structural Windows &nearr;</a><span class="refnote">NASA TN D-7439, 1973. The commander&rsquo;s forward pane is drawn from the dimensions in this report.</span></div>
           </div>
 
           <div class="refgroup">
-            <div class="mono" style="font-size: 10.5px; letter-spacing: 2px; color: #6c7178;">FLIGHT RECORD</div>
             <div class="ref"><a href="https://apollojournals.org/alsj/main.html" target="_blank" rel="noopener">Apollo Lunar Surface Journal &nearr;</a><span class="refnote">The landings as they happened, with the crew transcripts annotated by the people who flew them.</span></div>
             <div class="ref"><a href="https://apollojournals.org/afj/index.html" target="_blank" rel="noopener">Apollo Flight Journal &nearr;</a><span class="refnote">The same treatment for everything between launch and the surface.</span></div>
           </div>
-
-          <div class="refgroup">
-            <div class="mono" style="font-size: 10.5px; letter-spacing: 2px; color: #6c7178;">BUILT WITH</div>
-            <div class="ref"><a href="https://threejs.org" target="_blank" rel="noopener">three.js &nearr;</a><span class="refnote">The out-the-window view.</span></div>
-            <div class="ref"><a href="https://github.com/keshikan/DSEG" target="_blank" rel="noopener">DSEG &nearr;</a><span class="refnote">The seven-segment face on the DSKY. SIL Open Font License 1.1.</span></div>
-          </div>
-
         </div>
       </div>
+
+      <div>
+        <div class="abouthead">BUILT WITH</div>
+        <div class="ref"><a href="https://threejs.org" target="_blank" rel="noopener">three.js &nearr;</a> <span style="color: #8b9096;">(for the out-the-window view),</span> <a href="https://github.com/keshikan/DSEG" target="_blank" rel="noopener">DSEG &nearr;</a> <span style="color: #8b9096;">for the seven-segment face on the DSKY.</span></div>
+        <div class="refplain" style="margin-top: 8px;">SIL Open Font License 1.1.</div>
+      </div>
+
     </div>
-    <div id="btn-about-close" role="button" tabindex="0" class="dskykey" style="width: auto; height: auto; padding: 12px 26px; border-radius: 8px; margin-top: 22px;">CLOSE</div>
+    <div id="btn-about-close" role="button" tabindex="0" class="dskykey" style="width: auto; height: auto; padding: 12px 26px; border-radius: 8px; margin-top: 26px;">CLOSE</div>
   </div>
 
   <!-- ===== MISSION BRIEFING (LEARN) ===== -->
