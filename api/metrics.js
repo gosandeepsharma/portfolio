@@ -30,18 +30,43 @@ const REF = "if(coalesce(properties.$referring_domain, '') IN ('', '$direct'), '
 // internal navigation sets $referring_domain to our own host — that is not a traffic source
 const NOT_SELF_REF = "coalesce(properties.$referring_domain, '') NOT ILIKE '%gosandeep.com%'";
 
-async function hog(projectId, sql, key) {
+// Each PostHog call gets its own deadline. Without one, a single stalled connection
+// hung the whole function until Vercel's 300s ceiling and the page span forever
+// (seen in the runtime log as "Task timed out after 300 seconds" + a 504).
+const TIMEOUT_MS = 9000;
+
+function deadline(ms) {
+  if (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) return AbortSignal.timeout(ms);
+  const c = new AbortController();
+  setTimeout(() => c.abort(), ms);
+  return c.signal;
+}
+
+async function hogOnce(projectId, sql, key) {
   const r = await fetch(`${HOST}/api/projects/${projectId}/query/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
-    body: JSON.stringify({ query: { kind: 'HogQLQuery', query: sql } })
+    body: JSON.stringify({ query: { kind: 'HogQLQuery', query: sql } }),
+    signal: deadline(TIMEOUT_MS)
   });
   if (!r.ok) {
     const body = await r.text();
-    throw new Error(`PostHog ${r.status}: ${body.slice(0, 300)}`);
+    throw new Error(`PostHog ${r.status}: ${body.slice(0, 200)}`);
   }
   const j = await r.json();
   return j.results || [];
+}
+
+// A stall is almost always transient, so retry once; a real error (bad key, bad SQL)
+// throws on the first attempt and is not retried.
+async function hog(projectId, sql, key) {
+  try {
+    return await hogOnce(projectId, sql, key);
+  } catch (err) {
+    var stalled = err && (err.name === 'TimeoutError' || err.name === 'AbortError');
+    if (!stalled) throw err;
+    return await hogOnce(projectId, sql, key);
+  }
 }
 
 const num = (v) => (typeof v === 'number' ? v : Number(v) || 0);
@@ -67,11 +92,15 @@ module.exports = async function handler(req, res) {
   const q = (projectId, sql) => hog(projectId, sql, key);
 
   try {
-    const [
-      pTotals, pTrend, pPages, pRefs, pCards, pOut,
-      eTotals, eTrend, eRefs, ePhases,
-      lTotals, lTrend, lRefs
-    ] = await Promise.all([
+    const startedAt = Date.now();
+    const NAMES = [
+      'portfolio totals', 'portfolio trend', 'portfolio pages', 'portfolio referrers',
+      'portfolio card clicks', 'portfolio outbound',
+      'eagles totals', 'eagles trend', 'eagles referrers', 'eagles phases',
+      'laserchat totals', 'laserchat trend', 'laserchat referrers'
+    ];
+
+    const settled = await Promise.allSettled([
       // ---- project 605665: portfolio + AWTT ----
       q(PORTFOLIO, `
         SELECT
@@ -176,6 +205,21 @@ module.exports = async function handler(req, res) {
         GROUP BY ref ORDER BY visitors DESC LIMIT 8`)
     ]);
 
+    // Whatever came back still renders; whatever didn't is named in `incomplete`
+    // so the page can say which section is missing instead of showing nothing.
+    const incomplete = [];
+    const vals = settled.map((r, i) => {
+      if (r.status === 'fulfilled') return r.value;
+      const why = String((r.reason && r.reason.message) || r.reason).slice(0, 160);
+      incomplete.push(NAMES[i] + ' — ' + why);
+      return [];
+    });
+    const [
+      pTotals, pTrend, pPages, pRefs, pCards, pOut,
+      eTotals, eTrend, eRefs, ePhases,
+      lTotals, lTrend, lRefs
+    ] = vals;
+
     const p = pTotals[0] || [];
     const e = eTotals[0] || [];
     const l = lTotals[0] || [];
@@ -184,6 +228,8 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({
       range: rangeKey,
       generatedAt: new Date().toISOString(),
+      tookMs: Date.now() - startedAt,
+      incomplete: incomplete,
       portfolio: {
         visitors: num(p[0]), pageviews: num(p[1]),
         cardClicks: num(p[6]), outboundClicks: num(p[7]),
