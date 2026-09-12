@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Metrics — Sandeep Sharma</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<script>(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg:#FFFFFF; --surface:#FFFFFF; --text:#12211F; --text-soft:#64726F;
+  --border:#E4E9E7; --accent:#0E9E92; --link:#08726A; --accent-soft:#D6F2EE;
+  --dot:rgba(14,158,146,.20); --track:#EFF3F2;
+  --font-body:"IBM Plex Sans",Arial,sans-serif;
+  --font-head:"DIN Next W1G","DIN Next","Archivo",sans-serif;
+  --font-mono:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+}
+:root[data-theme="dark"] {
+  --bg:#0B1413; --surface:#10201E; --text:#E8F1EF; --text-soft:#8AA09B;
+  --border:#1E322F; --accent:#2DD4BF; --link:#2DD4BF; --accent-soft:#133330;
+  --dot:rgba(45,212,191,.12); --track:#162A28;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; min-height:100vh; background-color:var(--bg);
+  background-image:radial-gradient(var(--dot) 1px, transparent 1.4px); background-size:24px 24px;
+  color:var(--text); font-family:var(--font-body); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap { max-width:960px; margin-inline:auto; padding:40px 24px 72px; }
+.kicker { font-family:var(--font-mono); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--link); margin:0 0 10px; }
+h1 { font-family:var(--font-head); font-weight:600; font-size:30px; margin:0 0 6px; }
+.lead { color:var(--text-soft); margin:0 0 22px; font-size:14.5px; }
+
+.ranges { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:26px; }
+.ranges .lbl { font-family:var(--font-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--text-soft); margin-right:6px; }
+.ranges button {
+  font-family:var(--font-mono); font-size:12.5px; color:var(--link); cursor:pointer;
+  background:transparent; border:1px solid var(--accent); border-radius:999px; padding:6px 13px;
+}
+.ranges button[aria-pressed="true"] { background:var(--link); color:var(--bg); border-color:var(--link); }
+.ranges button:hover:not([aria-pressed="true"]) { background:var(--accent-soft); }
+
+.card { border:1px solid var(--border); background:var(--surface); border-radius:10px; padding:20px; margin-bottom:18px; }
+.card-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:16px; flex-wrap:wrap; }
+.card-head h2 { font-family:var(--font-head); font-weight:600; font-size:19px; margin:0; }
+.card-head .tag { font-family:var(--font-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-soft); }
+.card-head .sub { display:block; font-family:var(--font-mono); font-size:11px; color:var(--text-soft); font-weight:400; margin-top:3px; letter-spacing:.04em; }
+
+.tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(124px,1fr)); gap:10px; }
+.tile { border:1px solid var(--border); border-radius:8px; padding:12px 14px; }
+.tile .k { font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--text-soft); }
+.tile .v { font-family:var(--font-head); font-weight:600; font-size:26px; line-height:1.25; margin-top:2px; }
+.tile .s { font-family:var(--font-mono); font-size:10.5px; color:var(--text-soft); }
+
+.section-t { font-family:var(--font-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-soft); margin:20px 0 8px; }
+.chart { width:100%; height:120px; display:block; overflow:visible; }
+.chart .ln { fill:none; stroke:var(--accent); stroke-width:2; }
+.chart .ar { fill:var(--accent); opacity:.10; }
+.chart .dt { fill:var(--accent); }
+
+.funnel .row { margin-bottom:11px; }
+.funnel .row .top { display:flex; justify-content:space-between; font-size:14px; gap:12px; }
+.funnel .row .top b { font-family:var(--font-head); font-weight:600; }
+.funnel .row .top .pc { font-family:var(--font-mono); font-size:11.5px; color:var(--text-soft); }
+.funnel .bar { height:6px; background:var(--track); border-radius:999px; margin-top:5px; overflow:hidden; }
+.funnel .bar i { display:block; height:100%; background:var(--accent); border-radius:999px; }
+
+table { width:100%; border-collapse:collapse; font-size:14px; }
+th { text-align:left; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-soft); font-weight:400; padding:6px 0; border-bottom:1px solid var(--border); }
+td { padding:7px 0; border-bottom:1px solid var(--border); }
+td:last-child, th:last-child { text-align:right; font-family:var(--font-mono); font-size:13px; }
+tr:last-child td { border-bottom:none; }
+.two { display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+@media (max-width:640px) { .two { grid-template-columns:1fr; gap:8px; } }
+
+.muted { color:var(--text-soft); font-size:14px; font-style:italic; }
+.note { margin-top:24px; font-size:13px; color:var(--text-soft); }
+.err { border:1px solid var(--accent); border-radius:10px; padding:18px 20px; background:var(--accent-soft); }
+.err h3 { font-family:var(--font-head); margin:0 0 6px; font-size:17px; }
+.err code { font-family:var(--font-mono); font-size:12px; }
+.home { display:inline-block; margin-top:14px; font-family:var(--font-mono); font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-soft); text-decoration:none; }
+.home:hover { color:var(--link); }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="kicker">Admin · Metrics</p>
+  <h1>Site metrics</h1>
+  <p class="lead" id="lead">Live from PostHog.</p>
+
+  <div class="ranges" id="ranges">
+    <span class="lbl">Range</span>
+    <button data-r="24h">Last 24h</button>
+    <button data-r="7d">Last 7d</button>
+    <button data-r="30d">Last 30d</button>
+    <button data-r="90d">Last 90d</button>
+  </div>
+
+  <div id="content"><p class="muted">Loading…</p></div>
+  <a class="home" href="/admin">&larr; Admin</a>
+</main>
+
+<script>
+(function () {
+  var content = document.getElementById('content');
+  var lead = document.getElementById('lead');
+  var range = localStorage.getItem('metrics.range') || '30d';
+  var KEYNAME = 'metrics.key';
+
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+    return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); };
+  var n = function (v) { return (v || 0).toLocaleString(); };
+  var pct = function (a, b) { return b ? Math.round((a / b) * 1000) / 10 : 0; };
+
+  function tile(k, v, s) {
+    return '<div class="tile"><div class="k">' + esc(k) + '</div><div class="v">' + esc(v) +
+      '</div>' + (s ? '<div class="s">' + esc(s) + '</div>' : '') + '</div>';
+  }
+
+  // small inline SVG line chart — no external chart library
+  function chart(points, key) {
+    if (!points || points.length < 2) return '<p class="muted">Not enough data yet for a trend line.</p>';
+    var vals = points.map(function (p) { return p[key] || 0; });
+    var max = Math.max.apply(null, vals) || 1;
+    var W = 600, H = 110, pad = 4;
+    var step = (W - pad * 2) / (points.length - 1);
+    var xy = vals.map(function (v, i) {
+      return [pad + i * step, H - pad - (v / max) * (H - pad * 2)];
+    });
+    var line = xy.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
+    var area = line + ' L' + xy[xy.length - 1][0].toFixed(1) + ',' + (H - pad) + ' L' + xy[0][0].toFixed(1) + ',' + (H - pad) + ' Z';
+    var dots = xy.map(function (p) { return '<circle class="dt" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="1.8"/>'; }).join('');
+    return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Trend, peak ' + max + '">' +
+      '<path class="ar" d="' + area + '"/><path class="ln" d="' + line + '"/>' + dots + '</svg>' +
+      '<div class="s" style="font-family:var(--font-mono);font-size:10.5px;color:var(--text-soft)">peak ' + n(max) + '</div>';
+  }
+
+  function funnel(steps) {
+    var top = steps[0].v || 0;
+    return '<div class="funnel">' + steps.map(function (s, i) {
+      var w = top ? Math.max((s.v / top) * 100, s.v ? 1.5 : 0) : 0;
+      var rel = i === 0 ? '' : pct(s.v, top) + '% of step 1';
+      return '<div class="row"><div class="top"><span>' + esc(s.k) + '</span>' +
+        '<span><b>' + n(s.v) + '</b> <span class="pc">' + rel + '</span></span></div>' +
+        '<div class="bar"><i style="width:' + w + '%"></i></div></div>';
+    }).join('') + '</div>';
+  }
+
+  function table(head, rows, render) {
+    if (!rows || !rows.length) return '<p class="muted">Nothing in this range.</p>';
+    return '<table><thead><tr><th>' + head[0] + '</th><th>' + head[1] + '</th></tr></thead><tbody>' +
+      rows.map(render).join('') + '</tbody></table>';
+  }
+
+  function render(d) {
+    var p = d.portfolio, a = d.awtt, e = d.eagles;
+    var html = '';
+
+    html += '<section class="card"><div class="card-head"><h2>Portfolio' +
+      '<span class="sub">gosandeep.com — all pages, including A Walk Through Time</span></h2>' +
+      '<span class="tag">Snapshot</span></div>' +
+      '<div class="tiles">' +
+        tile('Visitors', n(p.visitors)) + tile('Pageviews', n(p.pageviews)) +
+        tile('Card clicks', n(p.cardClicks)) + tile('Outbound clicks', n(p.outboundClicks)) +
+      '</div>' +
+      '<p class="section-t">Visitors over time</p>' + chart(p.trend, 'visitors') +
+      '<div class="two"><div><p class="section-t">Top pages</p>' +
+        table(['Page', 'Views'], p.topPages, function (r) {
+          return '<tr><td>' + esc(r.path) + '</td><td>' + n(r.views) + '</td></tr>'; }) +
+      '</div><div><p class="section-t">Where visitors come from</p>' +
+        table(['Source', 'Visitors'], p.referrers, function (r) {
+          return '<tr><td>' + esc(r.ref) + '</td><td>' + n(r.visitors) + '</td></tr>'; }) +
+      '</div></div>' +
+      '<div class="two"><div><p class="section-t">Project card clicks</p>' +
+        table(['Project', 'Clicks'], p.cardClicksByProject, function (r) {
+          return '<tr><td>' + esc(r.project) + '</td><td>' + n(r.clicks) + '</td></tr>'; }) +
+      '</div><div><p class="section-t">Outbound destinations</p>' +
+        table(['Host', 'Clicks'], p.outboundByHost, function (r) {
+          return '<tr><td>' + esc(r.host) + '</td><td>' + n(r.clicks) + '</td></tr>'; }) +
+      '</div></div></section>';
+
+    html += '<section class="card"><div class="card-head"><h2>A Walk Through Time' +
+      '<span class="sub">gosandeep.com/alloftime — a subset of the Portfolio totals above</span></h2>' +
+      '<span class="tag">Project</span></div>' +
+      '<div class="tiles">' + tile('Visitors', n(a.visitors)) + tile('Pageviews', n(a.pageviews)) +
+        tile('Card clicks', n(a.funnel.cardClicks)) +
+        tile('Click-through', pct(a.funnel.cardClicks, a.funnel.homeViews) + '%', 'of homepage views') +
+      '</div>' +
+      '<p class="section-t">Homepage → card click → opened</p>' +
+      funnel([{ k: 'Homepage viewed', v: a.funnel.homeViews },
+              { k: 'AWTT card clicked', v: a.funnel.cardClicks },
+              { k: 'AWTT opened', v: a.funnel.opened }]) +
+      '<p class="section-t">Pageviews over time</p>' + chart(a.trend, 'pageviews') + '</section>';
+
+    var outcomes = (e.landed || 0) + (e.crashed || 0) + (e.aborted || 0);
+    html += '<section class="card"><div class="card-head"><h2>Eagle&rsquo;s Descent' +
+      '<span class="sub">gosandeep.com/eagles-descent — separate PostHog project</span></h2>' +
+      '<span class="tag">Project</span></div>' +
+      '<div class="tiles">' +
+        tile('Visitors', n(e.visitors)) + tile('Sims started', n(e.started)) +
+        tile('Landed', n(e.landed), outcomes ? pct(e.landed, outcomes) + '% of attempts' : '') +
+        tile('Crashed', n(e.crashed)) + tile('Aborted', n(e.aborted)) + tile('Retries', n(e.restarts)) +
+      '</div>' +
+      '<p class="section-t">Visit → start → land</p>' +
+      funnel([{ k: 'Arrived', v: e.visitors }, { k: 'Started a sim', v: e.started }, { k: 'Landed', v: e.landed }]) +
+      '<p class="section-t">Visitors over time</p>' + chart(e.trend, 'visitors') +
+      '<div class="two"><div><p class="section-t">Where players come from</p>' +
+        table(['Source', 'Visitors'], e.referrers, function (r) {
+          return '<tr><td>' + esc(r.ref) + '</td><td>' + n(r.visitors) + '</td></tr>'; }) +
+      '</div><div><p class="section-t">Furthest flight phase</p>' +
+        table(['Phase', 'Reached'], e.phases, function (r) {
+          return '<tr><td>' + esc(r.phase) + '</td><td>' + n(r.n) + '</td></tr>'; }) +
+      '</div></div></section>';
+
+    html += '<p class="note">Setup/test events (URLs containing <code>analytics=debug</code>) are excluded from the Portfolio figures. ' +
+      'Eagle&rsquo;s Descent skips visitors whose browser sends Do Not Track, so its counts run slightly low.</p>';
+
+    content.innerHTML = html;
+    lead.textContent = 'Live from PostHog · updated ' + new Date(d.generatedAt).toLocaleString();
+  }
+
+  function showError(status, body) {
+    var msg = (body && body.error) || ('HTTP ' + status);
+    var hint = (body && body.hint) || '';
+    if (status === 401) {
+      content.innerHTML = '<div class="err"><h3>Passphrase needed</h3>' +
+        '<p>This dashboard is locked. Enter the passphrase set in <code>METRICS_PASSWORD</code>.</p>' +
+        '<p><input id="pw" type="password" style="font-family:var(--font-mono);padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text)" placeholder="passphrase" /> ' +
+        '<button id="pwgo" style="font-family:var(--font-mono);font-size:12.5px;padding:8px 14px;border-radius:999px;border:1px solid var(--link);background:var(--link);color:var(--bg);cursor:pointer">Unlock</button></p></div>';
+      var go = function () {
+        try { localStorage.setItem(KEYNAME, document.getElementById('pw').value); } catch (e) {}
+        load();
+      };
+      document.getElementById('pwgo').onclick = go;
+      document.getElementById('pw').onkeydown = function (ev) { if (ev.key === 'Enter') go(); };
+      return;
+    }
+    content.innerHTML = '<div class="err"><h3>Couldn&rsquo;t load metrics</h3><p><code>' + esc(msg) + '</code></p>' +
+      (hint ? '<p>' + esc(hint) + '</p>' : '') + '</div>';
+  }
+
+  function load() {
+    content.innerHTML = '<p class="muted">Loading…</p>';
+    var headers = {};
+    try { var k = localStorage.getItem(KEYNAME); if (k) headers['x-metrics-key'] = k; } catch (e) {}
+    fetch('/api/metrics?range=' + encodeURIComponent(range), { headers: headers })
+      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, status: r.status, body: b }; }); })
+      .then(function (res) { res.ok ? render(res.body) : showError(res.status, res.body); })
+      .catch(function (err) { showError(0, { error: String(err.message || err) }); });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('#ranges button'), function (b) {
+    b.setAttribute('aria-pressed', String(b.dataset.r === range));
+    b.onclick = function () {
+      range = b.dataset.r;
+      try { localStorage.setItem('metrics.range', range); } catch (e) {}
+      Array.prototype.forEach.call(document.querySelectorAll('#ranges button'), function (x) {
+        x.setAttribute('aria-pressed', String(x.dataset.r === range)); });
+      load();
+    };
+  });
+  load();
+})();
+</script>
+</body>
+</html>
