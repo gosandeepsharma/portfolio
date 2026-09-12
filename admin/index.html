@@ -7,20 +7,20 @@
 <meta name="robots" content="noindex, nofollow" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-<!-- Instant redirect shortcuts: /admin?go=portfolio | eagles | laserchat -->
+<!-- Jump straight to a dashboard: /admin?go=portfolio | awtt | eagles | laserchat -->
 <script>
 (function () {
   var go = new URLSearchParams(location.search).get('go');
   var map = {
-    portfolio: 'https://us.posthog.com/project/605665/web',
-    eagles:    'https://us.posthog.com/project/599518/web',
-    laserchat: 'https://us.posthog.com/project/483835/web'
+    portfolio: 'https://us.posthog.com/project/605665/dashboard/2089406',
+    awtt:      'https://us.posthog.com/project/605665/dashboard/2089407',
+    eagles:    'https://us.posthog.com/project/599518/dashboard/2089408',
+    laserchat: 'https://us.posthog.com/project/483835/dashboard/2089409'
   };
   if (go && map[go]) location.replace(map[go]);
 })();
 </script>
 
-<!-- Same theme handling as the rest of the site -->
 <script>(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -50,69 +50,112 @@ body {
   color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
-.wrap { max-width: 760px; margin-inline: auto; padding: 40px 24px 64px; }
+.wrap { max-width: 780px; margin-inline: auto; padding: 40px 24px 64px; }
 .kicker {
   font-family: var(--font-mono); font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
   color: var(--link); margin: 0 0 10px;
 }
 h1 { font-family: var(--font-head); font-weight: 600; font-size: 30px; margin: 0 0 6px; }
-.lead { color: var(--text-soft); margin: 0 0 28px; font-size: 15px; }
-.grid { display: grid; gap: 14px; }
+.lead { color: var(--text-soft); margin: 0 0 30px; font-size: 15px; }
+
 .card {
   border: 1px solid var(--border); background: var(--surface); border-radius: 10px;
   padding: 18px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px;
 }
-.card h2 { font-family: var(--font-head); font-weight: 600; font-size: 18px; margin: 0; flex: 1 1 200px; }
-.card h2 small { display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; color: var(--text-soft); font-weight: 400; margin-top: 2px; }
+.card h2 { font-family: var(--font-head); font-weight: 600; font-size: 18px; margin: 0; flex: 1 1 210px; }
+.card h2 small {
+  display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em;
+  color: var(--text-soft); font-weight: 400; margin-top: 3px; line-height: 1.5;
+}
+.card.primary { border-color: var(--accent); }
+.card.primary h2 { font-size: 20px; }
+
 .links { display: flex; flex-wrap: wrap; gap: 8px; }
 .links a {
-  font-family: var(--font-mono); font-size: 12.5px; text-decoration: none;
+  font-family: var(--font-mono); font-size: 12.5px; text-decoration: none; white-space: nowrap;
   color: var(--link); border: 1px solid var(--accent); border-radius: 999px; padding: 6px 12px;
 }
 .links a.primary { background: var(--link); color: var(--bg); border-color: var(--link); }
 .links a:hover { background: var(--accent-soft); color: var(--link); }
-.note { margin-top: 26px; font-size: 13px; color: var(--text-soft); }
+
+/* nested products, on a rail — same visual language as the About timeline */
+.sub-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--text-soft); margin: 22px 0 12px 22px;
+}
+.sub { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 1px solid var(--border); display: grid; gap: 12px; }
+.sub li { position: relative; }
+.sub li::before {
+  content: ""; position: absolute; left: -26.5px; top: 26px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent); border: 1.5px solid var(--bg);
+}
+
+.note { margin-top: 28px; font-size: 13px; color: var(--text-soft); }
 .note code { font-family: var(--font-mono); font-size: 12px; }
-.home { display: inline-block; margin-top: 8px; font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-soft); text-decoration: none; }
+.home {
+  display: inline-block; margin-top: 10px; font-family: var(--font-mono); font-size: 12.5px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--text-soft); text-decoration: none;
+}
 .home:hover { color: var(--link); }
+
+@media (max-width: 520px) {
+  .sub { padding-left: 16px; }
+  .sub li::before { left: -20.5px; }
+  .sub-label { margin-left: 16px; }
+}
 </style>
 </head>
 <body>
 <main class="wrap">
   <p class="kicker">Admin · PostHog</p>
   <h1>Site analytics</h1>
-  <p class="lead">One project per product. Everything opens in PostHog (login required).</p>
+  <p class="lead">Portfolio traffic up top; each project below has its own dashboard. Everything opens in PostHog (login required).</p>
 
-  <div class="grid">
-    <section class="card">
-      <h2>Portfolio <small>gosandeep.com · pages, blog, A Walk Through Time</small></h2>
-      <div class="links">
-        <a class="primary" href="https://us.posthog.com/project/605665/web">Web analytics</a>
-        <a href="https://us.posthog.com/project/605665/dashboard">Dashboards</a>
-        <a href="https://us.posthog.com/project/605665/activity/explore">Events</a>
+  <section class="card primary">
+    <h2>Portfolio <small>gosandeep.com — visitors, pages, referrers, card clicks</small></h2>
+    <div class="links">
+      <a class="primary" href="https://us.posthog.com/project/605665/dashboard/2089406">Dashboard</a>
+      <a href="https://us.posthog.com/project/605665/web">Web analytics</a>
+      <a href="https://us.posthog.com/project/605665/activity/explore">Events</a>
+    </div>
+  </section>
+
+  <p class="sub-label">Projects</p>
+  <ul class="sub">
+    <li>
+      <div class="card">
+        <h2>A Walk Through Time <small>gosandeep.com/alloftime — visits + click-through from the homepage</small></h2>
+        <div class="links">
+          <a class="primary" href="https://us.posthog.com/project/605665/dashboard/2089407">Dashboard</a>
+          <a href="https://us.posthog.com/project/605665/web">Web analytics</a>
+          <a href="https://us.posthog.com/project/605665/activity/explore">Events</a>
+        </div>
       </div>
-    </section>
-
-    <section class="card">
-      <h2>Eagle&rsquo;s Descent <small>gosandeep.com/eagles-descent</small></h2>
-      <div class="links">
-        <a class="primary" href="https://us.posthog.com/project/599518/web">Web analytics</a>
-        <a href="https://us.posthog.com/project/599518/dashboard">Dashboards</a>
-        <a href="https://us.posthog.com/project/599518/activity/explore">Events</a>
+    </li>
+    <li>
+      <div class="card">
+        <h2>Eagle&rsquo;s Descent <small>gosandeep.com/eagles-descent — flights, landings, drop-off</small></h2>
+        <div class="links">
+          <a class="primary" href="https://us.posthog.com/project/599518/dashboard/2089408">Dashboard</a>
+          <a href="https://us.posthog.com/project/599518/web">Web analytics</a>
+          <a href="https://us.posthog.com/project/599518/activity/explore">Events</a>
+        </div>
       </div>
-    </section>
-
-    <section class="card">
-      <h2>LaserChat <small>laserchat.app</small></h2>
-      <div class="links">
-        <a class="primary" href="https://us.posthog.com/project/483835/web">Web analytics</a>
-        <a href="https://us.posthog.com/project/483835/dashboard">Dashboards</a>
-        <a href="https://us.posthog.com/project/483835/activity/explore">Events</a>
+    </li>
+    <li>
+      <div class="card">
+        <h2>LaserChat <small>laserchat.app — signup funnel, runs, repeat use</small></h2>
+        <div class="links">
+          <a class="primary" href="https://us.posthog.com/project/483835/dashboard/2089409">Dashboard</a>
+          <a href="https://us.posthog.com/project/483835/web">Web analytics</a>
+          <a href="https://us.posthog.com/project/483835/activity/explore">Events</a>
+        </div>
       </div>
-    </section>
-  </div>
+    </li>
+  </ul>
 
-  <p class="note">Shortcuts that jump straight to Web analytics: <code>/admin?go=portfolio</code> · <code>/admin?go=eagles</code> · <code>/admin?go=laserchat</code></p>
+  <p class="note">Straight to a dashboard: <code>/admin?go=portfolio</code> · <code>?go=awtt</code> · <code>?go=eagles</code> · <code>?go=laserchat</code></p>
   <a class="home" href="/">&larr; gosandeep.com</a>
 </main>
 </body>
