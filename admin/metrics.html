@@ -101,6 +101,7 @@ tr:last-child td { border-bottom:none; }
 .note a { color:var(--link); }
 .err { border:1px solid var(--accent); border-radius:10px; padding:18px 20px; background:var(--accent-soft); }
 .err h3 { font-family:var(--font-head); margin:0 0 6px; font-size:17px; }
+.err form { margin:0; }
 .err code { font-family:var(--font-mono); font-size:12px; }
 .home { display:inline-block; margin-top:14px; font-family:var(--font-mono); font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-soft); text-decoration:none; }
 .home:hover { color:var(--link); }
@@ -353,14 +354,20 @@ tr:last-child td { border-bottom:none; }
     if (status === 401) {
       content.innerHTML = '<div class="err"><h3>Password needed</h3>' +
         '<p>This dashboard is locked. Enter the password set in <code>METRICS_PASSWORD</code>.</p>' +
-        '<p><input id="pw" type="password" style="font-family:var(--font-mono);padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text)" placeholder="password" /> ' +
-        '<button id="pwgo" style="font-family:var(--font-mono);font-size:12.5px;padding:8px 14px;border-radius:999px;border:1px solid var(--link);background:var(--link);color:var(--bg);cursor:pointer">Unlock</button></p></div>';
-      var go = function () {
+        '<form id="pwform">' +
+        // a real form with autocomplete hints, so a password manager can save and fill this
+        // instead of the password living only in localStorage. The username is fixed and hidden;
+        // managers want one to file the entry under.
+        '<input type="text" name="username" value="gosandeep.com metrics" autocomplete="username" readonly hidden />' +
+        '<p><input id="pw" name="password" type="password" autocomplete="current-password" ' +
+        'style="font-family:var(--font-mono);padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text)" placeholder="password" /> ' +
+        '<button id="pwgo" type="submit" style="font-family:var(--font-mono);font-size:12.5px;padding:8px 14px;border-radius:999px;border:1px solid var(--link);background:var(--link);color:var(--bg);cursor:pointer">Unlock</button></p>' +
+        '</form></div>';
+      document.getElementById('pwform').onsubmit = function (ev) {
+        ev.preventDefault();
         try { localStorage.setItem(KEYNAME, document.getElementById('pw').value); } catch (e) {}
         load();
       };
-      document.getElementById('pwgo').onclick = go;
-      document.getElementById('pw').onkeydown = function (ev) { if (ev.key === 'Enter') go(); };
       return;
     }
     content.innerHTML = '<div class="err"><h3>Couldn&rsquo;t load metrics</h3><p><code>' + esc(msg) + '</code></p>' +

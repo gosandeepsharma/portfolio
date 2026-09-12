@@ -7,11 +7,12 @@
 <meta name="robots" content="noindex, nofollow" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-<!-- Jump straight to a dashboard: /admin?go=portfolio | awtt | eagles | laserchat -->
+<!-- Jump straight somewhere: /admin?go=metrics (own dashboard) | portfolio | awtt | eagles | laserchat (PostHog) -->
 <script>
 (function () {
   var go = new URLSearchParams(location.search).get('go');
   var map = {
+    metrics:   '/admin/metrics',
     portfolio: 'https://us.posthog.com/project/605665/dashboard/2089406',
     awtt:      'https://us.posthog.com/project/605665/dashboard/2089407',
     eagles:    'https://us.posthog.com/project/599518/dashboard/2089408',
@@ -67,22 +68,41 @@ h1 { font-family: var(--font-head); font-weight: 600; font-size: 30px; margin: 0
   display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em;
   color: var(--text-soft); font-weight: 400; margin-top: 3px; line-height: 1.5;
 }
-.card.primary { border-color: var(--accent); }
-.card.primary h2 { font-size: 20px; }
+
+/* the self-hosted dashboard — the thing you actually open */
+.hero { border-color: var(--accent); display: block; padding: 22px 22px 20px; }
+.hero h2 { font-size: 22px; margin: 0 0 4px; }
+.hero p { margin: 0 0 16px; color: var(--text-soft); font-size: 14px; }
+.hero .open {
+  display: inline-block; font-family: var(--font-mono); font-size: 13px; text-decoration: none;
+  background: var(--link); color: var(--bg); border: 1px solid var(--link);
+  border-radius: 999px; padding: 8px 18px;
+}
+.hero .open:hover { opacity: .88; }
+.jump { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.jump .lbl {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--text-soft); margin-right: 2px;
+}
+.jump a {
+  font-family: var(--font-mono); font-size: 12px; text-decoration: none; white-space: nowrap;
+  color: var(--link); border: 1px solid var(--border); border-radius: 999px; padding: 5px 11px;
+}
+.jump a:hover { border-color: var(--accent); background: var(--accent-soft); }
 
 .links { display: flex; flex-wrap: wrap; gap: 8px; }
 .links a {
   font-family: var(--font-mono); font-size: 12.5px; text-decoration: none; white-space: nowrap;
   color: var(--link); border: 1px solid var(--accent); border-radius: 999px; padding: 6px 12px;
 }
-.links a.primary { background: var(--link); color: var(--bg); border-color: var(--link); }
 .links a:hover { background: var(--accent-soft); color: var(--link); }
 
-/* nested products, on a rail — same visual language as the About timeline */
+/* raw PostHog, on a rail — same visual language as the About timeline */
 .sub-label {
   font-family: var(--font-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--text-soft); margin: 22px 0 12px 22px;
+  color: var(--text-soft); margin: 30px 0 6px 22px;
 }
+.sub-note { font-size: 13px; color: var(--text-soft); margin: 0 0 14px 22px; }
 .sub { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 1px solid var(--border); display: grid; gap: 12px; }
 .sub li { position: relative; }
 .sub li::before {
@@ -102,32 +122,39 @@ h1 { font-family: var(--font-head); font-weight: 600; font-size: 30px; margin: 0
 @media (max-width: 520px) {
   .sub { padding-left: 16px; }
   .sub li::before { left: -20.5px; }
-  .sub-label { margin-left: 16px; }
+  .sub-label, .sub-note { margin-left: 16px; }
+  .wrap { padding: 28px 16px 56px; }
 }
 </style>
 </head>
 <body>
 <main class="wrap">
-  <p class="kicker">Admin · PostHog</p>
+  <p class="kicker">Admin</p>
   <h1>Site analytics</h1>
-  <p class="lead">Portfolio traffic up top; each project below has its own dashboard. Everything opens in PostHog (login required).</p>
+  <p class="lead">Everything in one place on this site. PostHog is underneath if you need to dig.</p>
 
-  <section class="card primary">
-    <h2>Portfolio <small>gosandeep.com — visitors, pages, referrers, card clicks</small></h2>
-    <div class="links">
-      <a class="primary" href="https://us.posthog.com/project/605665/dashboard/2089406">Dashboard</a>
-      <a href="https://us.posthog.com/project/605665/web">Web analytics</a>
-      <a href="https://us.posthog.com/project/605665/activity/explore">Events</a>
+  <section class="card hero">
+    <h2>Site metrics</h2>
+    <p>Portfolio, LaserChat, A Walk Through Time and Eagle&rsquo;s Descent &mdash; four tabs, one date range, no login.</p>
+    <a class="open" href="/admin/metrics">Open dashboard &rarr;</a>
+    <div class="jump">
+      <span class="lbl">Straight to</span>
+      <a href="/admin/metrics#portfolio">Portfolio</a>
+      <a href="/admin/metrics#laserchat">LaserChat</a>
+      <a href="/admin/metrics#awtt">A Walk Through Time</a>
+      <a href="/admin/metrics#eagles">Eagle&rsquo;s Descent</a>
     </div>
   </section>
 
-  <p class="sub-label">Projects</p>
+  <p class="sub-label">In PostHog</p>
+  <p class="sub-note">The raw dashboards &mdash; for breakdowns, cohorts and anything the page above doesn&rsquo;t show. Login required.</p>
   <ul class="sub">
     <li>
       <div class="card">
-        <h2>A Walk Through Time <small>gosandeep.com/alloftime — visits + click-through from the homepage</small></h2>
+        <h2>Portfolio <small>project 605665 &mdash; also covers A Walk Through Time</small></h2>
         <div class="links">
-          <a class="primary" href="https://us.posthog.com/project/605665/dashboard/2089407">Dashboard</a>
+          <a href="https://us.posthog.com/project/605665/dashboard/2089406">Portfolio</a>
+          <a href="https://us.posthog.com/project/605665/dashboard/2089407">AWTT</a>
           <a href="https://us.posthog.com/project/605665/web">Web analytics</a>
           <a href="https://us.posthog.com/project/605665/activity/explore">Events</a>
         </div>
@@ -135,9 +162,9 @@ h1 { font-family: var(--font-head); font-weight: 600; font-size: 30px; margin: 0
     </li>
     <li>
       <div class="card">
-        <h2>Eagle&rsquo;s Descent <small>gosandeep.com/eagles-descent — flights, landings, drop-off</small></h2>
+        <h2>Eagle&rsquo;s Descent <small>project 599518 &mdash; flights, landings, drop-off</small></h2>
         <div class="links">
-          <a class="primary" href="https://us.posthog.com/project/599518/dashboard/2089408">Dashboard</a>
+          <a href="https://us.posthog.com/project/599518/dashboard/2089408">Dashboard</a>
           <a href="https://us.posthog.com/project/599518/web">Web analytics</a>
           <a href="https://us.posthog.com/project/599518/activity/explore">Events</a>
         </div>
@@ -145,17 +172,17 @@ h1 { font-family: var(--font-head); font-weight: 600; font-size: 30px; margin: 0
     </li>
     <li>
       <div class="card">
-        <h2>LaserChat <small>laserchat.app — signup funnel, runs, repeat use</small></h2>
+        <h2>LaserChat <small>project 483835 &mdash; signup funnel, runs, repeat use</small></h2>
         <div class="links">
-          <a class="primary" href="https://us.posthog.com/project/483835/dashboard/2089409">Dashboard</a>
-          <a href="https://us.posthog.com/project/483835/web">Web analytics</a>
+          <a href="https://us.posthog.com/project/483835/dashboard/2089409">Dashboard</a>
+          <a href="https://laserchat.app/admin/metrics">Its own dashboard</a>
           <a href="https://us.posthog.com/project/483835/activity/explore">Events</a>
         </div>
       </div>
     </li>
   </ul>
 
-  <p class="note">Straight to a dashboard: <code>/admin?go=portfolio</code> · <code>?go=awtt</code> · <code>?go=eagles</code> · <code>?go=laserchat</code></p>
+  <p class="note">Shortcuts: <code>/admin?go=metrics</code> &middot; <code>?go=portfolio</code> &middot; <code>?go=awtt</code> &middot; <code>?go=eagles</code> &middot; <code>?go=laserchat</code></p>
   <a class="home" href="/">&larr; gosandeep.com</a>
 </main>
 </body>
