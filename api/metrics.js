@@ -30,10 +30,23 @@ const REF = "if(coalesce(properties.$referring_domain, '') IN ('', '$direct'), '
 // internal navigation sets $referring_domain to our own host — that is not a traffic source
 const NOT_SELF_REF = "coalesce(properties.$referring_domain, '') NOT ILIKE '%gosandeep.com%'";
 
-// Each PostHog call gets its own deadline. Without one, a single stalled connection
-// hung the whole function until Vercel's 300s ceiling and the page span forever
-// (seen in the runtime log as "Task timed out after 300 seconds" + a 504).
-const TIMEOUT_MS = 9000;
+/**
+ * Two deadlines, because the two kinds of call have very different honest costs.
+ *
+ * Reading PostHog's cached result takes ~130-400ms when the connection is healthy.
+ * Measured from Vercel, a small share of calls instead stall at the connection level
+ * and never answer — with a single 9s deadline those stalls WERE the page's load time.
+ * So the cached read gets a short leash and is simply tried again.
+ *
+ * Computing a cold query legitimately takes 8-12s, so that call needs a long leash
+ * and is not retried; if it stalls, that one section reports itself missing and the
+ * rest of the dashboard still renders.
+ *
+ * Worst case per query is 3 + 3 + 12 = 18s, inside the function's 30s cap.
+ */
+const CACHED_TIMEOUT_MS = 3000;
+const CACHED_ATTEMPTS = 2;
+const COMPUTE_TIMEOUT_MS = 12000;
 
 function deadline(ms) {
   if (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) return AbortSignal.timeout(ms);
@@ -46,14 +59,14 @@ function isStall(err) {
   return !!err && (err.name === 'TimeoutError' || err.name === 'AbortError');
 }
 
-async function hogOnce(projectId, sql, key, refresh) {
+async function hogOnce(projectId, sql, key, refresh, timeoutMs) {
   const payload = { query: { kind: 'HogQLQuery', query: sql } };
   if (refresh) payload.refresh = refresh;
   const r = await fetch(`${HOST}/api/projects/${projectId}/query/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
     body: JSON.stringify(payload),
-    signal: deadline(TIMEOUT_MS)
+    signal: deadline(timeoutMs)
   });
   if (!r.ok) {
     const body = await r.text();
@@ -72,22 +85,20 @@ async function hogOnce(projectId, sql, key, refresh) {
  * Returns { rows, cached }.
  */
 async function hog(projectId, sql, key) {
-  let j = null;
-  try {
-    j = await hogOnce(projectId, sql, key, 'lazy_async');
-  } catch (err) {
-    if (!isStall(err)) throw err;
+  for (let attempt = 1; attempt <= CACHED_ATTEMPTS; attempt++) {
+    try {
+      const j = await hogOnce(projectId, sql, key, 'lazy_async', CACHED_TIMEOUT_MS);
+      // results present = a cached answer; absent (just a query_status) = cold cache
+      if (Array.isArray(j.results)) return { rows: j.results, cached: !!j.is_cached };
+      break;
+    } catch (err) {
+      if (!isStall(err)) throw err;
+    }
   }
-  if (j && Array.isArray(j.results)) return { rows: j.results, cached: !!j.is_cached };
 
-  // cold cache (or the cached read stalled) — compute it, retrying once on a stall
-  try {
-    j = await hogOnce(projectId, sql, key, null);
-  } catch (err) {
-    if (!isStall(err)) throw err;
-    j = await hogOnce(projectId, sql, key, null);
-  }
-  return { rows: (j && j.results) || [], cached: !!(j && j.is_cached) };
+  // cold cache, or every cached read stalled — compute it
+  const j = await hogOnce(projectId, sql, key, null, COMPUTE_TIMEOUT_MS);
+  return { rows: j.results || [], cached: !!j.is_cached };
 }
 
 const num = (v) => (typeof v === 'number' ? v : Number(v) || 0);
