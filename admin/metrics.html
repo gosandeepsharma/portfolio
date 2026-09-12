@@ -25,6 +25,7 @@
   --dot:rgba(45,212,191,.12); --track:#162A28;
 }
 * { box-sizing:border-box; }
+[hidden] { display:none !important; }
 body {
   margin:0; min-height:100vh; background-color:var(--bg);
   background-image:radial-gradient(var(--dot) 1px, transparent 1.4px); background-size:24px 24px;
@@ -36,7 +37,22 @@ body {
 h1 { font-family:var(--font-head); font-weight:600; font-size:30px; margin:0 0 6px; }
 .lead { color:var(--text-soft); margin:0 0 22px; font-size:14.5px; }
 
-.ranges { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:26px; }
+/* --- tabs --- */
+.tabs {
+  display:flex; gap:2px; border-bottom:1px solid var(--border); margin-bottom:20px;
+  overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+}
+.tabs::-webkit-scrollbar { display:none; }
+.tabs button {
+  font-family:var(--font-body); font-size:14.5px; font-weight:500; white-space:nowrap; cursor:pointer;
+  background:transparent; border:0; border-bottom:2px solid transparent; color:var(--text-soft);
+  padding:9px 14px; margin-bottom:-1px; border-radius:6px 6px 0 0;
+}
+.tabs button:hover { color:var(--text); background:var(--accent-soft); }
+.tabs button[aria-selected="true"] { color:var(--link); border-bottom-color:var(--accent); font-weight:600; }
+.tabs button:focus-visible { outline:2px solid var(--accent); outline-offset:-2px; }
+
+.ranges { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:22px; }
 .ranges .lbl { font-family:var(--font-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--text-soft); margin-right:6px; }
 .ranges button {
   font-family:var(--font-mono); font-size:12.5px; color:var(--link); cursor:pointer;
@@ -62,6 +78,7 @@ h1 { font-family:var(--font-head); font-weight:600; font-size:30px; margin:0 0 6
 .chart .ln { fill:none; stroke:var(--accent); stroke-width:2; }
 .chart .ar { fill:var(--accent); opacity:.10; }
 .chart .dt { fill:var(--accent); }
+.peak { font-family:var(--font-mono); font-size:10.5px; color:var(--text-soft); }
 
 .funnel .row { margin-bottom:11px; }
 .funnel .row .top { display:flex; justify-content:space-between; font-size:14px; gap:12px; }
@@ -76,10 +93,12 @@ td { padding:7px 0; border-bottom:1px solid var(--border); }
 td:last-child, th:last-child { text-align:right; font-family:var(--font-mono); font-size:13px; }
 tr:last-child td { border-bottom:none; }
 .two { display:grid; grid-template-columns:1fr 1fr; gap:26px; }
-@media (max-width:640px) { .two { grid-template-columns:1fr; gap:8px; } }
+@media (max-width:640px) { .two { grid-template-columns:1fr; gap:8px; } .wrap { padding:28px 16px 56px; } }
 
 .muted { color:var(--text-soft); font-size:14px; font-style:italic; }
-.note { margin-top:24px; font-size:13px; color:var(--text-soft); }
+.note { margin-top:18px; font-size:12.5px; color:var(--text-soft); line-height:1.55; }
+.note code { font-family:var(--font-mono); font-size:11.5px; }
+.note a { color:var(--link); }
 .err { border:1px solid var(--accent); border-radius:10px; padding:18px 20px; background:var(--accent-soft); }
 .err h3 { font-family:var(--font-head); margin:0 0 6px; font-size:17px; }
 .err code { font-family:var(--font-mono); font-size:12px; }
@@ -93,6 +112,13 @@ tr:last-child td { border-bottom:none; }
   <h1>Site metrics</h1>
   <p class="lead" id="lead">Live from PostHog.</p>
 
+  <div class="tabs" id="tabs" role="tablist" aria-label="Property" hidden>
+    <button role="tab" data-t="portfolio" id="tab-portfolio" aria-controls="panel-portfolio">Portfolio</button>
+    <button role="tab" data-t="laserchat" id="tab-laserchat" aria-controls="panel-laserchat">LaserChat</button>
+    <button role="tab" data-t="awtt"      id="tab-awtt"      aria-controls="panel-awtt">A Walk Through Time</button>
+    <button role="tab" data-t="eagles"    id="tab-eagles"    aria-controls="panel-eagles">Eagle&rsquo;s Descent</button>
+  </div>
+
   <div class="ranges" id="ranges">
     <span class="lbl">Range</span>
     <button data-r="24h">Last 24h</button>
@@ -101,16 +127,25 @@ tr:last-child td { border-bottom:none; }
     <button data-r="90d">Last 90d</button>
   </div>
 
-  <div id="content"><p class="muted">Loading…</p></div>
+  <div id="content"><p class="muted">Loading&hellip;</p></div>
   <a class="home" href="/admin">&larr; Admin</a>
 </main>
 
 <script>
 (function () {
   var content = document.getElementById('content');
+  var tabsBar = document.getElementById('tabs');
   var lead = document.getElementById('lead');
-  var range = localStorage.getItem('metrics.range') || '30d';
   var KEYNAME = 'metrics.key';
+  var TABS = ['portfolio', 'laserchat', 'awtt', 'eagles'];
+
+  var range = '30d';
+  try { range = localStorage.getItem('metrics.range') || '30d'; } catch (e) {}
+
+  // tab comes from the URL hash first (so a tab can be bookmarked), then last choice
+  var tab = (location.hash || '').replace('#', '');
+  if (TABS.indexOf(tab) < 0) { try { tab = localStorage.getItem('metrics.tab') || ''; } catch (e) {} }
+  if (TABS.indexOf(tab) < 0) tab = 'portfolio';
 
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
     return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); };
@@ -137,7 +172,7 @@ tr:last-child td { border-bottom:none; }
     var dots = xy.map(function (p) { return '<circle class="dt" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="1.8"/>'; }).join('');
     return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Trend, peak ' + max + '">' +
       '<path class="ar" d="' + area + '"/><path class="ln" d="' + line + '"/>' + dots + '</svg>' +
-      '<div class="s" style="font-family:var(--font-mono);font-size:10.5px;color:var(--text-soft)">peak ' + n(max) + '</div>';
+      '<div class="peak">peak ' + n(max) + '</div>';
   }
 
   function funnel(steps) {
@@ -157,11 +192,20 @@ tr:last-child td { border-bottom:none; }
       rows.map(render).join('') + '</tbody></table>';
   }
 
-  function render(d) {
-    var p = d.portfolio, a = d.awtt, e = d.eagles;
-    var html = '';
+  function refRows(rows) {
+    return table(['Source', 'Visitors'], rows, function (r) {
+      return '<tr><td>' + esc(r.ref) + '</td><td>' + n(r.visitors) + '</td></tr>'; });
+  }
 
-    html += '<section class="card"><div class="card-head"><h2>Portfolio' +
+  function panel(id, inner) {
+    return '<div id="panel-' + id + '" role="tabpanel" aria-labelledby="tab-' + id + '" tabindex="0"' +
+      (id === tab ? '' : ' hidden') + '>' + inner + '</div>';
+  }
+
+  /* ---------- one builder per tab ---------- */
+
+  function portfolioPanel(p) {
+    return '<section class="card"><div class="card-head"><h2>Portfolio' +
       '<span class="sub">gosandeep.com — all pages, including A Walk Through Time</span></h2>' +
       '<span class="tag">Snapshot</span></div>' +
       '<div class="tiles">' +
@@ -172,9 +216,7 @@ tr:last-child td { border-bottom:none; }
       '<div class="two"><div><p class="section-t">Top pages</p>' +
         table(['Page', 'Views'], p.topPages, function (r) {
           return '<tr><td>' + esc(r.path) + '</td><td>' + n(r.views) + '</td></tr>'; }) +
-      '</div><div><p class="section-t">Where visitors come from</p>' +
-        table(['Source', 'Visitors'], p.referrers, function (r) {
-          return '<tr><td>' + esc(r.ref) + '</td><td>' + n(r.visitors) + '</td></tr>'; }) +
+      '</div><div><p class="section-t">Where visitors come from</p>' + refRows(p.referrers) +
       '</div></div>' +
       '<div class="two"><div><p class="section-t">Project card clicks</p>' +
         table(['Project', 'Clicks'], p.cardClicksByProject, function (r) {
@@ -182,23 +224,60 @@ tr:last-child td { border-bottom:none; }
       '</div><div><p class="section-t">Outbound destinations</p>' +
         table(['Host', 'Clicks'], p.outboundByHost, function (r) {
           return '<tr><td>' + esc(r.host) + '</td><td>' + n(r.clicks) + '</td></tr>'; }) +
-      '</div></div></section>';
+      '</div></div></section>' +
+      '<p class="note">Setup and test events (URLs containing <code>analytics=debug</code>) are excluded. ' +
+      'Traffic arriving from gosandeep.com itself is not counted as a referral.</p>';
+  }
 
-    html += '<section class="card"><div class="card-head"><h2>A Walk Through Time' +
-      '<span class="sub">gosandeep.com/alloftime — a subset of the Portfolio totals above</span></h2>' +
+  function laserchatPanel(l) {
+    var completion = l.runsStarted ? pct(l.runsCompleted, l.runsStarted) + '% of starts' : '';
+    return '<section class="card"><div class="card-head"><h2>LaserChat' +
+      '<span class="sub">laserchat.app — separate product, separate PostHog project</span></h2>' +
+      '<span class="tag">Project</span></div>' +
+      '<div class="tiles">' +
+        tile('Visitors', n(l.visitors)) + tile('Landing views', n(l.views)) +
+        tile('Signups', n(l.signups)) + tile('Runs started', n(l.runsStarted)) +
+        tile('Runs completed', n(l.runsCompleted), completion) +
+        tile('Returning', n(l.returning), 'came back') +
+      '</div>' +
+      '<p class="section-t">Visit &rarr; sign up &rarr; run</p>' +
+      funnel([{ k: 'Visited the landing page', v: l.visitors },
+              { k: 'Signed up', v: l.signups },
+              { k: 'Started a run', v: l.runners },
+              { k: 'Completed a run', v: l.finishers }]) +
+      '<div class="two"><div><p class="section-t">Visitors over time</p>' + chart(l.trend, 'visitors') +
+      '</div><div><p class="section-t">Runs started over time</p>' + chart(l.trend, 'runs') +
+      '</div></div>' +
+      '<p class="section-t">Where visitors come from</p>' + refRows(l.referrers) +
+      '</section>' +
+      '<p class="note">The funnel counts <em>people</em>, not events — one account can start many runs, so ' +
+      'event counts would make later steps look bigger than earlier ones. LaserChat has no ' +
+      '<code>$pageview</code> event; <code>landing_viewed</code> is its equivalent. ' +
+      'Run-level detail (cost per run, Supabase data) lives on LaserChat&rsquo;s own dashboard at ' +
+      '<a href="https://laserchat.app/admin/metrics">laserchat.app/admin/metrics</a> — this page can&rsquo;t reach that database.</p>';
+  }
+
+  function awttPanel(a) {
+    return '<section class="card"><div class="card-head"><h2>A Walk Through Time' +
+      '<span class="sub">gosandeep.com/alloftime — a subset of the Portfolio totals</span></h2>' +
       '<span class="tag">Project</span></div>' +
       '<div class="tiles">' + tile('Visitors', n(a.visitors)) + tile('Pageviews', n(a.pageviews)) +
         tile('Card clicks', n(a.funnel.cardClicks)) +
         tile('Click-through', pct(a.funnel.cardClicks, a.funnel.homeViews) + '%', 'of homepage views') +
       '</div>' +
-      '<p class="section-t">Homepage → card click → opened</p>' +
+      '<p class="section-t">Homepage &rarr; card click &rarr; opened</p>' +
       funnel([{ k: 'Homepage viewed', v: a.funnel.homeViews },
               { k: 'AWTT card clicked', v: a.funnel.cardClicks },
               { k: 'AWTT opened', v: a.funnel.opened }]) +
-      '<p class="section-t">Pageviews over time</p>' + chart(a.trend, 'pageviews') + '</section>';
+      '<p class="section-t">Pageviews over time</p>' + chart(a.trend, 'pageviews') + '</section>' +
+      '<p class="note">AWTT shares the Portfolio PostHog project; these are the rows whose path is ' +
+      '<code>/alloftime</code>. Direct arrivals (a shared link, not a click from the homepage) ' +
+      'show in &ldquo;AWTT opened&rdquo; without a preceding card click.</p>';
+  }
 
+  function eaglesPanel(e) {
     var outcomes = (e.landed || 0) + (e.crashed || 0) + (e.aborted || 0);
-    html += '<section class="card"><div class="card-head"><h2>Eagle&rsquo;s Descent' +
+    return '<section class="card"><div class="card-head"><h2>Eagle&rsquo;s Descent' +
       '<span class="sub">gosandeep.com/eagles-descent — separate PostHog project</span></h2>' +
       '<span class="tag">Project</span></div>' +
       '<div class="tiles">' +
@@ -206,25 +285,69 @@ tr:last-child td { border-bottom:none; }
         tile('Landed', n(e.landed), outcomes ? pct(e.landed, outcomes) + '% of attempts' : '') +
         tile('Crashed', n(e.crashed)) + tile('Aborted', n(e.aborted)) + tile('Retries', n(e.restarts)) +
       '</div>' +
-      '<p class="section-t">Visit → start → land</p>' +
+      '<p class="section-t">Visit &rarr; start &rarr; land</p>' +
       funnel([{ k: 'Arrived', v: e.visitors }, { k: 'Started a sim', v: e.started }, { k: 'Landed', v: e.landed }]) +
       '<p class="section-t">Visitors over time</p>' + chart(e.trend, 'visitors') +
-      '<div class="two"><div><p class="section-t">Where players come from</p>' +
-        table(['Source', 'Visitors'], e.referrers, function (r) {
-          return '<tr><td>' + esc(r.ref) + '</td><td>' + n(r.visitors) + '</td></tr>'; }) +
+      '<div class="two"><div><p class="section-t">Where players come from</p>' + refRows(e.referrers) +
       '</div><div><p class="section-t">Furthest flight phase</p>' +
         table(['Phase', 'Reached'], e.phases, function (r) {
           return '<tr><td>' + esc(r.phase) + '</td><td>' + n(r.n) + '</td></tr>'; }) +
-      '</div></div></section>';
+      '</div></div></section>' +
+      '<p class="note">Eagle&rsquo;s Descent skips visitors whose browser sends Do Not Track, so its counts run ' +
+      'slightly low. &ldquo;Started a sim&rdquo; can exceed &ldquo;Arrived&rdquo; because one visitor can fly repeatedly.</p>';
+  }
 
-    html += '<p class="note">Setup/test events (URLs containing <code>analytics=debug</code>) are excluded from the Portfolio figures. ' +
-      'Eagle&rsquo;s Descent skips visitors whose browser sends Do Not Track, so its counts run slightly low.</p>';
+  /* ---------- render + tab wiring ---------- */
 
-    content.innerHTML = html;
+  function render(d) {
+    var empty = {};
+    content.innerHTML =
+      panel('portfolio', portfolioPanel(d.portfolio || empty)) +
+      panel('laserchat', laserchatPanel(d.laserchat || empty)) +
+      panel('awtt', awttPanel(d.awtt || { funnel: empty })) +
+      panel('eagles', eaglesPanel(d.eagles || empty));
+    tabsBar.hidden = false;
+    syncTabs();
     lead.textContent = 'Live from PostHog · updated ' + new Date(d.generatedAt).toLocaleString();
   }
 
+  function syncTabs() {
+    TABS.forEach(function (t) {
+      var b = document.getElementById('tab-' + t);
+      var p = document.getElementById('panel-' + t);
+      if (b) { b.setAttribute('aria-selected', String(t === tab)); b.tabIndex = t === tab ? 0 : -1; }
+      if (p) p.hidden = t !== tab;
+    });
+  }
+
+  function setTab(t, focus) {
+    if (TABS.indexOf(t) < 0) return;
+    tab = t;
+    try { localStorage.setItem('metrics.tab', t); } catch (e) {}
+    if (history.replaceState) history.replaceState(null, '', '#' + t);
+    else location.hash = t;
+    syncTabs();
+    if (focus) { var b = document.getElementById('tab-' + t); if (b) b.focus(); }
+  }
+
+  TABS.forEach(function (t, i) {
+    var b = document.getElementById('tab-' + t);
+    b.onclick = function () { setTab(t); };
+    b.onkeydown = function (ev) {
+      var d = ev.key === 'ArrowRight' ? 1 : ev.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      ev.preventDefault();
+      setTab(TABS[(i + d + TABS.length) % TABS.length], true);
+    };
+  });
+
+  window.addEventListener('hashchange', function () {
+    var h = (location.hash || '').replace('#', '');
+    if (TABS.indexOf(h) >= 0 && h !== tab) { tab = h; syncTabs(); }
+  });
+
   function showError(status, body) {
+    tabsBar.hidden = true;
     var msg = (body && body.error) || ('HTTP ' + status);
     var hint = (body && body.hint) || '';
     if (status === 401) {
@@ -245,7 +368,7 @@ tr:last-child td { border-bottom:none; }
   }
 
   function load() {
-    content.innerHTML = '<p class="muted">Loading…</p>';
+    content.innerHTML = '<p class="muted">Loading&hellip;</p>';
     var headers = {};
     try { var k = localStorage.getItem(KEYNAME); if (k) headers['x-metrics-key'] = k; } catch (e) {}
     fetch('/api/metrics?range=' + encodeURIComponent(range), { headers: headers })
