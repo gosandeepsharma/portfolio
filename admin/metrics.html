@@ -309,7 +309,16 @@ tr:last-child td { border-bottom:none; }
       panel('eagles', eaglesPanel(d.eagles || empty));
     tabsBar.hidden = false;
     syncTabs();
-    lead.textContent = 'Live from PostHog · updated ' + new Date(d.generatedAt).toLocaleString();
+    var when = 'Live from PostHog · updated ' + new Date(d.generatedAt).toLocaleString();
+    if (typeof d.tookMs === 'number') when += ' · ' + (d.tookMs / 1000).toFixed(1) + 's';
+    lead.textContent = when;
+    if (d.incomplete && d.incomplete.length) {
+      var warn = document.createElement('p');
+      warn.className = 'note';
+      warn.textContent = 'Some figures are missing this time (' + d.incomplete.join('; ') +
+        '). Everything else below is current — reload to try again.';
+      content.insertBefore(warn, content.firstChild);
+    }
   }
 
   function syncTabs() {
@@ -371,17 +380,32 @@ tr:last-child td { border-bottom:none; }
       return;
     }
     content.innerHTML = '<div class="err"><h3>Couldn&rsquo;t load metrics</h3><p><code>' + esc(msg) + '</code></p>' +
-      (hint ? '<p>' + esc(hint) + '</p>' : '') + '</div>';
+      (hint ? '<p>' + esc(hint) + '</p>' : '') +
+      '<p><button id="retry" style="font-family:var(--font-mono);font-size:12.5px;padding:8px 14px;border-radius:999px;border:1px solid var(--link);background:var(--link);color:var(--bg);cursor:pointer">Try again</button></p></div>';
+    document.getElementById('retry').onclick = load;
   }
 
   function load() {
+    // the panels are about to be replaced, so hide the tab bar too — otherwise the
+    // tabs stay on screen looking clickable while there is nothing behind them
+    tabsBar.hidden = true;
     content.innerHTML = '<p class="muted">Loading&hellip;</p>';
     var headers = {};
     try { var k = localStorage.getItem(KEYNAME); if (k) headers['x-metrics-key'] = k; } catch (e) {}
-    fetch('/api/metrics?range=' + encodeURIComponent(range), { headers: headers })
+
+    // never spin forever: the server caps itself at 30s, so give up a little after that
+    var ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+    var bail = setTimeout(function () { if (ctrl) ctrl.abort(); }, 35000);
+
+    fetch('/api/metrics?range=' + encodeURIComponent(range),
+          ctrl ? { headers: headers, signal: ctrl.signal } : { headers: headers })
       .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, status: r.status, body: b }; }); })
-      .then(function (res) { res.ok ? render(res.body) : showError(res.status, res.body); })
-      .catch(function (err) { showError(0, { error: String(err.message || err) }); });
+      .then(function (res) { clearTimeout(bail); res.ok ? render(res.body) : showError(res.status, res.body); })
+      .catch(function (err) {
+        clearTimeout(bail);
+        var aborted = err && (err.name === 'AbortError');
+        showError(0, { error: aborted ? 'Timed out waiting for PostHog (35s).' : String(err.message || err) });
+      });
   }
 
   Array.prototype.forEach.call(document.querySelectorAll('#ranges button'), function (b) {
