@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin — Sandeep Sharma</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- Instant redirect shortcuts: /admin?go=portfolio | eagles | laserchat -->
+<script>
+(function () {
+  var go = new URLSearchParams(location.search).get('go');
+  var map = {
+    portfolio: 'https://us.posthog.com/project/605665/web',
+    eagles:    'https://us.posthog.com/project/599518/web',
+    laserchat: 'https://us.posthog.com/project/483835/web'
+  };
+  if (go && map[go]) location.replace(map[go]);
+})();
+</script>
+
+<!-- Same theme handling as the rest of the site -->
+<script>(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --bg: #FFFFFF; --surface: #FFFFFF; --text: #12211F; --text-soft: #64726F;
+  --border: #E4E9E7; --accent: #0E9E92; --link: #08726A; --accent-soft: #D6F2EE;
+  --dot: rgba(14,158,146,.20);
+  --font-body: "IBM Plex Sans", Arial, sans-serif;
+  --font-head: "DIN Next W1G", "DIN Next", "Archivo", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+}
+:root[data-theme="dark"] {
+  --bg: #0B1413; --surface: #10201E; --text: #E8F1EF; --text-soft: #8AA09B;
+  --border: #1E322F; --accent: #2DD4BF; --link: #2DD4BF; --accent-soft: #133330;
+  --dot: rgba(45,212,191,.12);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh;
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot) 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 760px; margin-inline: auto; padding: 40px 24px 64px; }
+.kicker {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--link); margin: 0 0 10px;
+}
+h1 { font-family: var(--font-head); font-weight: 600; font-size: 30px; margin: 0 0 6px; }
+.lead { color: var(--text-soft); margin: 0 0 28px; font-size: 15px; }
+.grid { display: grid; gap: 14px; }
+.card {
+  border: 1px solid var(--border); background: var(--surface); border-radius: 10px;
+  padding: 18px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px;
+}
+.card h2 { font-family: var(--font-head); font-weight: 600; font-size: 18px; margin: 0; flex: 1 1 200px; }
+.card h2 small { display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; color: var(--text-soft); font-weight: 400; margin-top: 2px; }
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+.links a {
+  font-family: var(--font-mono); font-size: 12.5px; text-decoration: none;
+  color: var(--link); border: 1px solid var(--accent); border-radius: 999px; padding: 6px 12px;
+}
+.links a.primary { background: var(--link); color: var(--bg); border-color: var(--link); }
+.links a:hover { background: var(--accent-soft); color: var(--link); }
+.note { margin-top: 26px; font-size: 13px; color: var(--text-soft); }
+.note code { font-family: var(--font-mono); font-size: 12px; }
+.home { display: inline-block; margin-top: 8px; font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-soft); text-decoration: none; }
+.home:hover { color: var(--link); }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="kicker">Admin · PostHog</p>
+  <h1>Site analytics</h1>
+  <p class="lead">One project per product. Everything opens in PostHog (login required).</p>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Portfolio <small>gosandeep.com · pages, blog, A Walk Through Time</small></h2>
+      <div class="links">
+        <a class="primary" href="https://us.posthog.com/project/605665/web">Web analytics</a>
+        <a href="https://us.posthog.com/project/605665/dashboard">Dashboards</a>
+        <a href="https://us.posthog.com/project/605665/activity/explore">Events</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Eagle&rsquo;s Descent <small>gosandeep.com/eagles-descent</small></h2>
+      <div class="links">
+        <a class="primary" href="https://us.posthog.com/project/599518/web">Web analytics</a>
+        <a href="https://us.posthog.com/project/599518/dashboard">Dashboards</a>
+        <a href="https://us.posthog.com/project/599518/activity/explore">Events</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>LaserChat <small>laserchat.app</small></h2>
+      <div class="links">
+        <a class="primary" href="https://us.posthog.com/project/483835/web">Web analytics</a>
+        <a href="https://us.posthog.com/project/483835/dashboard">Dashboards</a>
+        <a href="https://us.posthog.com/project/483835/activity/explore">Events</a>
+      </div>
+    </section>
+  </div>
+
+  <p class="note">Shortcuts that jump straight to Web analytics: <code>/admin?go=portfolio</code> · <code>/admin?go=eagles</code> · <code>/admin?go=laserchat</code></p>
+  <a class="home" href="/">&larr; gosandeep.com</a>
+</main>
+</body>
+</html>
