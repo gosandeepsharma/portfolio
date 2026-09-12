@@ -12,6 +12,7 @@
 const HOST = 'https://us.posthog.com';
 const PORTFOLIO = 605665;   // Portfolio (gosandeep.com) — site pages + A Walk Through Time
 const EAGLES = 599518;      // Eagle's Descent
+const LASERCHAT = 483835;   // LaserChat (laserchat.app) — its own product, own PostHog project
 
 const RANGES = {
   '24h': { days: 1,  bucket: 'toStartOfHour' },
@@ -68,7 +69,8 @@ module.exports = async function handler(req, res) {
   try {
     const [
       pTotals, pTrend, pPages, pRefs, pCards, pOut,
-      eTotals, eTrend, eRefs, ePhases
+      eTotals, eTrend, eRefs, ePhases,
+      lTotals, lTrend, lRefs
     ] = await Promise.all([
       // ---- project 605665: portfolio + AWTT ----
       q(PORTFOLIO, `
@@ -142,11 +144,41 @@ module.exports = async function handler(req, res) {
       q(EAGLES, `
         SELECT coalesce(properties.phase, '(unknown)') AS phase, count() AS n
         FROM events WHERE event = 'phase_reached' AND ${SINCE}
-        GROUP BY phase ORDER BY n DESC LIMIT 8`)
+        GROUP BY phase ORDER BY n DESC LIMIT 8`),
+
+      // ---- project 483835: LaserChat ----
+      // LaserChat does not emit $pageview; 'landing_viewed' is its pageview equivalent.
+      // The funnel counts PEOPLE, not events — one account can start many runs, so event
+      // counts would make step 3 look larger than step 2.
+      q(LASERCHAT, `
+        SELECT
+          uniqIf(person_id, event = 'landing_viewed') AS visitors,
+          countIf(event = 'landing_viewed')           AS views,
+          uniqIf(person_id, event = 'signed_up')      AS signups,
+          uniqIf(person_id, event = 'run_started')    AS runners,
+          uniqIf(person_id, event = 'run_completed')  AS finishers,
+          countIf(event = 'run_started')              AS runsStarted,
+          countIf(event = 'run_completed')            AS runsCompleted,
+          uniqIf(person_id, event = 'returned')       AS returning
+        FROM events WHERE ${SINCE}`),
+
+      q(LASERCHAT, `
+        SELECT ${bucket}(timestamp) AS t,
+               uniqIf(person_id, event = 'landing_viewed') AS visitors,
+               countIf(event = 'run_started') AS runs
+        FROM events WHERE ${SINCE} GROUP BY t ORDER BY t`),
+
+      q(LASERCHAT, `
+        SELECT ${REF} AS ref, uniq(person_id) AS visitors
+        FROM events
+        WHERE event = 'landing_viewed' AND ${SINCE}
+          AND coalesce(properties.$referring_domain, '') NOT ILIKE '%laserchat.app%'
+        GROUP BY ref ORDER BY visitors DESC LIMIT 8`)
     ]);
 
     const p = pTotals[0] || [];
     const e = eTotals[0] || [];
+    const l = lTotals[0] || [];
 
     res.setHeader('Cache-Control', 'no-store');
     return res.status(200).json({
@@ -173,6 +205,13 @@ module.exports = async function handler(req, res) {
         trend: rows(eTrend, (r) => ({ t: r[0], visitors: num(r[1]), started: num(r[2]) })),
         referrers: rows(eRefs, (r) => ({ ref: r[0], visitors: num(r[1]) })),
         phases: rows(ePhases, (r) => ({ phase: r[0], n: num(r[1]) }))
+      },
+      laserchat: {
+        visitors: num(l[0]), views: num(l[1]),
+        signups: num(l[2]), runners: num(l[3]), finishers: num(l[4]),
+        runsStarted: num(l[5]), runsCompleted: num(l[6]), returning: num(l[7]),
+        trend: rows(lTrend, (r) => ({ t: r[0], visitors: num(r[1]), runs: num(r[2]) })),
+        referrers: rows(lRefs, (r) => ({ ref: r[0], visitors: num(r[1]) }))
       }
     });
   } catch (err) {
