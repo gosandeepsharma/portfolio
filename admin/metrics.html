@@ -351,9 +351,9 @@ tr:last-child td { border-bottom:none; }
     var msg = (body && body.error) || ('HTTP ' + status);
     var hint = (body && body.hint) || '';
     if (status === 401) {
-      content.innerHTML = '<div class="err"><h3>Passphrase needed</h3>' +
-        '<p>This dashboard is locked. Enter the passphrase set in <code>METRICS_PASSWORD</code>.</p>' +
-        '<p><input id="pw" type="password" style="font-family:var(--font-mono);padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text)" placeholder="passphrase" /> ' +
+      content.innerHTML = '<div class="err"><h3>Password needed</h3>' +
+        '<p>This dashboard is locked. Enter the password set in <code>METRICS_PASSWORD</code>.</p>' +
+        '<p><input id="pw" type="password" style="font-family:var(--font-mono);padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text)" placeholder="password" /> ' +
         '<button id="pwgo" style="font-family:var(--font-mono);font-size:12.5px;padding:8px 14px;border-radius:999px;border:1px solid var(--link);background:var(--link);color:var(--bg);cursor:pointer">Unlock</button></p></div>';
       var go = function () {
         try { localStorage.setItem(KEYNAME, document.getElementById('pw').value); } catch (e) {}
