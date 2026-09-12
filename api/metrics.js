@@ -24,6 +24,11 @@ const RANGES = {
 const NOT_TEST = "coalesce(properties.$current_url, '') NOT ILIKE '%analytics=debug%'";
 const IS_AWTT = "coalesce(properties.$pathname, '') ILIKE '%/alloftime%'";
 
+// PostHog stores direct traffic as the literal string '$direct', not an empty value
+const REF = "if(coalesce(properties.$referring_domain, '') IN ('', '$direct'), '(direct)', properties.$referring_domain)";
+// internal navigation sets $referring_domain to our own host — that is not a traffic source
+const NOT_SELF_REF = "coalesce(properties.$referring_domain, '') NOT ILIKE '%gosandeep.com%'";
+
 async function hog(projectId, sql, key) {
   const r = await fetch(`${HOST}/api/projects/${projectId}/query/`, {
     method: 'POST',
@@ -94,9 +99,9 @@ module.exports = async function handler(req, res) {
         GROUP BY path ORDER BY views DESC LIMIT 12`),
 
       q(PORTFOLIO, `
-        SELECT coalesce(nullIf(properties.$referring_domain, ''), '(direct)') AS ref,
-               uniq(person_id) AS visitors
-        FROM events WHERE event = '$pageview' AND ${SINCE} AND ${NOT_TEST}
+        SELECT ${REF} AS ref, uniq(person_id) AS visitors
+        FROM events
+        WHERE event = '$pageview' AND ${SINCE} AND ${NOT_TEST} AND ${NOT_SELF_REF}
         GROUP BY ref ORDER BY visitors DESC LIMIT 8`),
 
       q(PORTFOLIO, `
@@ -129,9 +134,9 @@ module.exports = async function handler(req, res) {
         FROM events WHERE ${SINCE} GROUP BY t ORDER BY t`),
 
       q(EAGLES, `
-        SELECT coalesce(nullIf(properties.$referring_domain, ''), '(direct)') AS ref,
-               uniq(person_id) AS visitors
-        FROM events WHERE event = '$pageview' AND ${SINCE}
+        SELECT ${REF} AS ref, uniq(person_id) AS visitors
+        FROM events
+        WHERE event = '$pageview' AND ${SINCE} AND ${NOT_SELF_REF}
         GROUP BY ref ORDER BY visitors DESC LIMIT 8`),
 
       q(EAGLES, `
