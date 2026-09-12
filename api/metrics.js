@@ -42,31 +42,52 @@ function deadline(ms) {
   return c.signal;
 }
 
-async function hogOnce(projectId, sql, key) {
+function isStall(err) {
+  return !!err && (err.name === 'TimeoutError' || err.name === 'AbortError');
+}
+
+async function hogOnce(projectId, sql, key, refresh) {
+  const payload = { query: { kind: 'HogQLQuery', query: sql } };
+  if (refresh) payload.refresh = refresh;
   const r = await fetch(`${HOST}/api/projects/${projectId}/query/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
-    body: JSON.stringify({ query: { kind: 'HogQLQuery', query: sql } }),
+    body: JSON.stringify(payload),
     signal: deadline(TIMEOUT_MS)
   });
   if (!r.ok) {
     const body = await r.text();
     throw new Error(`PostHog ${r.status}: ${body.slice(0, 200)}`);
   }
-  const j = await r.json();
-  return j.results || [];
+  return r.json();
 }
 
-// A stall is almost always transient, so retry once; a real error (bad key, bad SQL)
-// throws on the first attempt and is not retried.
+/**
+ * PostHog caches query results. Ask for the cached copy first — it comes back in
+ * roughly a third of a second and PostHog refreshes it in the background, which is
+ * exactly right for a traffic dashboard. On a cold cache it answers with a
+ * `query_status` and no `results`, so fall through to a normal computing call.
+ * Computing cold is what used to take 8-12s per range.
+ *
+ * Returns { rows, cached }.
+ */
 async function hog(projectId, sql, key) {
+  let j = null;
   try {
-    return await hogOnce(projectId, sql, key);
+    j = await hogOnce(projectId, sql, key, 'lazy_async');
   } catch (err) {
-    var stalled = err && (err.name === 'TimeoutError' || err.name === 'AbortError');
-    if (!stalled) throw err;
-    return await hogOnce(projectId, sql, key);
+    if (!isStall(err)) throw err;
   }
+  if (j && Array.isArray(j.results)) return { rows: j.results, cached: !!j.is_cached };
+
+  // cold cache (or the cached read stalled) — compute it, retrying once on a stall
+  try {
+    j = await hogOnce(projectId, sql, key, null);
+  } catch (err) {
+    if (!isStall(err)) throw err;
+    j = await hogOnce(projectId, sql, key, null);
+  }
+  return { rows: (j && j.results) || [], cached: !!(j && j.is_cached) };
 }
 
 const num = (v) => (typeof v === 'number' ? v : Number(v) || 0);
@@ -208,8 +229,12 @@ module.exports = async function handler(req, res) {
     // Whatever came back still renders; whatever didn't is named in `incomplete`
     // so the page can say which section is missing instead of showing nothing.
     const incomplete = [];
+    let cachedCount = 0;
     const vals = settled.map((r, i) => {
-      if (r.status === 'fulfilled') return r.value;
+      if (r.status === 'fulfilled') {
+        if (r.value.cached) cachedCount++;
+        return r.value.rows;
+      }
       const why = String((r.reason && r.reason.message) || r.reason).slice(0, 160);
       incomplete.push(NAMES[i] + ' — ' + why);
       return [];
@@ -229,6 +254,8 @@ module.exports = async function handler(req, res) {
       range: rangeKey,
       generatedAt: new Date().toISOString(),
       tookMs: Date.now() - startedAt,
+      cachedCount: cachedCount,
+      queryCount: NAMES.length,
       incomplete: incomplete,
       portfolio: {
         visitors: num(p[0]), pageviews: num(p[1]),
